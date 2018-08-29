@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {
   View, ActivityIndicator, StyleSheet, AsyncStorage,
 } from 'react-native';
-import Auth from '@aws-amplify/auth';
+import { Auth } from 'aws-amplify';
 import * as COLORS from '../config/colors';
 
 export default class LoadingScreen extends Component {

@@ -10,7 +10,7 @@ import {
   Platform,
   ActivityIndicator,
 } from 'react-native';
-import Auth from '@aws-amplify/auth';
+import { Auth } from 'aws-amplify';
 import Geolocation from 'react-native-geolocation-service';
 import SplashScreen from 'react-native-splash-screen';
 import axios from 'axios';

@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import {
   View, Text, StyleSheet, ActivityIndicator,
 } from 'react-native';
-import Auth from '@aws-amplify/auth';
-import API, { graphqlOperation } from '@aws-amplify/api';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
 import GetUser from '../graphql/queries/GetUser';
 import CreateUser from '../graphql/mutations/CreateUser';
 import Button from '../components/Button';
@@ -40,16 +39,16 @@ export default class SignInScreen extends Component {
       if (username && password) {
         await Auth.signIn(username, password);
         const currentUser = await Auth.currentAuthenticatedUser();
-        const userID = currentUser.signInUserSession.accessToken.payload.sub;
+        const userId = currentUser.signInUserSession.accessToken.payload.sub;
         const user = currentUser.signInUserSession.accessToken.payload.username;
         console.log(currentUser);
-        console.log(`id: ${userID} username: ${user}`);
+        console.log(`id: ${userId} username: ${user}`);
 
-        const authenticatedUser = await API.graphql(graphqlOperation(GetUser, { id: userID }));
+        const authenticatedUser = await API.graphql(graphqlOperation(GetUser, { id: userId }));
         console.log(authenticatedUser);
 
         if (!authenticatedUser.data.getUser) {
-          await API.graphql(graphqlOperation(CreateUser, { id: userID, username: user }));
+          await API.graphql(graphqlOperation(CreateUser, { id: userId, username: user }));
         }
 
         navigation.navigate('App');

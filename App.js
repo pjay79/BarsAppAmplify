@@ -7,8 +7,7 @@
  */
 
 import React from 'react';
-import Amplify from '@aws-amplify/core';
-import Auth from '@aws-amplify/auth';
+import Amplify, { Auth } from 'aws-amplify';
 import AWSAppSyncClient from 'aws-appsync';
 import { Rehydrated } from 'aws-appsync-react';
 import { ApolloProvider } from 'react-apollo';

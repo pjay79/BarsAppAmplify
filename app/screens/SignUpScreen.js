@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   View, Text, StyleSheet, ActivityIndicator,
 } from 'react-native';
-import Auth from '@aws-amplify/auth';
+import { Auth } from 'aws-amplify';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import * as COLORS from '../config/colors';
