@@ -1,25 +1,24 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  ActivityIndicator,
+  View, Text, TouchableOpacity, FlatList, StyleSheet,
 } from 'react-native';
 import { graphql, compose } from 'react-apollo';
+import { buildSubscription } from 'aws-appsync';
 import gql from 'graphql-tag';
 import _ from 'lodash';
 import ListBars from '../graphql/queries/ListBars';
-import * as COLORS from '../config/colors';
+import CreateBarSubscription from '../graphql/subscriptions/CreateBarSubscription';
 
 class AllBarsList extends Component {
   static navigationOptions = {
     header: null,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    const { data } = this.props;
+    data.subscribeToMore(buildSubscription(gql(CreateBarSubscription), gql(ListBars)));
+  }
 
   renderItem = ({ item }) => (
     <View style={styles.card}>
@@ -38,13 +37,7 @@ class AllBarsList extends Component {
   );
 
   render() {
-    const {
-      loading, refetch, networkStatus, bars,
-    } = this.props;
-
-    if (loading) {
-      return null;
-    }
+    const { refetch, networkStatus, bars } = this.props;
 
     return (
       <View style={styles.container}>
@@ -73,21 +66,23 @@ const styles = StyleSheet.create({
 export default compose(
   graphql(gql(ListBars), {
     options: {
-      notifyOnNetworkStatusChange: true,
       fetchPolicy: 'cache-and-network',
+      notifyOnNetworkStatusChange: true,
     },
     props: ({ data }) => ({
-      loading: data.loading,
+      data,
+      bars: data.listBars ? data.listBars.items : [],
       refetch: data.refetch,
       networkStatus: data.networkStatus,
-      bars: data.listBars ? data.listBars.items : [],
+      // loading: data.loading,
     }),
   }),
 )(AllBarsList);
 
 AllBarsList.propTypes = {
+  data: PropTypes.shape().isRequired,
   bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  loading: PropTypes.bool.isRequired,
   refetch: PropTypes.func.isRequired,
   networkStatus: PropTypes.number.isRequired,
+  // loading: PropTypes.bool.isRequired,
 };
