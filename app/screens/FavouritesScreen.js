@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import Auth from '@aws-amplify/auth';
+import { Auth } from 'aws-amplify';
 import UserBarsList from '../components/UserBarsList';
 
 export default class FavouritesScreen extends Component {
@@ -22,6 +22,7 @@ export default class FavouritesScreen extends Component {
     const id = currentUser.signInUserSession.accessToken.payload.sub;
     const user = currentUser.signInUserSession.accessToken.payload.username;
     this.setState({ id, user });
+    console.log(id, user);
   };
 
   render() {

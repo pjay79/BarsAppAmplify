@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import {
   View, Text, StyleSheet, ActivityIndicator,
 } from 'react-native';
-import Auth from '@aws-amplify/auth';
-import API, { graphqlOperation } from '@aws-amplify/api';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { Popup } from 'react-native-map-link';
 import axios from 'axios';
 import Config from 'react-native-config';

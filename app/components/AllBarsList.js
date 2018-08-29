@@ -1,24 +1,25 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  View, Text, TouchableOpacity, FlatList, StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import _ from 'lodash';
 import ListBars from '../graphql/queries/ListBars';
-import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
-// import CreateBarSubscription from '../graphql/subscriptions/CreateBarSubscription';
+import * as COLORS from '../config/colors';
 
 class AllBarsList extends Component {
   static navigationOptions = {
     header: null,
   };
 
-  componentDidMount() {
-    const { subscribeToNewBars } = this.props;
-    subscribeToNewBars();
-  }
+  componentDidMount() {}
 
   renderItem = ({ item }) => (
     <View style={styles.card}>
@@ -37,7 +38,13 @@ class AllBarsList extends Component {
   );
 
   render() {
-    const { bars, refetch, networkStatus } = this.props;
+    const {
+      loading, refetch, networkStatus, bars,
+    } = this.props;
+
+    if (loading) {
+      return null;
+    }
 
     return (
       <View style={styles.container}>
@@ -66,39 +73,21 @@ const styles = StyleSheet.create({
 export default compose(
   graphql(gql(ListBars), {
     options: {
+      notifyOnNetworkStatusChange: true,
       fetchPolicy: 'cache-and-network',
     },
     props: ({ data }) => ({
+      loading: data.loading,
       refetch: data.refetch,
       networkStatus: data.networkStatus,
       bars: data.listBars ? data.listBars.items : [],
-      subscribeToNewBars: () => {
-        data.subscribeToMore({
-          document: gql(AddBarSubscription),
-          updateQuery: (
-            prev,
-            {
-              subscriptionData: {
-                data: { onAddBar },
-              },
-            },
-          ) => ({
-            ...prev,
-            listBars: {
-              items: [onAddBar, ...prev.listBars.items.filter(bar => bar.id !== onAddBar.id)],
-              __typename: 'Bar',
-            },
-            __typename: 'BarConnection',
-          }),
-        });
-      },
     }),
   }),
 )(AllBarsList);
 
 AllBarsList.propTypes = {
-  subscribeToNewBars: PropTypes.func.isRequired,
   bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  loading: PropTypes.bool.isRequired,
   refetch: PropTypes.func.isRequired,
   networkStatus: PropTypes.number.isRequired,
 };

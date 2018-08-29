@@ -1,24 +1,25 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  View, Text, TouchableOpacity, FlatList, StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import _ from 'lodash';
 import GetUserBars from '../graphql/queries/GetUserBars';
-import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
-// import UpdateBarSubscription from '../graphql/subscriptions/UpdateBarSubscription';
+import * as COLORS from '../config/colors';
 
 class UserBarsList extends Component {
   static navigationOptions = {
     header: null,
   };
 
-  componentDidMount() {
-    const { subscribeToUserBars } = this.props;
-    subscribeToUserBars();
-  }
+  componentDidMount() {}
 
   renderItem = ({ item }) => (
     <View style={styles.card}>
@@ -37,7 +38,13 @@ class UserBarsList extends Component {
   );
 
   render() {
-    const { bars, refetch, networkStatus } = this.props;
+    const {
+      loading, refetch, networkStatus, bars,
+    } = this.props;
+
+    if (loading) {
+      return null;
+    }
 
     return (
       <View style={styles.container}>
@@ -72,42 +79,18 @@ export default compose(
         id: ownProps.id,
       },
     }),
-    props: ({ data, ownProps }) => ({
+    props: ({ data }) => ({
+      loading: data.loading,
       refetch: data.refetch,
       networkStatus: data.networkStatus,
       bars: data.getUser ? data.getUser.bars.items : [],
-      subscribeToUserBars: () => {
-        data.subscribeToMore({
-          document: gql(AddBarSubscription),
-          updateQuery: (
-            prev,
-            {
-              subscriptionData: {
-                data: { onAddBar },
-              },
-            },
-          ) => ({
-            ...prev,
-            getUser: {
-              id: ownProps.id,
-              username: ownProps.user,
-              bars: {
-                items: [onAddBar, ...prev.getUser.bars.items.filter(bar => bar.id !== onAddBar.id)],
-                __typename: 'Bar',
-              },
-              __typename: 'UserBarsConnection',
-            },
-            __typename: 'User',
-          }),
-        });
-      },
     }),
   }),
 )(UserBarsList);
 
 UserBarsList.propTypes = {
-  subscribeToUserBars: PropTypes.func.isRequired,
   bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  loading: PropTypes.bool.isRequired,
   refetch: PropTypes.func.isRequired,
   networkStatus: PropTypes.number.isRequired,
 };
