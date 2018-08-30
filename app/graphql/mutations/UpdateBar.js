@@ -3,6 +3,7 @@ export default `
     updateBar(input: { id: $id, name: $name, phone: $phone, location: $location, lat: $lat, lng: $lng, url: $url}) {
       id
       createdAt
+      updatedAt
       name
       phone
       location

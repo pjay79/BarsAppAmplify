@@ -3,12 +3,13 @@ import React, { Component } from 'react';
 import {
   View, Text, TouchableOpacity, FlatList, StyleSheet,
 } from 'react-native';
+import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { buildSubscription } from 'aws-appsync';
-import gql from 'graphql-tag';
 import _ from 'lodash';
 import ListBars from '../graphql/queries/ListBars';
-import CreateBarSubscription from '../graphql/subscriptions/CreateBarSubscription';
+// import CreateBarSubscription from '../graphql/subscriptions/CreateBarSubscription';
+import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
 
 class AllBarsList extends Component {
   static navigationOptions = {
@@ -17,7 +18,7 @@ class AllBarsList extends Component {
 
   componentDidMount() {
     const { data } = this.props;
-    data.subscribeToMore(buildSubscription(gql(CreateBarSubscription), gql(ListBars)));
+    data.subscribeToMore(buildSubscription(gql(AddBarSubscription), gql(ListBars)));
   }
 
   renderItem = ({ item }) => (
