@@ -3,6 +3,7 @@ subscription onCreateBar {
     onCreateBar {
       id
       createdAt
+      updatedAt
       name
       phone
       location
@@ -10,7 +11,6 @@ subscription onCreateBar {
       lng
       url
       addedBy
-      __typename
     }
   }
 `;

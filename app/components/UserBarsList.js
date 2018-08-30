@@ -8,7 +8,6 @@ import { graphql, compose } from 'react-apollo';
 import { buildSubscription } from 'aws-appsync';
 import _ from 'lodash';
 import GetUserBars from '../graphql/queries/GetUserBars';
-// import UpdateBarSubscription from '../graphql/subscriptions/UpdateBarSubscription';
 import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
 
 class UserBarsList extends Component {
@@ -17,9 +16,11 @@ class UserBarsList extends Component {
   };
 
   componentDidMount() {
-    const { data } = this.props;
+    const { id, data } = this.props;
     console.log(data);
-    data.subscribeToMore(buildSubscription(gql(AddBarSubscription), gql(GetUserBars)));
+    data.subscribeToMore(
+      buildSubscription(gql(AddBarSubscription), gql(GetUserBars), 'User', id, 'auto'),
+    );
   }
 
   renderItem = ({ item }) => (
@@ -79,15 +80,14 @@ export default compose(
       bars: data.getUser ? data.getUser.bars.items : [],
       refetch: data.refetch,
       networkStatus: data.networkStatus,
-      // loading: data.loading,
     }),
   }),
 )(UserBarsList);
 
 UserBarsList.propTypes = {
+  id: PropTypes.string.isRequired,
   data: PropTypes.shape().isRequired,
   bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   refetch: PropTypes.func.isRequired,
   networkStatus: PropTypes.number.isRequired,
-  // loading: PropTypes.bool.isRequired,
 };

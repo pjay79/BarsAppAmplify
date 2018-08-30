@@ -85,11 +85,13 @@ export default class BarDetailsScreen extends Component {
       const addedBar = await API.graphql(graphqlOperation(GetBar, { id }));
       console.log(addedBar);
       if (!addedBar.data.getBar) {
+        await this.addToUserFavourites(addedBy, id);
         await API.graphql(graphqlOperation(CreateBar, barData));
       } else {
+        await this.addToUserFavourites(addedBy, id);
         await API.graphql(graphqlOperation(UpdateBar, { id }));
       }
-      this.addToUserFavourites(addedBy, id);
+      // this.addToUserFavourites(addedBy, id);
       this.setState({ loading: false });
     } catch (error) {
       console.log(error);

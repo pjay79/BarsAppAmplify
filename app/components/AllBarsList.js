@@ -8,7 +8,6 @@ import { graphql, compose } from 'react-apollo';
 import { buildSubscription } from 'aws-appsync';
 import _ from 'lodash';
 import ListBars from '../graphql/queries/ListBars';
-// import CreateBarSubscription from '../graphql/subscriptions/CreateBarSubscription';
 import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
 
 class AllBarsList extends Component {
@@ -75,7 +74,6 @@ export default compose(
       bars: data.listBars ? data.listBars.items : [],
       refetch: data.refetch,
       networkStatus: data.networkStatus,
-      // loading: data.loading,
     }),
   }),
 )(AllBarsList);
@@ -85,5 +83,4 @@ AllBarsList.propTypes = {
   bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   refetch: PropTypes.func.isRequired,
   networkStatus: PropTypes.number.isRequired,
-  // loading: PropTypes.bool.isRequired,
 };

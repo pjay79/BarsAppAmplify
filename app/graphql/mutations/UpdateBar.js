@@ -11,7 +11,6 @@ export default `
       lng
       url
       addedBy
-      __typename
     }
   }
 `;
