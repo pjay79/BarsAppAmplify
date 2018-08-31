@@ -11,6 +11,7 @@ subscription onAddBar {
       lng
       url
       addedBy
+      __typename
     }
   }
 `;

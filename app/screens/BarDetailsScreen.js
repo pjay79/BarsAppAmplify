@@ -1,20 +1,23 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, ActivityIndicator,
+  View, StyleSheet, ActivityIndicator,
 } from 'react-native';
-import { Auth, API, graphqlOperation } from 'aws-amplify';
-import { Popup } from 'react-native-map-link';
+import gql from 'graphql-tag';
+import { compose } from 'react-apollo';
+import { graphqlMutation } from 'aws-appsync-react';
+import { Auth } from 'aws-amplify';
 import axios from 'axios';
 import Config from 'react-native-config';
-import GetBar from '../graphql/queries/GetBar';
+import BarDetails from '../components/BarDetails';
+import MapLinks from '../components/MapLinks';
+import ListBars from '../graphql/queries/ListBars';
 import CreateBar from '../graphql/mutations/CreateBar';
 import UpdateBar from '../graphql/mutations/UpdateBar';
-import CreateBarMember from '../graphql/mutations/CreateBarMember';
 import Button from '../components/Button';
 import * as COLORS from '../config/colors';
 
-export default class BarDetailsScreen extends Component {
+class BarDetailsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('bar').name,
     headerStyle: {
@@ -28,12 +31,14 @@ export default class BarDetailsScreen extends Component {
 
   state = {
     details: {},
+    userId: '',
     isVisible: false,
     loading: false,
   };
 
   componentDidMount() {
     this.getBarDetails();
+    this.getUser();
   }
 
   getBarDetails = async () => {
@@ -48,137 +53,73 @@ export default class BarDetailsScreen extends Component {
         }`,
       );
 
-      this.setState({ details: response.data.result });
+      this.setState({ details: response.data.result, loading: false });
       console.log(response);
-      this.setState({ loading: false });
     } catch (error) {
-      console.log(error);
       this.setState({ loading: false });
+      console.log(error);
     }
   };
 
-  addToFavourites = async () => {
+  getUser = async () => {
     try {
       this.setState({ loading: true });
       const currentUser = await Auth.currentAuthenticatedUser();
-      const addedBy = currentUser.signInUserSession.accessToken.payload.sub;
-
-      const { navigation } = this.props;
-      const id = navigation.getParam('bar').place_id;
-      const { lat, lng } = navigation.getParam('bar').geometry.location;
-
-      const { details } = this.state;
-      const { name, url } = details;
-      const phone = details.formatted_phone_number;
-      const location = details.vicinity;
-
-      const barData = {
-        id,
-        name,
-        phone,
-        location,
-        lat,
-        lng,
-        url,
-        addedBy,
-      };
-      const addedBar = await API.graphql(graphqlOperation(GetBar, { id }));
-      console.log(addedBar);
-      if (!addedBar.data.getBar) {
-        await this.addToUserFavourites(addedBy, id);
-        await API.graphql(graphqlOperation(CreateBar, barData));
-      } else {
-        await this.addToUserFavourites(addedBy, id);
-        await API.graphql(graphqlOperation(UpdateBar, { id }));
-      }
-      // this.addToUserFavourites(addedBy, id);
-      this.setState({ loading: false });
+      const userId = currentUser.signInUserSession.accessToken.payload.sub;
+      this.setState({ userId, loading: false });
+      console.log(userId);
     } catch (error) {
-      console.log(error);
       this.setState({ loading: false });
-    }
-  };
-
-  addToUserFavourites = async (userId, barId) => {
-    try {
-      await API.graphql(graphqlOperation(CreateBarMember, { userId, barId }));
-    } catch (error) {
       console.log(error);
     }
   };
 
-  showMapLinks = () => {
-    this.setState({ isVisible: true });
+  toggleMapLinks = () => {
+    this.setState(prevState => ({ isVisible: !prevState.isVisible }));
   };
 
   render() {
     const { navigation } = this.props;
     const id = navigation.getParam('bar').place_id;
     const { lat, lng } = navigation.getParam('bar').geometry.location;
+    const {
+      details,
+      userId,
+      isVisible,
+      loading,
+    } = this.state;
+    const { name } = details;
 
-    const { details, isVisible, loading } = this.state;
-    const { name, vicinity } = details;
-    const formattedPhoneNumber = details.formatted_phone_number;
+    if (loading) {
+      return (
+        <View style={styles.loading}>
+          <ActivityIndicator color={COLORS.PRIMARY_TEXT_COLOR} />
+        </View>
+      );
+    }
 
     return (
       <View style={styles.container}>
-        <View style={styles.content}>
-          <Text>
-            {name}
-          </Text>
-          <Text>
-            {formattedPhoneNumber}
-          </Text>
-          <Text>
-            {vicinity}
-          </Text>
-          <Popup
-            isVisible={isVisible}
-            onCancelPressed={() => this.setState({ isVisible: false })}
-            onAppPressed={() => this.setState({ isVisible: false })}
-            onBackButtonPressed={() => this.setState({ isVisible: false })}
-            modalProps={{
-              // you can put all react-native-modal props inside.
-              animationIn: 'slideInUp',
-            }}
-            appsWhiteList={[
-              'apple-maps',
-              'google-maps',
-              'uber',
-              'waze',
-              'lyft',
-              'transit',
-              'yandex',
-              'moovit',
-              'citymapper',
-            ]}
-            options={{
-              /* See `showLocation` method above, this accepts the same options. */
-              title: name,
-              latitude: lat,
-              longitude: lng,
-              googlePlaceId: id,
-              dialogTitle: 'Directions',
-              dialogMessage: 'Open bar location in one of the following apps:',
-              cancelText: 'Cancel',
-            }}
-            style={
-              {
-                /* Optional: you can override default style by passing your values. */
-              }
-            }
-          />
-          <Button
-            title="Add to Favourites"
-            onPress={this.addToFavourites}
-            style={{ backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR, marginTop: 10 }}
-            textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
-          />
-        </View>
-        {loading && <ActivityIndicator color={COLORS.PRIMARY_TEXT_COLOR} />}
+        <BarDetails
+          id={id}
+          lat={lat}
+          lng={lng}
+          details={details}
+          userId={userId}
+        />
+        <MapLinks
+          isVisible={isVisible}
+          onCancelPressed={this.toggleMapLinks}
+          onAppPressed={this.toggleMapLinks}
+          onBackButtonPressed={this.toggleMapLinks}
+          name={name}
+          lat={lat}
+          lng={lng}
+          id={id}
+        />
         <Button
           title="Open in Maps"
-          onPress={this.showMapLinks}
+          onPress={this.toggleMapLinks}
           style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 10 }}
           textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
         />
@@ -193,8 +134,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  content: {
-    alignItems: 'center',
+  loading: {
     paddingTop: 20,
   },
 });
@@ -205,3 +145,19 @@ BarDetailsScreen.propTypes = {
     getParam: PropTypes.func.isRequired,
   }).isRequired,
 };
+
+export default compose(
+  // graphql(gql(GetBar), {
+  //   options: {
+  //     fetchPolicy: 'cache-and-network',
+  //   },
+  //   variables: {
+  //     id: ownProps.id,
+  //   },
+  //   props: ({ data }) => ({
+  //     bar: data.getBar ? data.getBar : [],
+  //   }),
+  // }),
+  graphqlMutation(gql(UpdateBar), { query: ListBars }, 'Bar'),
+  graphqlMutation(gql(CreateBar), { query: ListBars }, 'Bar'),
+)(BarDetailsScreen);

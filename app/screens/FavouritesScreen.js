@@ -11,7 +11,6 @@ export default class FavouritesScreen extends Component {
 
   state = {
     id: '',
-    user: '',
     loading: false,
   };
 
@@ -20,16 +19,20 @@ export default class FavouritesScreen extends Component {
   }
 
   getUser = async () => {
-    this.setState({ loading: true });
-    const currentUser = await Auth.currentAuthenticatedUser();
-    const id = currentUser.signInUserSession.accessToken.payload.sub;
-    const user = currentUser.signInUserSession.accessToken.payload.username;
-    this.setState({ id, user, loading: false });
-    console.log(id, user);
+    try {
+      this.setState({ loading: true });
+      const currentUser = await Auth.currentAuthenticatedUser();
+      const id = currentUser.signInUserSession.accessToken.payload.sub;
+      this.setState({ id, loading: false });
+      console.log(id);
+    } catch (error) {
+      this.setState({ loading: false });
+      console.log(error);
+    }
   };
 
   render() {
-    const { id, user, loading } = this.state;
+    const { id, loading } = this.state;
 
     if (loading) {
       return (
@@ -41,7 +44,7 @@ export default class FavouritesScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <UserBarsList id={id} user={user} />
+        <UserBarsList id={id} />
       </View>
     );
   }
