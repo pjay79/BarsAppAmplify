@@ -6,7 +6,6 @@ import {
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { graphqlMutation } from 'aws-appsync-react';
-import { API, graphqlOperation } from 'aws-amplify';
 import Button from './Button';
 import GetBar from '../graphql/queries/GetBar';
 import ListBars from '../graphql/queries/ListBars';
@@ -26,7 +25,15 @@ class BarDetails extends Component {
       this.setState({ loading: true });
 
       const {
-        id, lat, lng, details, userId, bar, createBar, updateBar,
+        id,
+        lat,
+        lng,
+        details,
+        userId,
+        bar,
+        createBarMember,
+        createBar,
+        updateBar,
       } = this.props;
 
       const { name, url } = details;
@@ -46,25 +53,25 @@ class BarDetails extends Component {
         addedBy: userId,
       };
 
+      const barMember = {
+        id: -1,
+        createdAt: '',
+        updatedAt: '',
+        userId,
+        barId: id,
+      };
+
       if (bar === null) {
-        await this.addToUserFavourites(userId, id);
+        createBarMember({ ...barMember });
         createBar({ ...barData });
       } else {
-        await this.addToUserFavourites(userId, id);
+        createBarMember({ ...barMember });
         updateBar({ ...barData });
       }
       this.setState({ loading: false });
     } catch (error) {
       console.log(error);
       this.setState({ loading: false });
-    }
-  };
-
-  addToUserFavourites = async (userId, barId) => {
-    try {
-      await API.graphql(graphqlOperation(CreateBarMember, { userId, barId }));
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -144,7 +151,19 @@ export default compose(
       bar: data.getBar ? data.getBar : null,
     }),
   }),
+  graphql(gql(CreateBarMember), {
+    props: ({ mutate }) => ({
+      createBarMember: member => mutate({
+        variables: member,
+        optimisticResponse: () => ({
+          createBarMember: {
+            ...member,
+            __typename: 'BarMember',
+          },
+        }),
+      }),
+    }),
+  }),
   graphqlMutation(gql(UpdateBar), gql(GetUserBars), 'Bar'),
   graphqlMutation(gql(CreateBar), gql(ListBars), 'Bar'),
-  // graphqlMutation(gql(CreateBarMember), [gql(ListBars), gql(GetUserBars)], 'BarMember'),
 )(BarDetails);
