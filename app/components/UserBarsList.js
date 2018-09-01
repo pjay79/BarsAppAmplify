@@ -17,7 +17,6 @@ class UserBarsList extends Component {
 
   componentDidMount() {
     const { id, data } = this.props;
-    console.log(data);
     data.subscribeToMore(
       buildSubscription(gql(AddBarSubscription), gql(GetUserBars), 'User', id, 'auto'),
     );
@@ -69,10 +68,10 @@ const styles = StyleSheet.create({
 export default compose(
   graphql(gql(GetUserBars), {
     options: ownProps => ({
-      fetchPolicy: 'cache-and-network',
       variables: {
         id: ownProps.id,
       },
+      fetchPolicy: 'cache-and-network',
       notifyOnNetworkStatusChange: true,
     }),
     props: ({ data }) => ({

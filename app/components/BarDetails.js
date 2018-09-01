@@ -9,6 +9,7 @@ import { graphqlMutation } from 'aws-appsync-react';
 import Button from './Button';
 import GetBar from '../graphql/queries/GetBar';
 import ListBars from '../graphql/queries/ListBars';
+import ListBarMembers from '../graphql/queries/ListBarMembers';
 import GetUserBars from '../graphql/queries/GetUserBars';
 import CreateBar from '../graphql/mutations/CreateBar';
 import UpdateBar from '../graphql/mutations/UpdateBar';
@@ -142,10 +143,10 @@ BarDetails.defaultProps = {
 export default compose(
   graphql(gql(GetBar), {
     options: ownProps => ({
-      fetchPolicy: 'cache-and-network',
       variables: {
         id: ownProps.id,
       },
+      fetchPolicy: 'cache-and-network',
     }),
     props: ({ data }) => ({
       bar: data.getBar ? data.getBar : null,
@@ -153,6 +154,20 @@ export default compose(
   }),
   graphql(gql(CreateBarMember), {
     props: ({ mutate }) => ({
+      options: {
+        update: (proxy, { data: { createBarMember } }) => {
+          try {
+            const data = proxy.readQuery({ query: ListBarMembers });
+            data.listBarMembers.items = [
+              ...data.listBarMembers.items.filter(member => member.id !== createBarMember.id),
+              createBarMember,
+            ];
+            proxy.writeQuery({ query: ListBarMembers, data });
+          } catch (error) {
+            console.log(error);
+          }
+        },
+      },
       createBarMember: member => mutate({
         variables: member,
         optimisticResponse: () => ({
