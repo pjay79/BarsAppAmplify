@@ -26,7 +26,7 @@ class BarDetails extends Component {
       this.setState({ loading: true });
 
       const {
-        id, lat, lng, details, userId, createBar, updateBar,
+        id, lat, lng, details, userId, bar, createBar, updateBar,
       } = this.props;
 
       const { name, url } = details;
@@ -46,10 +46,7 @@ class BarDetails extends Component {
         addedBy: userId,
       };
 
-      const addedBar = await API.graphql(graphqlOperation(GetBar, { id }));
-      console.log(addedBar);
-
-      if (!addedBar.data.getBar) {
+      if (bar === null) {
         await this.addToUserFavourites(userId, id);
         createBar({ ...barData });
       } else {
@@ -117,6 +114,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  loading: {
+    paddingTop: 20,
+  },
   content: {
     alignItems: 'center',
     paddingTop: 20,
@@ -125,6 +125,11 @@ const styles = StyleSheet.create({
 
 BarDetails.propTypes = {
   details: PropTypes.shape().isRequired,
+  bar: PropTypes.shape(),
+};
+
+BarDetails.defaultProps = {
+  bar: null,
 };
 
 export default compose(
@@ -132,13 +137,14 @@ export default compose(
     options: ownProps => ({
       fetchPolicy: 'cache-and-network',
       variables: {
-        id: ownProps.userId,
+        id: ownProps.id,
       },
     }),
     props: ({ data }) => ({
-      bar: data.getBar ? data.getBar : [],
+      bar: data.getBar ? data.getBar : null,
     }),
   }),
-  graphqlMutation(gql(UpdateBar), { query: GetUserBars }, 'User'),
-  graphqlMutation(gql(CreateBar), { query: ListBars }, 'Bar'),
+  graphqlMutation(gql(UpdateBar), gql(GetUserBars), 'Bar'),
+  graphqlMutation(gql(CreateBar), gql(ListBars), 'Bar'),
+  // graphqlMutation(gql(CreateBarMember), [gql(ListBars), gql(GetUserBars)], 'BarMember'),
 )(BarDetails);

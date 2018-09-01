@@ -1,23 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import {
-  View, StyleSheet, ActivityIndicator,
-} from 'react-native';
-import gql from 'graphql-tag';
-import { compose } from 'react-apollo';
-import { graphqlMutation } from 'aws-appsync-react';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Auth } from 'aws-amplify';
 import axios from 'axios';
 import Config from 'react-native-config';
 import BarDetails from '../components/BarDetails';
 import MapLinks from '../components/MapLinks';
-import ListBars from '../graphql/queries/ListBars';
-import CreateBar from '../graphql/mutations/CreateBar';
-import UpdateBar from '../graphql/mutations/UpdateBar';
 import Button from '../components/Button';
 import * as COLORS from '../config/colors';
 
-class BarDetailsScreen extends Component {
+export default class BarDetailsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('bar').name,
     headerStyle: {
@@ -83,10 +75,7 @@ class BarDetailsScreen extends Component {
     const id = navigation.getParam('bar').place_id;
     const { lat, lng } = navigation.getParam('bar').geometry.location;
     const {
-      details,
-      userId,
-      isVisible,
-      loading,
+      details, userId, isVisible, loading,
     } = this.state;
     const { name } = details;
 
@@ -100,13 +89,7 @@ class BarDetailsScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <BarDetails
-          id={id}
-          lat={lat}
-          lng={lng}
-          details={details}
-          userId={userId}
-        />
+        <BarDetails id={id} lat={lat} lng={lng} details={details} userId={userId} />
         <MapLinks
           isVisible={isVisible}
           onCancelPressed={this.toggleMapLinks}
@@ -145,19 +128,3 @@ BarDetailsScreen.propTypes = {
     getParam: PropTypes.func.isRequired,
   }).isRequired,
 };
-
-export default compose(
-  // graphql(gql(GetBar), {
-  //   options: {
-  //     fetchPolicy: 'cache-and-network',
-  //   },
-  //   variables: {
-  //     id: ownProps.id,
-  //   },
-  //   props: ({ data }) => ({
-  //     bar: data.getBar ? data.getBar : [],
-  //   }),
-  // }),
-  graphqlMutation(gql(UpdateBar), { query: ListBars }, 'Bar'),
-  graphqlMutation(gql(CreateBar), { query: ListBars }, 'Bar'),
-)(BarDetailsScreen);
