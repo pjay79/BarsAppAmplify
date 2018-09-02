@@ -16,13 +16,14 @@ import IntroScreen from '../screens/IntroScreen';
 import HomeScreen from '../screens/HomeScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
-import BarsScreen from '../screens/BarsScreen';
+import ListScreen from '../screens/ListScreen';
 import BarDetailsScreen from '../screens/BarDetailsScreen';
+import MapScreen from '../screens/MapScreen';
 import FavouritesScreen from '../screens/FavouritesScreen';
 import CommunityScreen from '../screens/CommunityScreen';
 import MoreScreen from '../screens/MoreScreen';
 
-const BarsIcon = ({ tintColor }) => (
+const NearbyIcon = ({ tintColor }) => (
   <Ionicons name={Platform.OS === 'ios' ? 'ios-beer' : 'md-beer'} size={20} color={tintColor} />
 );
 
@@ -34,22 +35,75 @@ const MoreIcon = ({ tintColor }) => (
   <Ionicons name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} size={20} color={tintColor} />
 );
 
-const BarsStack = createStackNavigator(
+const ListStack = createStackNavigator(
   {
-    Bars: {
-      screen: BarsScreen,
+    List: {
+      screen: ListScreen,
     },
     Details: {
       screen: BarDetailsScreen,
     },
   },
   {
-    inititalRouteName: 'Bars',
+    inititalRouteName: 'List',
+    headerMode: 'none',
   },
 );
 
-BarsStack.navigationOptions = {
-  tabBarIcon: BarsIcon,
+const MapStack = createStackNavigator(
+  {
+    Maps: {
+      screen: MapScreen,
+    },
+  },
+  {
+    inititalRouteName: 'Map',
+  },
+);
+
+const NearbyTabs = createMaterialTopTabNavigator(
+  {
+    List: {
+      screen: ListStack,
+    },
+    Map: {
+      screen: MapStack,
+    },
+  },
+  {
+    tabBarOptions: {
+      activeTintColor: COLORS.TEXT_PRIMARY_COLOR,
+      inactiveTintColor: COLORS.LIGHT_PRIMARY_COLOR,
+      indicatorStyle: {
+        backgroundColor: COLORS.ACCENT_COLOR,
+      },
+      style: {
+        backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
+      },
+    },
+  },
+);
+
+const NearbyTabStack = createStackNavigator(
+  {
+    NearybyTabs: {
+      screen: NearbyTabs,
+    },
+  },
+  {
+    navigationOptions: {
+      headerTitle: 'Nearby Bars',
+      headerStyle: {
+        backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
+        borderBottomColor: COLORS.LIGHT_PRIMARY_COLOR,
+      },
+      headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
+    },
+  },
+);
+
+NearbyTabStack.navigationOptions = {
+  tabBarIcon: NearbyIcon,
 };
 
 const FavouritesStack = createStackNavigator(
@@ -137,7 +191,7 @@ MoreStack.navigationOptions = {
 const BarsTabs = createBottomTabNavigator(
   {
     'Nearby Bars': {
-      screen: BarsStack,
+      screen: NearbyTabStack,
     },
     Favourites: {
       screen: FavouritesTabStack,
@@ -192,7 +246,7 @@ export default createSwitchNavigator(
   },
 );
 
-BarsIcon.propTypes = {
+NearbyIcon.propTypes = {
   tintColor: PropTypes.string.isRequired,
 };
 

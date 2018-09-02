@@ -10,6 +10,9 @@ import Button from '../components/Button';
 import * as COLORS from '../config/colors';
 
 export default class BarDetailsScreen extends Component {
+  // static navigationOptions = {
+  //   header: null,
+  // };
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('bar').name,
     headerStyle: {
@@ -100,12 +103,20 @@ export default class BarDetailsScreen extends Component {
           lng={lng}
           id={id}
         />
-        <Button
-          title="Open in Maps"
-          onPress={this.toggleMapLinks}
-          style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 10 }}
-          textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
-        />
+        <View>
+          <Button
+            title="Open in Maps"
+            onPress={this.toggleMapLinks}
+            style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 10 }}
+            textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
+          />
+          <Button
+            title="Go Back"
+            onPress={() => navigation.goBack()}
+            style={{ backgroundColor: COLORS.DARK_PRIMARY_COLOR, marginBottom: 10 }}
+            textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
+          />
+        </View>
       </View>
     );
   }
