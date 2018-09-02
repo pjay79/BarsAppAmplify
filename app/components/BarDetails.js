@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import {
-  View, Text, StyleSheet, ActivityIndicator,
-} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { graphqlMutation } from 'aws-appsync-react';
@@ -18,13 +16,11 @@ import * as COLORS from '../config/colors';
 
 class BarDetails extends Component {
   state = {
-    loading: false,
+    status: '',
   };
 
   addToFavourites = async () => {
     try {
-      this.setState({ loading: true });
-
       const {
         id,
         lat,
@@ -69,27 +65,19 @@ class BarDetails extends Component {
         createBarMember({ ...barMember });
         updateBar({ ...barData });
       }
-      this.setState({ loading: false });
+      this.setState({ status: 'ADDED!' });
     } catch (error) {
       console.log(error);
-      this.setState({ loading: false });
+      this.setState({ status: 'ERROR, TRY AGAIN.' });
     }
   };
 
   render() {
-    const { loading } = this.state;
+    const { status } = this.state;
     const { details } = this.props;
     const { name, url } = details;
     const phone = details.formatted_phone_number;
     const location = details.vicinity;
-
-    if (loading) {
-      return (
-        <View style={styles.loading}>
-          <ActivityIndicator color={COLORS.PRIMARY_TEXT_COLOR} />
-        </View>
-      );
-    }
 
     return (
       <View style={styles.content}>
@@ -111,6 +99,9 @@ class BarDetails extends Component {
           style={{ backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR, marginTop: 10 }}
           textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
         />
+        <Text>
+          {status}
+        </Text>
       </View>
     );
   }

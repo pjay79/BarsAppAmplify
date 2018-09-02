@@ -10,9 +10,6 @@ import Button from '../components/Button';
 import * as COLORS from '../config/colors';
 
 export default class BarDetailsScreen extends Component {
-  // static navigationOptions = {
-  //   header: null,
-  // };
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('bar').name,
     headerStyle: {

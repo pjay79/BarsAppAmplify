@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+// import MapView from 'react-native-maps';
 
 export default class MapScreen extends Component {
   static navigationOptions = {
@@ -9,9 +10,16 @@ export default class MapScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>
-Map
-        </Text>
+        {/* <MapView
+          style={styles.map}
+          initialRegion={{
+            // initial region set to Bileto
+            latitude: 50.0517273,
+            longitude: 14.4286503,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        /> */}
       </View>
     );
   }
@@ -19,8 +27,13 @@ Map
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    ...StyleSheet.absoluteFillObject,
+    height: 400,
+    width: 400,
+    justifyContent: 'flex-end',
     alignItems: 'center',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
   },
 });

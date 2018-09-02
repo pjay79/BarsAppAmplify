@@ -737,7 +737,6 @@
 				138F43733BC540E7A8542B3E /* libReactNativeConfig.a */,
 				D1E3CAEA71CC4999881E92F5 /* libRNAWSCognito.a */,
 				0342303ED90F4BD1AE2F4442 /* libSplashScreen.a */,
-				4FF1C64DE36447FABAFF4012 /* libAirMaps.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
