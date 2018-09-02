@@ -78,7 +78,7 @@ export default class ListScreen extends Component {
           );
         },
         error => console.log(error),
-        { enableHighAccuracy: false, timeout: 25000, distanceFilter: 0 },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
       );
     }
   };
