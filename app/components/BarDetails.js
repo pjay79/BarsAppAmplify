@@ -85,7 +85,7 @@ class BarDetails extends Component {
 
   render() {
     const { details } = this.props;
-    const { name, website } = details;
+    const { name } = details;
     const phone = details.formatted_phone_number;
     const location = details.vicinity;
 
@@ -100,9 +100,19 @@ class BarDetails extends Component {
         <Text>
           {location}
         </Text>
-        <Text>
-          {website}
-        </Text>
+        <View style={styles.openingHours}>
+          <Text style={styles.openingHoursTitle}>
+          Opening Hours:
+          </Text>
+          {details.opening_hours
+            && details.opening_hours.weekday_text.map(data => (
+              <View key={data}>
+                <Text>
+                  {data}
+                </Text>
+              </View>
+            ))}
+        </View>
         <Button
           title="Add to Favourites"
           onPress={this.addToFavourites}
@@ -124,8 +134,15 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   content: {
-    alignItems: 'center',
     paddingTop: 20,
+    alignItems: 'center',
+  },
+  openingHoursTitle: {
+    marginBottom: 20,
+  },
+  openingHours: {
+    marginVertical: 20,
+    alignItems: 'center',
   },
 });
 

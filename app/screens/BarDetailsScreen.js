@@ -118,7 +118,7 @@ export default class BarDetailsScreen extends Component {
             textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
           />
           <Button
-            title="Open in Maps"
+            title="Directions"
             onPress={this.toggleMapLinks}
             style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 10 }}
             textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
