@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Alert,
+  StyleSheet,
+} from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { graphqlMutation } from 'aws-appsync-react';
@@ -15,10 +20,6 @@ import CreateBarMember from '../graphql/mutations/CreateBarMember';
 import * as COLORS from '../config/colors';
 
 class BarDetails extends Component {
-  state = {
-    status: '',
-  };
-
   addToFavourites = async () => {
     try {
       const {
@@ -65,17 +66,26 @@ class BarDetails extends Component {
         createBarMember({ ...barMember });
         updateBar({ ...barData });
       }
-      this.setState({ status: 'ADDED!' });
+      Alert.alert(
+        'Success',
+        'This bar has been added to your favourites.',
+        [{ text: 'OK', onPress: () => console.log('Alert closed.') }],
+        { cancelable: false },
+      );
     } catch (error) {
       console.log(error);
-      this.setState({ status: 'ERROR, TRY AGAIN.' });
+      Alert.alert(
+        'Error',
+        'There was an error, please try again.',
+        [{ text: 'OK', onPress: () => console.log('Alert closed.') }],
+        { cancelable: false },
+      );
     }
   };
 
   render() {
-    const { status } = this.state;
     const { details } = this.props;
-    const { name, url } = details;
+    const { name, website } = details;
     const phone = details.formatted_phone_number;
     const location = details.vicinity;
 
@@ -91,7 +101,7 @@ class BarDetails extends Component {
           {location}
         </Text>
         <Text>
-          {url}
+          {website}
         </Text>
         <Button
           title="Add to Favourites"
@@ -99,9 +109,6 @@ class BarDetails extends Component {
           style={{ backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR, marginTop: 10 }}
           textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
         />
-        <Text>
-          {status}
-        </Text>
       </View>
     );
   }

@@ -10,7 +10,7 @@ const slides = [
   {
     key: '1',
     title: 'Find nearby bars',
-    text: 'View ratings, photos, opening hours.',
+    text: 'Add to favourites...',
     image: require('../assets/images/bar.png'),
     imageStyle: { height: 180, width: 180 },
     backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,

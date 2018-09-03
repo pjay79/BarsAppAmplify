@@ -151,6 +151,13 @@ export default class ListScreen extends Component {
             Rating:
             {item.rating}
           </Text>
+          <Text>
+            Price level:
+            {item.price_level}
+          </Text>
+          <Text>
+            {item.opening_hours.open_now ? 'Open' : 'Closed'}
+          </Text>
         </TouchableOpacity>
       </View>
     );

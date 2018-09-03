@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Linking,
+  ActivityIndicator,
+} from 'react-native';
 import { Auth } from 'aws-amplify';
 import axios from 'axios';
 import Config from 'react-native-config';
@@ -66,6 +71,11 @@ export default class BarDetailsScreen extends Component {
     }
   };
 
+  openWebsiteLink = () => {
+    const { details } = this.state;
+    Linking.openURL(details.website);
+  };
+
   toggleMapLinks = () => {
     this.setState(prevState => ({ isVisible: !prevState.isVisible }));
   };
@@ -101,6 +111,12 @@ export default class BarDetailsScreen extends Component {
           id={id}
         />
         <View>
+          <Button
+            title="Website"
+            onPress={this.openWebsiteLink}
+            style={{ backgroundColor: COLORS.PRIMARY_TEXT_COLOR, marginBottom: 10 }}
+            textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
+          />
           <Button
             title="Open in Maps"
             onPress={this.toggleMapLinks}
