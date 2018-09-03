@@ -56,7 +56,7 @@ export default class SignInScreen extends Component {
         this.setState({ loading: false, error: 'Complete missing fields' });
       }
     } catch (error) {
-      this.setState({ loading: false, error });
+      this.setState({ loading: false, error: error.message });
       console.log(error);
     }
   };
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   error: {
     marginTop: 10,
     paddingHorizontal: '10%',
-    color: COLORS.PRIMARY_TEXT_COLOR,
+    color: COLORS.TEXT_PRIMARY_COLOR,
     fontWeight: 'bold',
     letterSpacing: 2,
     fontSize: 12,
