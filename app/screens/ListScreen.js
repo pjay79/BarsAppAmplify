@@ -16,6 +16,7 @@ import SplashScreen from 'react-native-splash-screen';
 import axios from 'axios';
 import geolib from 'geolib';
 import Config from 'react-native-config';
+import Foundation from 'react-native-vector-icons/Foundation';
 import * as COLORS from '../config/colors';
 
 export default class ListScreen extends Component {
@@ -145,6 +146,55 @@ export default class ListScreen extends Component {
     return distance;
   }
 
+  renderDollar = (price) => {
+    if (price === 0) {
+      return (
+        <View style={styles.dollar}>
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+        </View>
+      );
+    }
+    if (price === 1) {
+      return (
+        <View style={styles.dollar}>
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+        </View>
+      );
+    }
+    if (price === 2) {
+      return (
+        <View style={styles.dollar}>
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+        </View>
+      );
+    }
+    if (price === 3) {
+      return (
+        <View style={styles.dollar}>
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+        </View>
+      );
+    }
+    if (price === 4) {
+      return (
+        <View style={styles.dollar}>
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
+        </View>
+      );
+    }
+    return null;
+  }
+
   renderFooter = () => {
     const { pageToken } = this.state;
     if (pageToken === undefined) return null;
@@ -168,17 +218,15 @@ export default class ListScreen extends Component {
             {item.rating}
           </Text>
           <Text>
-            Price level:
-            {item.price_level}
-          </Text>
-          <Text>
             {item.opening_hours.open_now ? 'Open' : 'Closed'}
           </Text>
           <Text>
-            Distance:
             {this.calculateDistance(item.geometry.location.lat, item.geometry.location.lng)}
             m
           </Text>
+          <View>
+            {this.renderDollar(item.price_level)}
+          </View>
         </TouchableOpacity>
       </View>
     );
@@ -214,6 +262,9 @@ const styles = StyleSheet.create({
   },
   footer: {
     paddingVertical: 20,
+  },
+  dollar: {
+    flexDirection: 'row',
   },
 });
 
