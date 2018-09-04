@@ -57,7 +57,7 @@ export default class SignInScreen extends Component {
       }
     } catch (error) {
       this.setState({ loading: false, error: error.message });
-      console.log(error);
+      console.log(error.message);
     }
   };
 

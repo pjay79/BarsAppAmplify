@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  View,
-  StyleSheet,
-  Linking,
-  ActivityIndicator,
+  View, StyleSheet, Linking, ActivityIndicator,
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 import axios from 'axios';
@@ -19,9 +16,6 @@ export default class BarDetailsScreen extends Component {
     title: navigation.getParam('bar').name,
     headerStyle: {
       backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
-      elevation: 0,
-      shadowOpacity: 0,
-      borderBottomWidth: 0,
     },
     headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
   });
@@ -110,7 +104,7 @@ export default class BarDetailsScreen extends Component {
           lng={lng}
           id={id}
         />
-        <View>
+        <View style={styles.buttonWrapper}>
           <Button
             title="Website"
             onPress={this.openWebsiteLink}
@@ -138,11 +132,14 @@ export default class BarDetailsScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   loading: {
     paddingTop: 20,
+  },
+  buttonWrapper: {
+    paddingTop: 5,
   },
 });
 

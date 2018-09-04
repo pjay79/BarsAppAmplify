@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
-import Auth from '@aws-amplify/auth';
+import Auth from 'aws-amplify';
 import Button from '../components/Button';
 import * as COLORS from '../config/colors';
 
@@ -19,14 +19,14 @@ export default class MoreScreen extends Component {
   };
 
   signOut = async () => {
-    this.setState({ loading: true });
-    const { navigation } = this.props;
-    await Auth.signOut()
-      .then((data) => {
-        navigation.navigate('Auth');
-        console.log(data);
-      })
-      .catch(err => console.log(err));
+    try {
+      this.setState({ loading: true });
+      const { navigation } = this.props;
+      await Auth.signOut();
+      navigation.navigate('Auth');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {

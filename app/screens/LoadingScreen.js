@@ -16,26 +16,30 @@ export default class LoadingScreen extends Component {
   }
 
   checkIntro = async () => {
-    const { navigation } = this.props;
-    const value = await AsyncStorage.getItem('@SKIP_INTRO');
-    if (value === 'true') {
-      this.checkUser();
-    } else {
-      navigation.navigate('Intro');
+    try {
+      const { navigation } = this.props;
+      const value = await AsyncStorage.getItem('@SKIP_INTRO');
+      if (value === 'true') {
+        this.checkUser();
+      } else {
+        navigation.navigate('Intro');
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   checkUser = async () => {
-    const { navigation } = this.props;
-    await Auth.currentAuthenticatedUser()
-      .then((user) => {
-        navigation.navigate(user ? 'App' : 'Auth');
-        console.log('Cognito: ', user);
-      })
-      .catch((error) => {
-        navigation.navigate('Auth');
-        console.log(error.message);
-      });
+    try {
+      const { navigation } = this.props;
+      const user = await Auth.currentAuthenticatedUser();
+      navigation.navigate(user ? 'App' : 'Auth');
+      console.log('Cognito: ', user);
+    } catch (error) {
+      const { navigation } = this.props;
+      navigation.navigate('Auth');
+      console.log(error.message);
+    }
   };
 
   render() {

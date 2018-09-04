@@ -19,7 +19,7 @@ export default class SignUpScreen extends Component {
   state = {
     username: '',
     email: '',
-    phone_number: '',
+    phoneNumber: '',
     password: '',
     authCode: '',
     loading: false,
@@ -32,65 +32,58 @@ export default class SignUpScreen extends Component {
   };
 
   signUp = async () => {
-    this.setState({ loading: true, error: '' });
-    const {
-      username, password, email, phone_number,
-    } = this.state;
-    if (username && password && email && phone_number) {
-      await Auth.signUp({
-        username,
-        password,
-        attributes: {
-          phone_number,
-          email,
-        },
-      })
-        .then((data) => {
-          this.setState({ loading: false, status: 'User confirmation pending...' });
-          console.log(data);
-        })
-        .catch((error) => {
-          this.setState({ loading: false, error: error.message });
+    try {
+      this.setState({ loading: true, error: '' });
+      const {
+        username, password, email, phoneNumber,
+      } = this.state;
+      if (username && password && email && phoneNumber) {
+        const user = await Auth.signUp({
+          username,
+          password,
+          attributes: {
+            phone_number: phoneNumber,
+            email,
+          },
         });
-    } else {
-      this.setState({ loading: false, error: 'Complete missing fields.' });
+        this.setState({ loading: false, status: 'User confirmation pending...' });
+        console.log(user);
+      } else {
+        this.setState({ loading: false, error: 'Complete missing fields.' });
+      }
+    } catch (error) {
+      this.setState({ loading: false, error: error.message });
+      console.log(error.message);
     }
   };
 
   confirmSignUp = async () => {
-    this.setState({ loading: true, error: '', status: '' });
-    const { username, authCode } = this.state;
-    if (authCode) {
-      await Auth.confirmSignUp(username, authCode)
-        .then(() => {
-          this.setState({
-            loading: false,
-            status: 'Sign up successful!',
-            username: '',
-            email: '',
-            phone_number: '',
-            password: '',
-            authCode: '',
-          });
-        })
-        .catch((error) => {
-          this.setState({ loading: false, error: error.message });
+    try {
+      this.setState({ loading: true, error: '', status: '' });
+      const { username, authCode } = this.state;
+      if (authCode) {
+        await Auth.confirmSignUp(username, authCode);
+        this.setState({
+          loading: false,
+          status: 'Sign up successful!',
+          username: '',
+          email: '',
+          phoneNumber: '',
+          password: '',
+          authCode: '',
         });
-    } else {
-      this.setState({ loading: false, error: 'Passcode is required.' });
+      } else {
+        this.setState({ loading: false, error: 'Passcode is required.' });
+      }
+    } catch (error) {
+      this.setState({ loading: false, error: error.message });
+      console.log(error.message);
     }
   };
 
   render() {
     const {
-      username,
-      email,
-      phone_number,
-      password,
-      authCode,
-      loading,
-      error,
-      status,
+      username, email, phoneNumber, password, authCode, loading, error, status,
     } = this.state;
 
     return (
@@ -116,8 +109,8 @@ PHONE NUMBER:
         </Text>
         <Input
           placeholder="+61XXXXXXXX"
-          onChangeText={text => this.onChangeText('phone_number', text)}
-          value={phone_number}
+          onChangeText={text => this.onChangeText('phoneNumber', text)}
+          value={phoneNumber}
         />
         <Text style={styles.label}>
 PASSWORD:
