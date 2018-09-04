@@ -8,6 +8,7 @@ import { graphql, compose } from 'react-apollo';
 import { buildSubscription } from 'aws-appsync';
 import _ from 'lodash';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Foundation from 'react-native-vector-icons/Foundation';
 import GetUserBars from '../graphql/queries/GetUserBars';
 import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
 import * as COLORS from '../config/colors';
@@ -39,18 +40,26 @@ class UserBarsList extends Component {
       </View>
       <View style={styles.iconWrapper}>
         <TouchableOpacity onPress={() => console.log('Bar selected.')}>
-          <MaterialCommunityIcons name="web" size={20} color={COLORS.ACCENT_COLOR} />
+          <MaterialCommunityIcons name="web" size={18} color={COLORS.ACCENT_COLOR} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => console.log('Bar selected.')}>
-          <MaterialCommunityIcons name="directions" size={20} color={COLORS.DARK_PRIMARY_COLOR} />
+          <MaterialCommunityIcons name="directions" size={18} color={COLORS.DARK_PRIMARY_COLOR} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => console.log('Bar selected.')}>
-          <MaterialCommunityIcons name="phone" size={20} color={COLORS.PRIMARY_TEXT_COLOR} />
+          <Foundation name="telephone" size={18} color={COLORS.PRIMARY_TEXT_COLOR} />
         </TouchableOpacity>
       </View>
     </View>
   );
 
+  renderSeparator = () => (
+    <View
+      style={{
+        backgroundColor: COLORS.DIVIDER_COLOR,
+        height: StyleSheet.hairlineWidth,
+      }}
+    />
+  );
 
   render() {
     const { refetch, networkStatus, bars } = this.props;
@@ -63,6 +72,7 @@ class UserBarsList extends Component {
           keyExtractor={item => item.id}
           onRefresh={() => refetch()}
           refreshing={networkStatus === 4}
+          ItemSeparatorComponent={this.renderSeparator}
         />
       </View>
     );
@@ -79,11 +89,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 10,
     paddingHorizontal: 20,
+    paddingVertical: 10,
   },
-  details: {},
+  details: {
+    width: '90%',
+  },
   header: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight: '500',
   },
   location: {
     fontSize: 16,

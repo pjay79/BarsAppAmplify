@@ -37,7 +37,7 @@ export default class FavouritesScreen extends Component {
     if (loading) {
       return (
         <View style={styles.loading}>
-          <ActivityIndicator color={COLORS.TEXT_PRIMARY_COLOR} />
+          <ActivityIndicator color={COLORS.PRIMARY_TEXT_COLOR} />
         </View>
       );
     }
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   loading: {
+    paddingTop: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },

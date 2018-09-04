@@ -13,6 +13,7 @@
     "aws-appsync-react": "^1.1.4",
     "aws-sdk": "^2.305.0",
     "axios": "^0.18.0",
+    "geolib": "^2.0.24",
     "graphql-tag": "^2.9.2",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.2",

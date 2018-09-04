@@ -14,6 +14,7 @@ import { Auth } from 'aws-amplify';
 import Geolocation from 'react-native-geolocation-service';
 import SplashScreen from 'react-native-splash-screen';
 import axios from 'axios';
+import geolib from 'geolib';
 import Config from 'react-native-config';
 import * as COLORS from '../config/colors';
 
@@ -89,11 +90,11 @@ export default class ListScreen extends Component {
         bars, latitude, longitude, pageToken,
       } = this.state;
 
-      const urlFirst = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&type=bar&key=${
+      const urlFirst = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&rankBy=distance&type=bar&key=${
         Config.GOOGLE_PLACES_API_KEY
       }`;
 
-      const urlNext = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&type=bar&key=${
+      const urlNext = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&rankBy=distance&type=bar&key=${
         Config.GOOGLE_PLACES_API_KEY
       }&pagetoken=${pageToken}`;
 
@@ -129,6 +130,21 @@ export default class ListScreen extends Component {
     }, 3000);
   };
 
+  calculateDistance = (lat, lng) => {
+    const { latitude, longitude } = this.state;
+    const startCoords = {
+      latitude,
+      longitude,
+    };
+    const barCoords = {
+      latitude: lat,
+      longitude: lng,
+    };
+    const distance = geolib.getDistance(startCoords, barCoords);
+    console.log(distance);
+    return distance;
+  }
+
   renderFooter = () => {
     const { pageToken } = this.state;
     if (pageToken === undefined) return null;
@@ -157,6 +173,11 @@ export default class ListScreen extends Component {
           </Text>
           <Text>
             {item.opening_hours.open_now ? 'Open' : 'Closed'}
+          </Text>
+          <Text>
+            Distance:
+            {this.calculateDistance(item.geometry.location.lat, item.geometry.location.lng)}
+            m
           </Text>
         </TouchableOpacity>
       </View>
