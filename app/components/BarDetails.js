@@ -91,23 +91,23 @@ class BarDetails extends Component {
 
     return (
       <View style={styles.content}>
-        <Text>
+        <Text style={styles.header}>
           {name}
         </Text>
-        <Text>
-          {phone}
-        </Text>
-        <Text>
+        <Text style={styles.location}>
           {location}
+        </Text>
+        <Text style={styles.phone}>
+          {phone}
         </Text>
         <View style={styles.openingHours}>
           <Text style={styles.openingHoursTitle}>
-          Opening Hours:
+          OPENING HOURS:
           </Text>
           {details.opening_hours
             && details.opening_hours.weekday_text.map(data => (
               <View key={data}>
-                <Text>
+                <Text style={styles.openingHoursText}>
                   {data}
                 </Text>
               </View>
@@ -137,12 +137,32 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     alignItems: 'center',
   },
+  header: {
+    textAlign: 'center',
+    fontSize: 24,
+    fontWeight: '800',
+    marginBottom: 10,
+    letterSpacing: 4,
+  },
+  location: {
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  phone: {
+    fontSize: 18,
+    color: COLORS.SECONDARY_TEXT_COLOR,
+  },
   openingHoursTitle: {
+    fontWeight: '500',
+    letterSpacing: 2,
     marginBottom: 20,
   },
   openingHours: {
     marginVertical: 20,
     alignItems: 'center',
+  },
+  openingHoursText: {
+    color: COLORS.SECONDARY_TEXT_COLOR,
   },
 });
 
