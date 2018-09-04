@@ -53,7 +53,6 @@ export default class FavouritesScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
   },
   loading: {
     paddingTop: 20,

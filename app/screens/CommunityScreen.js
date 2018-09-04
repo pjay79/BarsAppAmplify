@@ -19,7 +19,6 @@ export default class CommunityScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
   },
   card: {
     marginVertical: 10,

@@ -142,12 +142,11 @@ export default class ListScreen extends Component {
       longitude: lng,
     };
     const distance = geolib.getDistance(startCoords, barCoords);
-    console.log(distance);
     return distance;
   }
 
   renderDollar = (price) => {
-    if (price === 0) {
+    if (!price || price === 0) {
       return (
         <View style={styles.dollar}>
           <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
@@ -205,27 +204,33 @@ export default class ListScreen extends Component {
     );
   };
 
+  renderSeparator = () => (
+    <View style={styles.separator} />
+  );
+
   renderItem = ({ item }) => {
     const { navigation } = this.props;
     return (
       <View style={styles.card}>
         <TouchableOpacity onPress={() => navigation.navigate('Details', { bar: item })}>
-          <Text>
-            {item.name}
-          </Text>
-          <Text>
+          <View style={styles.cardUpper}>
+            <Text style={styles.header}>
+              {item.name}
+            </Text>
+            <Text style={item.opening_hours.open_now ? styles.openText : styles.closeText}>
+              {item.opening_hours.open_now ? 'OPEN' : 'CLOSED'}
+            </Text>
+          </View>
+          {/* <Text>
             Rating:
             {item.rating}
-          </Text>
-          <Text>
-            {item.opening_hours.open_now ? 'Open' : 'Closed'}
-          </Text>
-          <Text>
-            {this.calculateDistance(item.geometry.location.lat, item.geometry.location.lng)}
-            m
-          </Text>
-          <View>
+          </Text> */}
+          <View style={styles.cardLower}>
             {this.renderDollar(item.price_level)}
+            <Text style={styles.distance}>
+              {this.calculateDistance(item.geometry.location.lat, item.geometry.location.lng)}
+              m
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -245,6 +250,7 @@ export default class ListScreen extends Component {
           refreshing={refreshing}
           onEndReached={this.handleLoadMore}
           onEndReachedThreshold={10}
+          ItemSeparatorComponent={this.renderSeparator}
           ListFooterComponent={this.renderFooter}
         />
       </View>
@@ -258,7 +264,35 @@ const styles = StyleSheet.create({
   },
   card: {
     marginVertical: 10,
-    paddingLeft: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  cardUpper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  openText: {
+    fontWeight: '600',
+    color: COLORS.SECONDARY_TEXT_COLOR,
+  },
+  closeText: {
+    fontWeight: '600',
+    color: COLORS.ACCENT_COLOR,
+  },
+  cardLower: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  distance: {
+    color: COLORS.DARK_PRIMARY_COLOR,
+  },
+  separator: {
+    backgroundColor: COLORS.DIVIDER_COLOR,
+    height: StyleSheet.hairlineWidth,
+  },
+  header: {
+    fontSize: 18,
+    fontWeight: '500',
   },
   footer: {
     paddingVertical: 20,

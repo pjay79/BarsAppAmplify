@@ -51,12 +51,7 @@ class AllBarsList extends Component {
   );
 
   renderSeparator = () => (
-    <View
-      style={{
-        backgroundColor: COLORS.DIVIDER_COLOR,
-        height: StyleSheet.hairlineWidth,
-      }}
-    />
+    <View style={styles.separator} />
   );
 
   render() {
@@ -93,7 +88,7 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   header: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '500',
   },
   location: {
@@ -106,6 +101,10 @@ const styles = StyleSheet.create({
   iconWrapper: {
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  separator: {
+    backgroundColor: COLORS.DIVIDER_COLOR,
+    height: StyleSheet.hairlineWidth,
   },
 });
 

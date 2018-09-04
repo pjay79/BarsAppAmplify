@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   header: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '500',
   },
   location: {
