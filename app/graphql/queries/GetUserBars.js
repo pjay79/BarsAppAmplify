@@ -13,6 +13,7 @@ export default `
           lat
           lng
           url
+          website
           addedBy
           __typename
         }  

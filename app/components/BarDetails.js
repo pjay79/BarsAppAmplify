@@ -34,7 +34,7 @@ class BarDetails extends Component {
         updateBar,
       } = this.props;
 
-      const { name, url } = details;
+      const { name, url, website } = details;
       const phone = details.formatted_phone_number;
       const location = details.vicinity;
 
@@ -48,6 +48,7 @@ class BarDetails extends Component {
         lat,
         lng,
         url,
+        website,
         addedBy: userId,
       };
 

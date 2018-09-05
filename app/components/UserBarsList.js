@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  View, Text, TouchableOpacity, FlatList, StyleSheet,
+  View, Text, TouchableOpacity, FlatList, Linking, StyleSheet,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -25,6 +25,10 @@ class UserBarsList extends Component {
     );
   }
 
+  openWebsiteLink = (website) => {
+    Linking.openURL(website);
+  };
+
   renderItem = ({ item }) => (
     <View style={styles.card}>
       <View style={styles.details}>
@@ -39,7 +43,7 @@ class UserBarsList extends Component {
         </Text>
       </View>
       <View style={styles.iconWrapper}>
-        <TouchableOpacity onPress={() => console.log('Bar selected.')}>
+        <TouchableOpacity onPress={() => this.openWebsiteLink(item.website)}>
           <MaterialCommunityIcons name="web" size={18} color={COLORS.ACCENT_COLOR} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => console.log('Bar selected.')}>

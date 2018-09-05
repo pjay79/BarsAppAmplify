@@ -10,6 +10,7 @@ subscription onAddBar {
       lat
       lng
       url
+      website
       addedBy
       __typename
     }
