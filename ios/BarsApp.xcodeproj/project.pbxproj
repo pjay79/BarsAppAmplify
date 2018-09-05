@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -50,6 +51,9 @@
 		874E6A95644A4D3F924B5F49 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A241B70B220421C8EFDC674 /* MaterialCommunityIcons.ttf */; };
 		9D9DD357926A4C21BEA5F9AC /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E45DC65E2B9F4144A03DF01D /* Foundation.ttf */; };
 		AC09C4E3210AE2DD00BDE1D7 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC09C4E2210AE2CA00BDE1D7 /* libRNVectorIcons.a */; };
+		AC75EB36213FFC2E007C7271 /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC75EB0C213FFC2E007C7271 /* Mapbox.framework */; };
+		AC75EB37213FFC2E007C7271 /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AC75EB0C213FFC2E007C7271 /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AC75EB3F213FFCAC007C7271 /* libRCTMGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC75EB3E213FFC7A007C7271 /* libRCTMGL.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		AEEB07AA2D0641BEBE970723 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7AD8B88301C041E0AE398CC8 /* SimpleLineIcons.ttf */; };
 		B7F770A484D24596996909DA /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6CE043CC88624788AB5C6D3A /* Octicons.ttf */; };
@@ -331,6 +335,13 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
+		AC75EB3D213FFC7A007C7271 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC75EB39213FFC7A007C7271 /* RCTMGL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C4D1443D1F4E16F600396F26;
+			remoteInfo = RCTMGL;
+		};
 		ACB9921B2111490D00A5E014 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 59FA2BB526554C5383A89D6F /* ReactNativeConfig.xcodeproj */;
@@ -360,6 +371,20 @@
 			remoteInfo = RCTBlob;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AC75EB38213FFC2F007C7271 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AC75EB37213FFC2E007C7271 /* Mapbox.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -413,6 +438,8 @@
 		AC09C4AB210AE14400BDE1D7 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		AC09C4AC210AE14400BDE1D7 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		AC09C4DD210AE2CA00BDE1D7 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
+		AC75EB0C213FFC2E007C7271 /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mapbox.framework; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/Mapbox.framework"; sourceTree = "<group>"; };
+		AC75EB39213FFC7A007C7271 /* RCTMGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTMGL.xcodeproj; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/RCTMGL.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		AE7968A78D7A401E89A53D8C /* RNAWSCognito.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNAWSCognito.xcodeproj; path = "../node_modules/amazon-cognito-identity-js/ios/RNAWSCognito.xcodeproj"; sourceTree = "<group>"; };
 		BA51C36255614CE195E5EE4F /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -435,6 +462,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC75EB3F213FFCAC007C7271 /* libRCTMGL.a in Frameworks */,
 				AC09C4E3210AE2DD00BDE1D7 /* libRNVectorIcons.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -452,6 +480,7 @@
 				15C625BF9BF948ECB3C89A87 /* libReactNativeConfig.a in Frameworks */,
 				5669B54E88C54D4388466094 /* libRNAWSCognito.a in Frameworks */,
 				0937DC918C2642E7A62B011C /* libSplashScreen.a in Frameworks */,
+				AC75EB36213FFC2E007C7271 /* Mapbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -647,6 +676,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC75EB39213FFC7A007C7271 /* RCTMGL.xcodeproj */,
 				AC09C4DD210AE2CA00BDE1D7 /* RNVectorIcons.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -679,6 +709,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				AC75EB0C213FFC2E007C7271 /* Mapbox.framework */,
 				AC09C4A1210AE14400BDE1D7 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* BarsApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -727,6 +758,14 @@
 			isa = PBXGroup;
 			children = (
 				AC09C4E2210AE2CA00BDE1D7 /* libRNVectorIcons.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC75EB3A213FFC7A007C7271 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC75EB3E213FFC7A007C7271 /* libRCTMGL.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -803,6 +842,8 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				AC75EB38213FFC2F007C7271 /* Embed Frameworks */,
+				AC75EB40213FFD46007C7271 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -911,6 +952,10 @@
 				{
 					ProductGroup = 78C398B11ACF4ADC00677621 /* Products */;
 					ProjectRef = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
+				},
+				{
+					ProductGroup = AC75EB3A213FFC7A007C7271 /* Products */;
+					ProjectRef = AC75EB39213FFC7A007C7271 /* RCTMGL.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
@@ -1223,6 +1268,13 @@
 			remoteRef = AC09C4E1210AE2CA00BDE1D7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AC75EB3E213FFC7A007C7271 /* libRCTMGL.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTMGL.a;
+			remoteRef = AC75EB3D213FFC7A007C7271 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		ACB9921C2111490D00A5E014 /* libReactNativeConfig.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1330,6 +1382,20 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
+		AC75EB40213FFD46007C7271 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework/strip-frameworks.sh\"";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1412,9 +1478,7 @@
 				INFOPLIST_FILE = BarsAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1438,9 +1502,7 @@
 				INFOPLIST_FILE = BarsAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1457,6 +1519,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 7CXP8N9R4U;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../node_modules/@mapbox/react-native-mapbox-gl/ios";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
@@ -1481,6 +1544,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7CXP8N9R4U;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../node_modules/@mapbox/react-native-mapbox-gl/ios";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
@@ -1519,9 +1583,7 @@
 				);
 				INFOPLIST_FILE = "BarsApp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1554,9 +1616,7 @@
 				);
 				INFOPLIST_FILE = "BarsApp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1588,9 +1648,7 @@
 				);
 				INFOPLIST_FILE = "BarsApp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1622,9 +1680,7 @@
 				);
 				INFOPLIST_FILE = "BarsApp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import Mapbox from '@mapbox/react-native-mapbox-gl';
+import Config from 'react-native-config';
+
+Mapbox.setAccessToken(Config.MAPBOX_ACCESS_TOKEN);
 
 export default class MapScreen extends Component {
   static navigationOptions = {
@@ -9,9 +13,12 @@ export default class MapScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>
-To do... implement react-native-maps.
-        </Text>
+        <Mapbox.MapView
+          styleURL={Mapbox.StyleURL.Street}
+          zoomLevel={15}
+          centerCoordinate={[11.256, 43.77]}
+          style={styles.container}
+        />
       </View>
     );
   }
@@ -20,7 +27,5 @@ To do... implement react-native-maps.
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
