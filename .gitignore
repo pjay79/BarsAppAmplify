@@ -60,3 +60,5 @@ amplify/
 .amplifyrc
 app/aws-exports.js
 
+# Config
+.env

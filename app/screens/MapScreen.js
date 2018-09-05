@@ -56,8 +56,8 @@ export default class MapScreen extends Component {
         <Mapbox.MapView
           styleURL={Mapbox.StyleURL.Dark}
           zoomLevel={12}
-          // centerCoordinate={[-122.431, 37.774]}
-          centerCoordinate={[longitude, latitude]}
+          centerCoordinate={[-122.431, 37.774]}
+          // centerCoordinate={[longitude, latitude]}
           style={styles.container}
           showUserLocation
         >
