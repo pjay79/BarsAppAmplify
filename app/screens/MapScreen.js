@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import Config from 'react-native-config';
@@ -24,15 +24,10 @@ export default class MapScreen extends Component {
   getUserLocation = () => {
     Geolocation.getCurrentPosition(
       (position) => {
-        this.setState(
-          {
-            latitude: parseFloat(position.coords.latitude),
-            longitude: parseFloat(position.coords.longitude),
-          },
-          () => {
-            console.log('User location: ', this.state.latitude, this.state.longitude);
-          },
-        );
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
       },
       error => console.log(error),
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
@@ -51,13 +46,20 @@ export default class MapScreen extends Component {
   render() {
     const { latitude, longitude } = this.state;
 
+    if (!latitude || !longitude) {
+      return (
+        <View style={styles.loading}>
+          <ActivityIndicator color={COLORS.TEXT_PRIMARY_COLOR} />
+        </View>
+      );
+    }
+
     return (
       <View style={styles.container}>
         <Mapbox.MapView
           styleURL={Mapbox.StyleURL.Dark}
-          zoomLevel={12}
-          centerCoordinate={[-122.431, 37.774]}
-          // centerCoordinate={[longitude, latitude]}
+          zoomLevel={15}
+          centerCoordinate={[longitude, latitude]}
           style={styles.container}
           showUserLocation
         >
@@ -71,6 +73,12 @@ export default class MapScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.PRIMARY_TEXT_COLOR,
   },
   annotationContainer: {
     width: 30,
