@@ -28,7 +28,7 @@ class AllBarsList extends Component {
   };
 
   openPhone = (phone) => {
-    Linking.openURL(`tel://+${phone}`).catch(err => console.error('An error occurred', err));
+    Linking.openURL(`tel://+${phone}`).catch(error => console.log(error));
   };
 
   renderItem = ({ item }) => (

@@ -29,6 +29,10 @@ class UserBarsList extends Component {
     Linking.openURL(website);
   };
 
+  openPhone = (phone) => {
+    Linking.openURL(`tel://+${phone}`).catch(error => console.log(error));
+  };
+
   renderItem = ({ item }) => (
     <View style={styles.card}>
       <View style={styles.details}>
@@ -46,10 +50,10 @@ class UserBarsList extends Component {
         <TouchableOpacity onPress={() => this.openWebsiteLink(item.website)}>
           <MaterialCommunityIcons name="web" size={18} color={COLORS.ACCENT_COLOR} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('Bar selected.')}>
+        <TouchableOpacity onPress={() => this.openWebsiteLink(item.url)}>
           <MaterialCommunityIcons name="directions" size={18} color={COLORS.DARK_PRIMARY_COLOR} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('Bar selected.')}>
+        <TouchableOpacity onPress={() => this.openPhone(item.phone)}>
           <Foundation name="telephone" size={18} color={COLORS.PRIMARY_TEXT_COLOR} />
         </TouchableOpacity>
       </View>
