@@ -4,6 +4,7 @@ import Geolocation from 'react-native-geolocation-service';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import Config from 'react-native-config';
 import axios from 'axios';
+import Button from '../components/Button';
 import * as COLORS from '../config/colors';
 
 Mapbox.setAccessToken(Config.MAPBOX_ACCESS_TOKEN);
@@ -17,6 +18,7 @@ export default class MapScreen extends Component {
     bars: [],
     latitude: '',
     longitude: '',
+    pageToken: '',
   };
 
   componentDidMount() {
@@ -43,15 +45,24 @@ export default class MapScreen extends Component {
 
   searchBars = async () => {
     try {
-      const { latitude, longitude } = this.state;
+      const {
+        bars, latitude, longitude, pageToken,
+      } = this.state;
 
-      const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&rankBy=distance&type=bar&key=${
+      const urlFirst = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&rankBy=distance&type=bar&key=${
         Config.GOOGLE_PLACES_API_KEY
       }`;
 
+      const urlNext = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&rankBy=distance&type=bar&key=${
+        Config.GOOGLE_PLACES_API_KEY
+      }&pagetoken=${pageToken}`;
+
+      const url = pageToken === '' ? urlFirst : urlNext;
       const response = await axios.get(url);
+      const arrayData = [...bars, ...response.data.results];
       this.setState({
-        bars: response.data.results,
+        bars: pageToken === '' ? response.data.results : arrayData,
+        pageToken: response.data.next_page_token,
       });
       console.log(response);
     } catch (error) {
@@ -82,16 +93,31 @@ export default class MapScreen extends Component {
           {bars.map(data => (
             <Mapbox.PointAnnotation
               key={data.place_id}
-              id={data.id}
+              id={data.place_id}
               coordinate={[data.geometry.location.lng, data.geometry.location.lat]}
             >
               <View style={styles.annotationContainer}>
                 <View style={styles.annotationFill} />
               </View>
-              <Mapbox.Callout title={data.name} />
+              <Mapbox.Callout
+                title={data.name}
+                subtitle={data.phone}
+                textStyle={styles.calloutTextStyle}
+                contentStyle={styles.calloutContentStyle}
+              />
             </Mapbox.PointAnnotation>
           ))}
         </Mapbox.MapView>
+        <Button
+          title="Load more"
+          onPress={this.searchBars}
+          style={{
+            backgroundColor: COLORS.ACCENT_COLOR,
+            marginBottom: 0,
+            borderRadius: 0,
+            width: '100%',
+          }}
+        />
       </View>
     );
   }
@@ -121,5 +147,11 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: COLORS.ACCENT_COLOR,
     transform: [{ scale: 0.6 }],
+  },
+  calloutTextStyle: {
+    color: COLORS.ACCENT_COLOR,
+  },
+  calloutContentStyle: {
+    backgroundColor: COLORS.LIGHT_PRIMARY_COLOR,
   },
 });
