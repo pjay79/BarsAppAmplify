@@ -146,7 +146,14 @@ export default class ListScreen extends Component {
   }
 
   renderDollar = (price) => {
-    if (!price || price === 0) {
+    if (!price) {
+      return (
+        <Text style={styles.noDollar}>
+        NO PRICE INFO
+        </Text>
+      );
+    }
+    if (price === 0) {
       return (
         <View style={styles.dollar}>
           <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
@@ -221,10 +228,6 @@ export default class ListScreen extends Component {
               {item.opening_hours.open_now ? 'OPEN' : 'CLOSED'}
             </Text>
           </View>
-          {/* <Text>
-            Rating:
-            {item.rating}
-          </Text> */}
           <View style={styles.cardLower}>
             {this.renderDollar(item.price_level)}
             <Text style={styles.distance}>
@@ -299,6 +302,9 @@ const styles = StyleSheet.create({
   },
   dollar: {
     flexDirection: 'row',
+  },
+  noDollar: {
+    fontSize: 12,
   },
 });
 

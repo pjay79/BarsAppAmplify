@@ -3,6 +3,7 @@ import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import Config from 'react-native-config';
+import axios from 'axios';
 import * as COLORS from '../config/colors';
 
 Mapbox.setAccessToken(Config.MAPBOX_ACCESS_TOKEN);
@@ -13,38 +14,53 @@ export default class MapScreen extends Component {
   };
 
   state = {
+    bars: [],
     latitude: '',
     longitude: '',
   };
 
   componentDidMount() {
-    this.getUserLocation();
+    this.getNearbyBars();
   }
 
-  getUserLocation = () => {
+  getNearbyBars = () => {
     Geolocation.getCurrentPosition(
       (position) => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
+        this.setState(
+          {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          },
+          () => {
+            this.searchBars();
+          },
+        );
       },
       error => console.log(error),
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
     );
   };
 
-  renderAnnotations = () => (
-    <Mapbox.PointAnnotation key="pointAnnotation" id="pointAnnotation" coordinate={[11.256, 43.77]}>
-      <View style={styles.annotationContainer}>
-        <View style={styles.annotationFill} />
-      </View>
-      <Mapbox.Callout title="You are here" />
-    </Mapbox.PointAnnotation>
-  );
+  searchBars = async () => {
+    try {
+      const { latitude, longitude } = this.state;
+
+      const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&rankBy=distance&type=bar&key=${
+        Config.GOOGLE_PLACES_API_KEY
+      }`;
+
+      const response = await axios.get(url);
+      this.setState({
+        bars: response.data.results,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   render() {
-    const { latitude, longitude } = this.state;
+    const { latitude, longitude, bars } = this.state;
 
     if (!latitude || !longitude) {
       return (
@@ -58,12 +74,23 @@ export default class MapScreen extends Component {
       <View style={styles.container}>
         <Mapbox.MapView
           styleURL={Mapbox.StyleURL.Dark}
-          zoomLevel={15}
+          zoomLevel={13}
           centerCoordinate={[longitude, latitude]}
           style={styles.container}
           showUserLocation
         >
-          {this.renderAnnotations()}
+          {bars.map(data => (
+            <Mapbox.PointAnnotation
+              key={data.place_id}
+              id={data.id}
+              coordinate={[data.geometry.location.lng, data.geometry.location.lat]}
+            >
+              <View style={styles.annotationContainer}>
+                <View style={styles.annotationFill} />
+              </View>
+              <Mapbox.Callout title={data.name} />
+            </Mapbox.PointAnnotation>
+          ))}
         </Mapbox.MapView>
       </View>
     );
