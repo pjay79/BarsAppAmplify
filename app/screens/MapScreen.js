@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import {
+  View, Text, ActivityIndicator, StyleSheet,
+} from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import Config from 'react-native-config';
@@ -85,7 +87,7 @@ export default class MapScreen extends Component {
       <View style={styles.container}>
         <Mapbox.MapView
           styleURL={Mapbox.StyleURL.Dark}
-          zoomLevel={13}
+          zoomLevel={15}
           centerCoordinate={[longitude, latitude]}
           style={styles.container}
           showUserLocation
@@ -99,12 +101,13 @@ export default class MapScreen extends Component {
               <View style={styles.annotationContainer}>
                 <View style={styles.annotationFill} />
               </View>
-              <Mapbox.Callout
-                title={data.name}
-                subtitle={data.phone}
-                textStyle={styles.calloutTextStyle}
-                contentStyle={styles.calloutContentStyle}
-              />
+              <Mapbox.SymbolLayer>
+                <View style={styles.labelContainer}>
+                  <Text style={styles.labelText}>
+                    {data.name.toUpperCase()}
+                  </Text>
+                </View>
+              </Mapbox.SymbolLayer>
             </Mapbox.PointAnnotation>
           ))}
         </Mapbox.MapView>
@@ -148,10 +151,16 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.ACCENT_COLOR,
     transform: [{ scale: 0.6 }],
   },
-  calloutTextStyle: {
-    color: COLORS.ACCENT_COLOR,
+  labelContainer: {
+    backgroundColor: COLORS.DARK_PRIMARY_COLOR,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
   },
-  calloutContentStyle: {
-    backgroundColor: COLORS.LIGHT_PRIMARY_COLOR,
+  labelText: {
+    color: COLORS.TEXT_PRIMARY_COLOR,
+    fontSize: 8,
+    fontWeight: '400',
+    letterSpacing: 2,
   },
 });
