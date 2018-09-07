@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import {
-  View, Text, ActivityIndicator, StyleSheet,
-} from 'react-native';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
-import Mapbox from '@mapbox/react-native-mapbox-gl';
+import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import Config from 'react-native-config';
 import axios from 'axios';
 import Button from '../components/Button';
 import * as COLORS from '../config/colors';
 
-Mapbox.setAccessToken(Config.MAPBOX_ACCESS_TOKEN);
+MapboxGL.setAccessToken(Config.MAPBOX_ACCESS_TOKEN);
 
 export default class MapScreen extends Component {
   static navigationOptions = {
@@ -72,6 +70,21 @@ export default class MapScreen extends Component {
     }
   };
 
+  geoJSON = (bar) => {
+    const shape = {
+      type: 'Feature',
+      properties: {
+        title: bar.name,
+      },
+      geometry: {
+        coordinates: [bar.geometry.location.lng, bar.geometry.location.lat],
+        type: 'Point',
+      },
+    };
+    console.log(shape);
+    return shape;
+  };
+
   render() {
     const { latitude, longitude, bars } = this.state;
 
@@ -85,32 +98,21 @@ export default class MapScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <Mapbox.MapView
-          styleURL={Mapbox.StyleURL.Dark}
-          zoomLevel={15}
+        <MapboxGL.MapView
+          styleURL={MapboxGL.StyleURL.Dark}
+          zoomLevel={13}
           centerCoordinate={[longitude, latitude]}
           style={styles.container}
           showUserLocation
+          logoEnabled={false}
+          debugActive
         >
-          {bars.map(data => (
-            <Mapbox.PointAnnotation
-              key={data.place_id}
-              id={data.place_id}
-              coordinate={[data.geometry.location.lng, data.geometry.location.lat]}
-            >
-              <View style={styles.annotationContainer}>
-                <View style={styles.annotationFill} />
-              </View>
-              <Mapbox.SymbolLayer>
-                <View style={styles.labelContainer}>
-                  <Text style={styles.labelText}>
-                    {data.name.toUpperCase()}
-                  </Text>
-                </View>
-              </Mapbox.SymbolLayer>
-            </Mapbox.PointAnnotation>
+          {bars.map(bar => (
+            <MapboxGL.ShapeSource key={bar.place_id} id={bar.place_id} shape={this.geoJSON(bar)}>
+              <MapboxGL.CircleLayer id={bar.place_id} style={layerStyles.singlePoint} />
+            </MapboxGL.ShapeSource>
           ))}
-        </Mapbox.MapView>
+        </MapboxGL.MapView>
         <Button
           title="Load more"
           onPress={this.searchBars}
@@ -126,6 +128,16 @@ export default class MapScreen extends Component {
   }
 }
 
+const layerStyles = MapboxGL.StyleSheet.create({
+  singlePoint: {
+    circleColor: COLORS.ACCENT_COLOR,
+    circleOpacity: 0.84,
+    circleStrokeWidth: 2,
+    circleStrokeColor: 'white',
+    circleRadius: 5,
+  },
+});
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -135,32 +147,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: COLORS.PRIMARY_TEXT_COLOR,
-  },
-  annotationContainer: {
-    width: 30,
-    height: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
-    borderRadius: 15,
-  },
-  annotationFill: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: COLORS.ACCENT_COLOR,
-    transform: [{ scale: 0.6 }],
-  },
-  labelContainer: {
-    backgroundColor: COLORS.DARK_PRIMARY_COLOR,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 5,
-  },
-  labelText: {
-    color: COLORS.TEXT_PRIMARY_COLOR,
-    fontSize: 8,
-    fontWeight: '400',
-    letterSpacing: 2,
   },
 });
