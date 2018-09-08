@@ -28,18 +28,12 @@ export default class MapScreen extends Component {
     latitude: '',
     longitude: '',
     pageToken: '',
-    isVisible: false,
+    activeModal: null,
   };
 
   componentDidMount() {
     this.getNearbyBars();
   }
-
-  onSourceLayerPress = (e) => {
-    const feature = e.nativeEvent.payload;
-    console.log('You pressed a layer here is your feature', feature);
-    this.toggleModal();
-  };
 
   getNearbyBars = () => {
     Geolocation.getCurrentPosition(
@@ -80,7 +74,7 @@ export default class MapScreen extends Component {
         bars: pageToken === '' ? response.data.results : arrayData,
         pageToken: response.data.next_page_token,
       });
-      // console.log(response);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -97,20 +91,26 @@ export default class MapScreen extends Component {
         type: 'Point',
       },
     };
-    // console.log(shape);
+    console.log(shape);
     return shape;
   };
 
-  toggleModal = () => {
-    this.setState(prevState => ({ isVisible: !prevState.isVisible }));
-  };
+  openModal = (e) => {
+    const feature = e.nativeEvent.payload;
+    console.log('You pressed a layer here is your feature', feature);
+    this.setState({ activeModal: feature.properties.name });
+  }
+
+  hideModal = () => {
+    this.setState({ activeModal: null });
+  }
 
   render() {
     const {
       latitude,
       longitude,
       bars,
-      isVisible,
+      activeModal,
     } = this.state;
 
     if (!latitude || !longitude) {
@@ -136,16 +136,16 @@ export default class MapScreen extends Component {
               <MapboxGL.ShapeSource
                 id={bar.place_id}
                 shape={this.geoJSON(bar)}
-                onPress={this.onSourceLayerPress}
+                onPress={this.openModal}
               >
                 <MapboxGL.CircleLayer id={bar.place_id} style={layerStyles.singlePoint} />
               </MapboxGL.ShapeSource>
-              <Modal id={bar.place_id} isVisible={isVisible} backdropOpacity={0.8} onSwipe={this.toggleModal} swipeDirection="down">
+              <Modal id={bar.place_id} isVisible={activeModal === bar.name} backdropOpacity={0.8} onSwipe={this.hideModal} swipeDirection="down">
                 <View style={styles.modalContainer}>
                   <Text style={styles.modalHeader}>
                     {bar.name}
                   </Text>
-                  <TouchableOpacity onPress={this.toggleModal}>
+                  <TouchableOpacity onPress={this.hideModal}>
                     <Ionicons name={Platform.OS === 'ios' ? 'ios-close-circle' : 'md-close-circle'} size={20} color={COLORS.ACCENT_COLOR} />
                   </TouchableOpacity>
                 </View>
