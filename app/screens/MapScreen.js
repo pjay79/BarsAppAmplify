@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  TouchableOpacity,
+  Platform,
+  StyleSheet,
+} from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import Modal from 'react-native-modal';
 import Config from 'react-native-config';
 import axios from 'axios';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../components/Button';
 import * as COLORS from '../config/colors';
 
@@ -19,11 +28,18 @@ export default class MapScreen extends Component {
     latitude: '',
     longitude: '',
     pageToken: '',
+    isVisible: false,
   };
 
   componentDidMount() {
     this.getNearbyBars();
   }
+
+  onSourceLayerPress = (e) => {
+    const feature = e.nativeEvent.payload;
+    console.log('You pressed a layer here is your feature', feature);
+    this.toggleModal();
+  };
 
   getNearbyBars = () => {
     Geolocation.getCurrentPosition(
@@ -64,7 +80,7 @@ export default class MapScreen extends Component {
         bars: pageToken === '' ? response.data.results : arrayData,
         pageToken: response.data.next_page_token,
       });
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -74,19 +90,28 @@ export default class MapScreen extends Component {
     const shape = {
       type: 'Feature',
       properties: {
-        title: bar.name,
+        name: bar.name,
       },
       geometry: {
         coordinates: [bar.geometry.location.lng, bar.geometry.location.lat],
         type: 'Point',
       },
     };
-    console.log(shape);
+    // console.log(shape);
     return shape;
   };
 
+  toggleModal = () => {
+    this.setState(prevState => ({ isVisible: !prevState.isVisible }));
+  };
+
   render() {
-    const { latitude, longitude, bars } = this.state;
+    const {
+      latitude,
+      longitude,
+      bars,
+      isVisible,
+    } = this.state;
 
     if (!latitude || !longitude) {
       return (
@@ -105,12 +130,27 @@ export default class MapScreen extends Component {
           style={styles.container}
           showUserLocation
           logoEnabled={false}
-          debugActive
         >
           {bars.map(bar => (
-            <MapboxGL.ShapeSource key={bar.place_id} id={bar.place_id} shape={this.geoJSON(bar)}>
-              <MapboxGL.CircleLayer id={bar.place_id} style={layerStyles.singlePoint} />
-            </MapboxGL.ShapeSource>
+            <View key={bar.place_id}>
+              <MapboxGL.ShapeSource
+                id={bar.place_id}
+                shape={this.geoJSON(bar)}
+                onPress={this.onSourceLayerPress}
+              >
+                <MapboxGL.CircleLayer id={bar.place_id} style={layerStyles.singlePoint} />
+              </MapboxGL.ShapeSource>
+              <Modal id={bar.place_id} isVisible={isVisible} backdropOpacity={0.8} onSwipe={this.toggleModal} swipeDirection="down">
+                <View style={styles.modalContainer}>
+                  <Text style={styles.modalHeader}>
+                    {bar.name}
+                  </Text>
+                  <TouchableOpacity onPress={this.toggleModal}>
+                    <Ionicons name={Platform.OS === 'ios' ? 'ios-close-circle' : 'md-close-circle'} size={20} color={COLORS.ACCENT_COLOR} />
+                  </TouchableOpacity>
+                </View>
+              </Modal>
+            </View>
           ))}
         </MapboxGL.MapView>
         <Button
@@ -147,5 +187,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: COLORS.PRIMARY_TEXT_COLOR,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalHeader: {
+    color: COLORS.TEXT_PRIMARY_COLOR,
+    fontSize: 24,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  modalSubHeader: {
+    color: COLORS.ACCENT_COLOR,
+    fontSize: 18,
+    fontWeight: '400',
+    textAlign: 'center',
   },
 });

@@ -5229,7 +5229,7 @@ react-native-map-link@^2.1.0:
     prop-types "^15.6.1"
     react-native-modal "^6.4.0"
 
-react-native-modal@^6.4.0:
+react-native-modal@^6.4.0, react-native-modal@^6.5.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-6.5.0.tgz#46220b2289a41597d344c1db17454611b426a758"
   dependencies:
