@@ -12,6 +12,7 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import Modal from 'react-native-modal';
 import Config from 'react-native-config';
 import axios from 'axios';
+import Foundation from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../components/Button';
 import * as COLORS from '../config/colors';
@@ -84,6 +85,7 @@ export default class MapScreen extends Component {
     const shape = {
       type: 'Feature',
       properties: {
+        id: bar.place_id,
         name: bar.name,
       },
       geometry: {
@@ -91,18 +93,74 @@ export default class MapScreen extends Component {
         type: 'Point',
       },
     };
-    console.log(shape);
+    // console.log(shape);
     return shape;
   };
 
   openModal = (e) => {
     const feature = e.nativeEvent.payload;
     console.log('You pressed a layer here is your feature', feature);
-    this.setState({ activeModal: feature.properties.name });
+    this.setState({ activeModal: feature.properties.id });
   }
 
   hideModal = () => {
     this.setState({ activeModal: null });
+  }
+
+  renderDollar = (price) => {
+    if (!price) {
+      return (
+        <Text style={styles.noDollar}>
+        NO PRICE INFO
+        </Text>
+      );
+    }
+    if (price === 0) {
+      return (
+        <View style={styles.dollar}>
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+        </View>
+      );
+    }
+    if (price === 1) {
+      return (
+        <View style={styles.dollar}>
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+        </View>
+      );
+    }
+    if (price === 2) {
+      return (
+        <View style={styles.dollar}>
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+        </View>
+      );
+    }
+    if (price === 3) {
+      return (
+        <View style={styles.dollar}>
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLORR} />
+        </View>
+      );
+    }
+    if (price === 4) {
+      return (
+        <View style={styles.dollar}>
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
+        </View>
+      );
+    }
+    return null;
   }
 
   render() {
@@ -140,11 +198,18 @@ export default class MapScreen extends Component {
               >
                 <MapboxGL.CircleLayer id={bar.place_id} style={layerStyles.singlePoint} />
               </MapboxGL.ShapeSource>
-              <Modal id={bar.place_id} isVisible={activeModal === bar.name} backdropOpacity={0.8} onSwipe={this.hideModal} swipeDirection="down">
+              <Modal id={bar.place_id} isVisible={activeModal === bar.place_id} backdropOpacity={0.8} onSwipe={this.hideModal} swipeDirection="down">
                 <View style={styles.modalContainer}>
                   <Text style={styles.modalHeader}>
                     {bar.name}
                   </Text>
+                  <Text style={styles.modalSubHeader}>
+                    {bar.vicinity}
+                  </Text>
+                  <Text style={bar.opening_hours.open_now ? styles.openText : styles.closeText}>
+                    {bar.opening_hours.open_now ? 'OPEN' : 'CLOSED'}
+                  </Text>
+                  {this.renderDollar(bar.price_level)}
                   <TouchableOpacity onPress={this.hideModal}>
                     <Ionicons name={Platform.OS === 'ios' ? 'ios-close-circle' : 'md-close-circle'} size={20} color={COLORS.ACCENT_COLOR} />
                   </TouchableOpacity>
@@ -200,9 +265,30 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalSubHeader: {
-    color: COLORS.ACCENT_COLOR,
+    color: COLORS.TEXT_PRIMARY_COLOR,
     fontSize: 18,
     fontWeight: '400',
     textAlign: 'center',
+  },
+  openText: {
+    marginTop: 20,
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 2,
+    color: COLORS.DEFAULT_PRIMARY_COLOR,
+  },
+  closeText: {
+    marginTop: 20,
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 2,
+    color: COLORS.LIGHT_PRIMARY_COLOR,
+  },
+  dollar: {
+    flexDirection: 'row',
+    marginBottom: 40,
+  },
+  noDollar: {
+    fontSize: 12,
   },
 });
