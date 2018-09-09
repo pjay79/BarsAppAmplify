@@ -187,7 +187,7 @@ export default class MapScreen extends Component {
           centerCoordinate={[longitude, latitude]}
           style={styles.container}
           showUserLocation
-          logoEnabled={false}
+          logoEnabled
         >
           {bars.map(bar => (
             <View key={bar.place_id}>
@@ -206,8 +206,11 @@ export default class MapScreen extends Component {
                   <Text style={styles.modalSubHeader}>
                     {bar.vicinity}
                   </Text>
-                  <Text style={bar.opening_hours.open_now ? styles.openText : styles.closeText}>
-                    {bar.opening_hours.open_now ? 'OPEN' : 'CLOSED'}
+                  <Text style={bar.opening_hours
+                  && bar.opening_hours.open_now ? styles.openText : styles.closeText
+                    }
+                  >
+                    {bar.opening_hours && bar.opening_hours.open_now ? 'OPEN' : 'CLOSED'}
                   </Text>
                   {this.renderDollar(bar.price_level)}
                   <TouchableOpacity onPress={this.hideModal}>

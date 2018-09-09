@@ -224,8 +224,11 @@ export default class ListScreen extends Component {
             <Text style={styles.header}>
               {item.name}
             </Text>
-            <Text style={item.opening_hours.open_now ? styles.openText : styles.closeText}>
-              {item.opening_hours.open_now ? 'OPEN' : 'CLOSED'}
+            <Text style={
+              item.opening_hours
+              && item.opening_hours.open_now ? styles.openText : styles.closeText}
+            >
+              {item.opening_hours && item.opening_hours.open_now ? 'OPEN' : 'CLOSED'}
             </Text>
           </View>
           <View style={styles.cardLower}>

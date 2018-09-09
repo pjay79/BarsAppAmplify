@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  View, StyleSheet, Linking, ActivityIndicator,
+  ScrollView, View, StyleSheet, Linking, ActivityIndicator,
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 import axios from 'axios';
@@ -92,7 +92,7 @@ export default class BarDetailsScreen extends Component {
     }
 
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <BarDetails id={id} lat={lat} lng={lng} details={details} userId={userId} />
         <MapLinks
           isVisible={isVisible}
@@ -124,15 +124,13 @@ export default class BarDetailsScreen extends Component {
             textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
           />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   loading: {

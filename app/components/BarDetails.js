@@ -113,6 +113,13 @@ class BarDetails extends Component {
                 </Text>
               </View>
             ))}
+          {!details.opening_hours
+            && (
+            <Text>
+              UNAVAILABLE
+            </Text>
+            )
+          }
         </View>
         <Button
           title="Add to Favourites"
