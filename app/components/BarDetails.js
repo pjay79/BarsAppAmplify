@@ -5,6 +5,7 @@ import {
   Text,
   Alert,
   StyleSheet,
+  Dimensions,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -91,16 +92,18 @@ class BarDetails extends Component {
     const location = details.vicinity;
 
     return (
-      <View style={styles.content}>
-        <Text style={styles.header}>
-          {name}
-        </Text>
-        <Text style={styles.location}>
-          {location}
-        </Text>
-        <Text style={styles.phone}>
-          {phone}
-        </Text>
+      <View style={styles.container}>
+        <View style={styles.top}>
+          <Text style={styles.header}>
+            {name}
+          </Text>
+          <Text style={styles.location}>
+            {location}
+          </Text>
+          <Text style={styles.phone}>
+            {phone}
+          </Text>
+        </View>
         <View style={styles.content}>
           <Text style={styles.subHeader}>
           OPENING HOURS:
@@ -158,7 +161,7 @@ class BarDetails extends Component {
         <Button
           title="Add to Favourites"
           onPress={this.addToFavourites}
-          style={{ backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR, marginTop: 10 }}
+          style={{ backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR, marginTop: 5 }}
           textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
         />
       </View>
@@ -175,24 +178,34 @@ const styles = StyleSheet.create({
   loading: {
     paddingTop: 20,
   },
-  content: {
-    paddingTop: 20,
+  top: {
+    paddingVertical: 20,
     alignItems: 'center',
+    backgroundColor: COLORS.ACCENT_COLOR,
+    width: Dimensions.get('window').width,
+    borderTopColor: COLORS.TEXT_PRIMARY_COLOR,
+    borderTopWidth: StyleSheet.hairlineWidth,
   },
   header: {
     textAlign: 'center',
     fontSize: 24,
     fontWeight: '800',
+    color: COLORS.TEXT_PRIMARY_COLOR,
     marginBottom: 10,
     letterSpacing: 4,
   },
   location: {
     fontSize: 18,
+    color: COLORS.TEXT_PRIMARY_COLOR,
     marginBottom: 5,
   },
   phone: {
     fontSize: 18,
-    color: COLORS.SECONDARY_TEXT_COLOR,
+    color: COLORS.TEXT_PRIMARY_COLOR,
+  },
+  content: {
+    paddingTop: 20,
+    alignItems: 'center',
   },
   subHeader: {
     fontWeight: '600',
@@ -204,7 +217,11 @@ const styles = StyleSheet.create({
   reviewContainer: {
     justifyContent: 'center',
     alignItems: 'flex-start',
+    paddingTop: 10,
     paddingHorizontal: 15,
+    marginBottom: 10,
+    borderBottomColor: COLORS.DIVIDER_COLOR,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   author: {
     fontSize: 10,
