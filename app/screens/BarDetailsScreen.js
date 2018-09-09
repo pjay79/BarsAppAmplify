@@ -70,6 +70,10 @@ export default class BarDetailsScreen extends Component {
     Linking.openURL(details.website);
   };
 
+  openPhone = (phone) => {
+    Linking.openURL(`tel://+${phone}`).catch(error => console.log(error));
+  };
+
   toggleMapLinks = () => {
     this.setState(prevState => ({ isVisible: !prevState.isVisible }));
   };
@@ -94,7 +98,16 @@ export default class BarDetailsScreen extends Component {
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.containerContentStyle}>
-          <BarDetails id={id} lat={lat} lng={lng} details={details} userId={userId} />
+          <BarDetails
+            id={id}
+            lat={lat}
+            lng={lng}
+            details={details}
+            userId={userId}
+            openWebsiteLink={this.openWebsiteLink}
+            openPhone={this.openPhone}
+            toggleMapLinks={this.toggleMapLinks}
+          />
           <MapLinks
             isVisible={isVisible}
             onCancelPressed={this.toggleMapLinks}
@@ -105,20 +118,6 @@ export default class BarDetailsScreen extends Component {
             lng={lng}
             id={id}
           />
-          <View style={styles.buttonWrapper}>
-            <Button
-              title="Website"
-              onPress={this.openWebsiteLink}
-              style={{ backgroundColor: COLORS.PRIMARY_TEXT_COLOR, marginBottom: 10 }}
-              textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
-            />
-            <Button
-              title="Directions"
-              onPress={this.toggleMapLinks}
-              style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 10 }}
-              textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
-            />
-          </View>
         </ScrollView>
         <Button
           title="Go Back"
@@ -146,9 +145,6 @@ const styles = StyleSheet.create({
   },
   loading: {
     paddingTop: 20,
-  },
-  buttonWrapper: {
-    paddingTop: 5,
   },
 });
 

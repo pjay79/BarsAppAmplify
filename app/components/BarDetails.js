@@ -4,12 +4,15 @@ import {
   View,
   Text,
   Alert,
+  TouchableOpacity,
   StyleSheet,
   Dimensions,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { graphqlMutation } from 'aws-appsync-react';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Foundation from 'react-native-vector-icons/Foundation';
 import Button from './Button';
 import GetBar from '../graphql/queries/GetBar';
 import ListBars from '../graphql/queries/ListBars';
@@ -86,7 +89,12 @@ class BarDetails extends Component {
   };
 
   render() {
-    const { details } = this.props;
+    const {
+      details,
+      openWebsiteLink,
+      openPhone,
+      toggleMapLinks,
+    } = this.props;
     const { name } = details;
     const phone = details.formatted_phone_number;
     const location = details.vicinity;
@@ -103,6 +111,23 @@ class BarDetails extends Component {
           <Text style={styles.phone}>
             {phone}
           </Text>
+        </View>
+        <View style={styles.iconGroup}>
+          <View style={styles.iconLeft}>
+            <TouchableOpacity onPress={openWebsiteLink}>
+              <MaterialCommunityIcons name="web" size={18} color={COLORS.TEXT_PRIMARY_COLOR} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.iconMiddle}>
+            <TouchableOpacity onPress={toggleMapLinks}>
+              <MaterialCommunityIcons name="directions" size={18} color={COLORS.TEXT_PRIMARY_COLOR} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.iconRight}>
+            <TouchableOpacity onPress={openPhone}>
+              <Foundation name="telephone" size={18} color={COLORS.TEXT_PRIMARY_COLOR} />
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.content}>
           <Text style={styles.subHeader}>
@@ -203,6 +228,32 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: COLORS.TEXT_PRIMARY_COLOR,
   },
+  iconGroup: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconLeft: {
+    flex: 1,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.DARK_PRIMARY_COLOR,
+  },
+  iconMiddle: {
+    flex: 1,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.PRIMARY_TEXT_COLOR,
+  },
+  iconRight: {
+    flex: 1,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.LIGHT_PRIMARY_COLOR,
+  },
   content: {
     paddingTop: 20,
     alignItems: 'center',
@@ -241,6 +292,9 @@ const styles = StyleSheet.create({
 
 BarDetails.propTypes = {
   details: PropTypes.shape().isRequired,
+  openWebsiteLink: PropTypes.func.isRequired,
+  openPhone: PropTypes.func.isRequired,
+  toggleMapLinks: PropTypes.func.isRequired,
   bar: PropTypes.shape(),
 };
 
