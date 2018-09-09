@@ -9,6 +9,7 @@ import { buildSubscription } from 'aws-appsync';
 import _ from 'lodash';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
+import MapLinks from './MapLinks';
 import GetUserBars from '../graphql/queries/GetUserBars';
 import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
 import * as COLORS from '../config/colors';
@@ -17,6 +18,10 @@ class UserBarsList extends Component {
   static navigationOptions = {
     header: null,
   };
+
+  state = {
+    isVisible: false,
+  }
 
   componentDidMount() {
     const { id, data } = this.props;
@@ -33,32 +38,49 @@ class UserBarsList extends Component {
     Linking.openURL(`tel://+${phone}`).catch(error => console.log(error));
   };
 
-  renderItem = ({ item }) => (
-    <View style={styles.card}>
-      <View style={styles.details}>
-        <Text style={styles.header}>
-          {item.name}
-        </Text>
-        <Text style={styles.location}>
-          {item.location}
-        </Text>
-        <Text style={styles.phone}>
-          {item.phone}
-        </Text>
+  toggleMapLinks = () => {
+    this.setState(prevState => ({ isVisible: !prevState.isVisible }));
+  };
+
+  renderItem = ({ item }) => {
+    const { isVisible } = this.state;
+    return (
+      <View style={styles.card}>
+        <View style={styles.details}>
+          <Text style={styles.header}>
+            {item.name}
+          </Text>
+          <Text style={styles.location}>
+            {item.location}
+          </Text>
+          <Text style={styles.phone}>
+            {item.phone}
+          </Text>
+        </View>
+        <View style={styles.iconWrapper}>
+          <TouchableOpacity onPress={() => this.openWebsiteLink(item.website)}>
+            <MaterialCommunityIcons name="web" size={18} color={COLORS.ACCENT_COLOR} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.toggleMapLinks}>
+            <MaterialCommunityIcons name="directions" size={18} color={COLORS.DARK_PRIMARY_COLOR} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.openPhone(item.phone)}>
+            <Foundation name="telephone" size={18} color={COLORS.PRIMARY_TEXT_COLOR} />
+          </TouchableOpacity>
+        </View>
+        <MapLinks
+          isVisible={isVisible}
+          onCancelPressed={this.toggleMapLinks}
+          onAppPressed={this.toggleMapLinks}
+          onBackButtonPressed={this.toggleMapLinks}
+          name={item.name}
+          lat={parseFloat(item.lat)}
+          lng={parseFloat(item.lng)}
+          id={item.id}
+        />
       </View>
-      <View style={styles.iconWrapper}>
-        <TouchableOpacity onPress={() => this.openWebsiteLink(item.website)}>
-          <MaterialCommunityIcons name="web" size={18} color={COLORS.ACCENT_COLOR} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.openWebsiteLink(item.url)}>
-          <MaterialCommunityIcons name="directions" size={18} color={COLORS.DARK_PRIMARY_COLOR} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.openPhone(item.phone)}>
-          <Foundation name="telephone" size={18} color={COLORS.PRIMARY_TEXT_COLOR} />
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+    );
+  };
 
   renderSeparator = () => (
     <View

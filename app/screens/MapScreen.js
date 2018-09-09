@@ -187,7 +187,7 @@ export default class MapScreen extends Component {
           centerCoordinate={[longitude, latitude]}
           style={styles.container}
           showUserLocation
-          logoEnabled
+          logoEnabled={false}
         >
           {bars.map(bar => (
             <View key={bar.place_id}>
