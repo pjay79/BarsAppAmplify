@@ -94,7 +94,7 @@ export default class MapScreen extends Component {
         type: 'Point',
       },
     };
-    // console.log(shape);
+    console.log(shape);
     return shape;
   };
 
@@ -303,13 +303,11 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   openText: {
-    fontSize: 16,
     fontWeight: '600',
     letterSpacing: 2,
     color: COLORS.ACCENT_COLOR,
   },
   closeText: {
-    fontSize: 16,
     fontWeight: '600',
     letterSpacing: 2,
     color: COLORS.SECONDARY_TEXT_COLOR,

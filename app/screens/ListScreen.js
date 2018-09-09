@@ -279,6 +279,7 @@ const styles = StyleSheet.create({
   },
   openText: {
     fontWeight: '600',
+    letterSpacing: 2,
     color: COLORS.ACCENT_COLOR,
   },
   closeText: {
@@ -287,6 +288,7 @@ const styles = StyleSheet.create({
   },
   cardLower: {
     flexDirection: 'row',
+    letterSpacing: 2,
     justifyContent: 'space-between',
   },
   distance: {

@@ -101,8 +101,8 @@ class BarDetails extends Component {
         <Text style={styles.phone}>
           {phone}
         </Text>
-        <View style={styles.openingHours}>
-          <Text style={styles.openingHoursTitle}>
+        <View style={styles.content}>
+          <Text style={styles.subHeader}>
           OPENING HOURS:
           </Text>
           {details.opening_hours
@@ -117,6 +117,40 @@ class BarDetails extends Component {
             && (
             <Text>
               UNAVAILABLE
+            </Text>
+            )
+          }
+        </View>
+        <View style={styles.content}>
+          <Text style={styles.subHeader}>
+          REVIEWS:
+          </Text>
+          {details.reviews
+            && details.reviews.map(data => (
+              <View key={data.text} style={styles.reviewContainer}>
+                <Text style={styles.author}>
+                  Posted by
+                  {' '}
+                  {data.author_name}
+                  {' '}
+                  {data.relative_time_description}
+                  .
+                </Text>
+                <Text style={styles.rating}>
+                  Rating:
+                  {' '}
+                  {data.rating}
+                  /5
+                </Text>
+                <Text style={styles.text}>
+                  {data.text}
+                </Text>
+              </View>
+            ))}
+          {!details.reviews
+            && (
+            <Text>
+              NONE
             </Text>
             )
           }
@@ -160,17 +194,31 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: COLORS.SECONDARY_TEXT_COLOR,
   },
-  openingHoursTitle: {
-    fontWeight: '500',
-    letterSpacing: 2,
+  subHeader: {
+    fontWeight: '600',
     marginBottom: 20,
-  },
-  openingHours: {
-    marginVertical: 20,
-    alignItems: 'center',
   },
   openingHoursText: {
     color: COLORS.SECONDARY_TEXT_COLOR,
+  },
+  reviewContainer: {
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingHorizontal: 15,
+  },
+  author: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: COLORS.DEFAULT_PRIMARY_COLOR,
+  },
+  rating: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: COLORS.ACCENT_COLOR,
+  },
+  text: {
+    marginVertical: 20,
+    textAlign: 'justify',
   },
 });
 
