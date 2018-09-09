@@ -279,11 +279,11 @@ const styles = StyleSheet.create({
   },
   openText: {
     fontWeight: '600',
-    color: COLORS.SECONDARY_TEXT_COLOR,
+    color: COLORS.ACCENT_COLOR,
   },
   closeText: {
     fontWeight: '600',
-    color: COLORS.ACCENT_COLOR,
+    color: COLORS.SECONDARY_TEXT_COLOR,
   },
   cardLower: {
     flexDirection: 'row',

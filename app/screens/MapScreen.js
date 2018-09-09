@@ -12,6 +12,7 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import Modal from 'react-native-modal';
 import Config from 'react-native-config';
 import axios from 'axios';
+import geolib from 'geolib';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../components/Button';
@@ -107,6 +108,20 @@ export default class MapScreen extends Component {
     this.setState({ activeModal: null });
   }
 
+  calculateDistance = (lat, lng) => {
+    const { latitude, longitude } = this.state;
+    const startCoords = {
+      latitude,
+      longitude,
+    };
+    const barCoords = {
+      latitude: lat,
+      longitude: lng,
+    };
+    const distance = geolib.getDistance(startCoords, barCoords);
+    return distance;
+  }
+
   renderDollar = (price) => {
     if (!price) {
       return (
@@ -200,19 +215,27 @@ export default class MapScreen extends Component {
               </MapboxGL.ShapeSource>
               <Modal id={bar.place_id} isVisible={activeModal === bar.place_id} backdropOpacity={0.8} onSwipe={this.hideModal} swipeDirection="down">
                 <View style={styles.modalContainer}>
-                  <Text style={styles.modalHeader}>
-                    {bar.name}
-                  </Text>
-                  <Text style={styles.modalSubHeader}>
-                    {bar.vicinity}
-                  </Text>
-                  <Text style={bar.opening_hours
-                  && bar.opening_hours.open_now ? styles.openText : styles.closeText
-                    }
-                  >
-                    {bar.opening_hours && bar.opening_hours.open_now ? 'OPEN' : 'CLOSED'}
-                  </Text>
-                  {this.renderDollar(bar.price_level)}
+                  <View style={styles.upper}>
+                    <Text style={styles.modalHeader}>
+                      {bar.name}
+                    </Text>
+                    <Text style={styles.modalSubHeader}>
+                      {bar.vicinity}
+                    </Text>
+                  </View>
+                  <View style={styles.lower}>
+                    <Text style={styles.distance}>
+                      {this.calculateDistance(bar.geometry.location.lat, bar.geometry.location.lng)}
+                      m
+                    </Text>
+                    {this.renderDollar(bar.price_level)}
+                    <Text style={bar.opening_hours
+                    && bar.opening_hours.open_now ? styles.openText : styles.closeText
+                      }
+                    >
+                      {bar.opening_hours && bar.opening_hours.open_now ? 'OPEN' : 'CLOSED'}
+                    </Text>
+                  </View>
                   <TouchableOpacity onPress={this.hideModal}>
                     <Ionicons name={Platform.OS === 'ios' ? 'ios-close-circle' : 'md-close-circle'} size={20} color={COLORS.ACCENT_COLOR} />
                   </TouchableOpacity>
@@ -261,35 +284,42 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  upper: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  lower: {
+    alignItems: 'center',
+    marginBottom: 40,
+  },
   modalHeader: {
     color: COLORS.TEXT_PRIMARY_COLOR,
     fontSize: 24,
     fontWeight: '800',
-    textAlign: 'center',
   },
   modalSubHeader: {
     color: COLORS.TEXT_PRIMARY_COLOR,
     fontSize: 18,
     fontWeight: '400',
-    textAlign: 'center',
   },
   openText: {
-    marginTop: 20,
     fontSize: 16,
-    fontWeight: '800',
+    fontWeight: '600',
     letterSpacing: 2,
-    color: COLORS.DEFAULT_PRIMARY_COLOR,
+    color: COLORS.ACCENT_COLOR,
   },
   closeText: {
-    marginTop: 20,
     fontSize: 16,
-    fontWeight: '800',
+    fontWeight: '600',
     letterSpacing: 2,
-    color: COLORS.LIGHT_PRIMARY_COLOR,
+    color: COLORS.SECONDARY_TEXT_COLOR,
+  },
+  distance: {
+    marginTop: 20,
+    color: COLORS.DARK_PRIMARY_COLOR,
   },
   dollar: {
     flexDirection: 'row',
-    marginBottom: 40,
   },
   noDollar: {
     fontSize: 12,
