@@ -15,6 +15,7 @@ import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import displayPriceRating from '../util/displayPriceRating';
 import calculateDistance from '../util/calculateDistance';
+import geoJSON from '../util/geoJSON';
 import Button from '../components/Button';
 import * as COLORS from '../config/colors';
 
@@ -82,22 +83,6 @@ export default class MapScreen extends Component {
     }
   };
 
-  geoJSON = (bar) => {
-    const shape = {
-      type: 'Feature',
-      properties: {
-        id: bar.place_id,
-        name: bar.name,
-      },
-      geometry: {
-        coordinates: [bar.geometry.location.lng, bar.geometry.location.lat],
-        type: 'Point',
-      },
-    };
-    console.log(shape);
-    return shape;
-  };
-
   openModal = (e) => {
     const feature = e.nativeEvent.payload;
     console.log('You pressed a layer here is your feature', feature);
@@ -138,7 +123,7 @@ export default class MapScreen extends Component {
             <View key={bar.place_id}>
               <MapboxGL.ShapeSource
                 id={bar.place_id}
-                shape={this.geoJSON(bar)}
+                shape={geoJSON(bar)}
                 onPress={this.openModal}
               >
                 <MapboxGL.CircleLayer id={bar.place_id} style={layerStyles.singlePoint} />
