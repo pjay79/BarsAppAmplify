@@ -153,7 +153,7 @@ class BarDetails extends Component {
             )
           }
         </View>
-        <View style={[styles.content, { marginBottom: 10, paddingBottom: 0 }]}>
+        <View style={[styles.content, { marginBottom: 10 }]}>
           <Text style={styles.subHeader}>
           REVIEWS:
           </Text>
@@ -280,10 +280,10 @@ const styles = StyleSheet.create({
   reviewContainer: {
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingTop: 10,
+    paddingTop: 20,
     paddingHorizontal: 15,
-    borderBottomColor: COLORS.DIVIDER_COLOR,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderTopColor: COLORS.DIVIDER_COLOR,
+    borderTopWidth: StyleSheet.hairlineWidth,
   },
   author: {
     fontSize: 10,
