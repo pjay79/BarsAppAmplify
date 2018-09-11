@@ -12,9 +12,9 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import Modal from 'react-native-modal';
 import Config from 'react-native-config';
 import axios from 'axios';
-import geolib from 'geolib';
-import Foundation from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import displayPriceRating from '../util/displayPriceRating';
+import calculateDistance from '../util/calculateDistance';
 import Button from '../components/Button';
 import * as COLORS from '../config/colors';
 
@@ -108,76 +108,6 @@ export default class MapScreen extends Component {
     this.setState({ activeModal: null });
   }
 
-  calculateDistance = (lat, lng) => {
-    const { latitude, longitude } = this.state;
-    const startCoords = {
-      latitude,
-      longitude,
-    };
-    const barCoords = {
-      latitude: lat,
-      longitude: lng,
-    };
-    const distance = geolib.getDistance(startCoords, barCoords);
-    return distance;
-  }
-
-  renderDollar = (price) => {
-    if (!price) {
-      return (
-        <Text style={styles.noDollar}>
-        NO PRICE INFO
-        </Text>
-      );
-    }
-    if (price === 0) {
-      return (
-        <View style={styles.dollar}>
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-        </View>
-      );
-    }
-    if (price === 1) {
-      return (
-        <View style={styles.dollar}>
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-        </View>
-      );
-    }
-    if (price === 2) {
-      return (
-        <View style={styles.dollar}>
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-        </View>
-      );
-    }
-    if (price === 3) {
-      return (
-        <View style={styles.dollar}>
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLORR} />
-        </View>
-      );
-    }
-    if (price === 4) {
-      return (
-        <View style={styles.dollar}>
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.TEXT_PRIMARY_COLOR} />
-        </View>
-      );
-    }
-    return null;
-  }
-
   render() {
     const {
       latitude,
@@ -225,10 +155,15 @@ export default class MapScreen extends Component {
                   </View>
                   <View style={styles.lower}>
                     <Text style={styles.distance}>
-                      {this.calculateDistance(bar.geometry.location.lat, bar.geometry.location.lng)}
+                      {calculateDistance(
+                        latitude,
+                        longitude,
+                        bar.geometry.location.lat,
+                        bar.geometry.location.lng,
+                      )}
                       m
                     </Text>
-                    {this.renderDollar(bar.price_level)}
+                    {displayPriceRating(bar.price_level)}
                     <Text style={bar.opening_hours
                     && bar.opening_hours.open_now ? styles.openText : styles.closeText
                       }
@@ -237,7 +172,7 @@ export default class MapScreen extends Component {
                     </Text>
                   </View>
                   <TouchableOpacity onPress={this.hideModal}>
-                    <Ionicons name={Platform.OS === 'ios' ? 'ios-close-circle' : 'md-close-circle'} size={20} color={COLORS.ACCENT_COLOR} />
+                    <Ionicons name={Platform.OS === 'ios' ? 'ios-close-circle' : 'md-close-circle'} size={25} color={COLORS.ACCENT_COLOR} />
                   </TouchableOpacity>
                 </View>
               </Modal>
@@ -245,7 +180,7 @@ export default class MapScreen extends Component {
           ))}
         </MapboxGL.MapView>
         <Button
-          title="Load more"
+          title="Load More"
           onPress={this.searchBars}
           style={{
             backgroundColor: COLORS.ACCENT_COLOR,
@@ -296,11 +231,13 @@ const styles = StyleSheet.create({
     color: COLORS.TEXT_PRIMARY_COLOR,
     fontSize: 24,
     fontWeight: '800',
+    textAlign: 'center',
   },
   modalSubHeader: {
     color: COLORS.TEXT_PRIMARY_COLOR,
     fontSize: 18,
     fontWeight: '400',
+    textAlign: 'center',
   },
   openText: {
     fontWeight: '600',

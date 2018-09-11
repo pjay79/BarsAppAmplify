@@ -6,3 +6,4 @@ export const ACCENT_COLOR = '#FF4081';
 export const PRIMARY_TEXT_COLOR = '#212121';
 export const SECONDARY_TEXT_COLOR = '#757575';
 export const DIVIDER_COLOR = '#BDBDBD';
+export const BACKGROUND_COLOR = '#F5F5F5';

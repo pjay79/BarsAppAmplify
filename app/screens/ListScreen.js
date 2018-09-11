@@ -14,9 +14,9 @@ import { Auth } from 'aws-amplify';
 import Geolocation from 'react-native-geolocation-service';
 import SplashScreen from 'react-native-splash-screen';
 import axios from 'axios';
-import geolib from 'geolib';
 import Config from 'react-native-config';
-import Foundation from 'react-native-vector-icons/Foundation';
+import displayPriceRating from '../util/displayPriceRating';
+import calculateDistance from '../util/calculateDistance';
 import * as COLORS from '../config/colors';
 
 export default class ListScreen extends Component {
@@ -131,76 +131,6 @@ export default class ListScreen extends Component {
     }, 3000);
   };
 
-  calculateDistance = (lat, lng) => {
-    const { latitude, longitude } = this.state;
-    const startCoords = {
-      latitude,
-      longitude,
-    };
-    const barCoords = {
-      latitude: lat,
-      longitude: lng,
-    };
-    const distance = geolib.getDistance(startCoords, barCoords);
-    return distance;
-  }
-
-  renderDollar = (price) => {
-    if (!price) {
-      return (
-        <Text style={styles.noDollar}>
-        NO PRICE INFO
-        </Text>
-      );
-    }
-    if (price === 0) {
-      return (
-        <View style={styles.dollar}>
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-        </View>
-      );
-    }
-    if (price === 1) {
-      return (
-        <View style={styles.dollar}>
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-        </View>
-      );
-    }
-    if (price === 2) {
-      return (
-        <View style={styles.dollar}>
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-        </View>
-      );
-    }
-    if (price === 3) {
-      return (
-        <View style={styles.dollar}>
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-        </View>
-      );
-    }
-    if (price === 4) {
-      return (
-        <View style={styles.dollar}>
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-          <Foundation name="dollar" size={20} color={COLORS.SECONDARY_TEXT_COLOR} />
-        </View>
-      );
-    }
-    return null;
-  }
-
   renderFooter = () => {
     const { pageToken } = this.state;
     if (pageToken === undefined) return null;
@@ -217,6 +147,7 @@ export default class ListScreen extends Component {
 
   renderItem = ({ item }) => {
     const { navigation } = this.props;
+    const { latitude, longitude } = this.state;
     return (
       <View style={styles.card}>
         <TouchableOpacity onPress={() => navigation.navigate('Details', { bar: item })}>
@@ -232,9 +163,14 @@ export default class ListScreen extends Component {
             </Text>
           </View>
           <View style={styles.cardLower}>
-            {this.renderDollar(item.price_level)}
+            {displayPriceRating(item.price_level)}
             <Text style={styles.distance}>
-              {this.calculateDistance(item.geometry.location.lat, item.geometry.location.lng)}
+              {calculateDistance(
+                latitude,
+                longitude,
+                item.geometry.location.lat,
+                item.geometry.location.lng,
+              )}
               m
             </Text>
           </View>
@@ -267,6 +203,7 @@ export default class ListScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
   },
   card: {
     marginVertical: 10,

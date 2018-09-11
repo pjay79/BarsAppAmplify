@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  Platform,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { graphqlMutation } from 'aws-appsync-react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
-import Button from './Button';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import GetBar from '../graphql/queries/GetBar';
 import ListBars from '../graphql/queries/ListBars';
 import ListBarMembers from '../graphql/queries/ListBarMembers';
@@ -111,21 +112,24 @@ class BarDetails extends Component {
           <Text style={styles.phone}>
             {phone}
           </Text>
+          <TouchableOpacity onPress={this.addToFavourites} style={styles.iconHeader}>
+            <Ionicons name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'} size={25} color={COLORS.TEXT_PRIMARY_COLOR} />
+          </TouchableOpacity>
         </View>
         <View style={styles.iconGroup}>
           <View style={styles.iconLeft}>
             <TouchableOpacity onPress={openWebsiteLink}>
-              <MaterialCommunityIcons name="web" size={18} color={COLORS.TEXT_PRIMARY_COLOR} />
+              <MaterialCommunityIcons name="web" size={25} color={COLORS.TEXT_PRIMARY_COLOR} />
             </TouchableOpacity>
           </View>
           <View style={styles.iconMiddle}>
             <TouchableOpacity onPress={toggleMapLinks}>
-              <MaterialCommunityIcons name="directions" size={18} color={COLORS.TEXT_PRIMARY_COLOR} />
+              <MaterialCommunityIcons name="directions" size={25} color={COLORS.TEXT_PRIMARY_COLOR} />
             </TouchableOpacity>
           </View>
           <View style={styles.iconRight}>
             <TouchableOpacity onPress={openPhone}>
-              <Foundation name="telephone" size={18} color={COLORS.TEXT_PRIMARY_COLOR} />
+              <Foundation name="telephone" size={25} color={COLORS.TEXT_PRIMARY_COLOR} />
             </TouchableOpacity>
           </View>
         </View>
@@ -149,7 +153,7 @@ class BarDetails extends Component {
             )
           }
         </View>
-        <View style={styles.content}>
+        <View style={[styles.content, { marginBottom: 10, paddingBottom: 0 }]}>
           <Text style={styles.subHeader}>
           REVIEWS:
           </Text>
@@ -183,12 +187,6 @@ class BarDetails extends Component {
             )
           }
         </View>
-        <Button
-          title="Add to Favourites"
-          onPress={this.addToFavourites}
-          style={{ backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR, marginTop: 5 }}
-          textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
-        />
       </View>
     );
   }
@@ -205,6 +203,7 @@ const styles = StyleSheet.create({
   },
   top: {
     paddingVertical: 20,
+    paddingHorizontal: 20,
     alignItems: 'center',
     backgroundColor: COLORS.ACCENT_COLOR,
     width: Dimensions.get('window').width,
@@ -220,13 +219,18 @@ const styles = StyleSheet.create({
     letterSpacing: 4,
   },
   location: {
+    textAlign: 'center',
     fontSize: 18,
     color: COLORS.TEXT_PRIMARY_COLOR,
     marginBottom: 5,
   },
   phone: {
+    textAlign: 'center',
     fontSize: 18,
     color: COLORS.TEXT_PRIMARY_COLOR,
+  },
+  iconHeader: {
+    marginTop: 10,
   },
   iconGroup: {
     flexDirection: 'row',
@@ -255,8 +259,16 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.LIGHT_PRIMARY_COLOR,
   },
   content: {
-    paddingTop: 20,
+    width: Dimensions.get('window').width * 0.95,
+    paddingVertical: 20,
+    marginTop: 10,
     alignItems: 'center',
+    backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
+    shadowOpacity: 0.75,
+    shadowRadius: 5,
+    shadowColor: COLORS.DIVIDER_COLOR,
+    shadowOffset: { height: 0, width: 0 },
+    elevation: 1,
   },
   subHeader: {
     fontWeight: '600',
@@ -270,7 +282,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingTop: 10,
     paddingHorizontal: 15,
-    marginBottom: 10,
     borderBottomColor: COLORS.DIVIDER_COLOR,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
