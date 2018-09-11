@@ -13,8 +13,7 @@ import {
 import { Auth } from 'aws-amplify';
 import Geolocation from 'react-native-geolocation-service';
 import SplashScreen from 'react-native-splash-screen';
-import axios from 'axios';
-import Config from 'react-native-config';
+import nearbyPlacesSearch from '../services/nearbyPlacesSearch';
 import displayPriceRating from '../util/displayPriceRating';
 import calculateDistance from '../util/calculateDistance';
 import * as COLORS from '../config/colors';
@@ -90,17 +89,7 @@ export default class ListScreen extends Component {
       const {
         bars, latitude, longitude, pageToken,
       } = this.state;
-
-      const urlFirst = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&rankBy=distance&type=bar&key=${
-        Config.GOOGLE_PLACES_API_KEY
-      }`;
-
-      const urlNext = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&rankBy=distance&type=bar&key=${
-        Config.GOOGLE_PLACES_API_KEY
-      }&pagetoken=${pageToken}`;
-
-      const url = pageToken === '' ? urlFirst : urlNext;
-      const response = await axios.get(url);
+      const response = await nearbyPlacesSearch(latitude, longitude, pageToken);
       const arrayData = [...bars, ...response.data.results];
       this.setState({
         bars: pageToken === '' ? response.data.results : arrayData,

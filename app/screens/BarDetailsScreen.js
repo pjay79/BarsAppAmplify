@@ -4,8 +4,7 @@ import {
   ScrollView, Dimensions, View, StyleSheet, Linking, ActivityIndicator,
 } from 'react-native';
 import { Auth } from 'aws-amplify';
-import axios from 'axios';
-import Config from 'react-native-config';
+import nearbyPlaceDetailsSearch from '../services/nearbyPlaceDetailsSearch';
 import BarDetails from '../components/BarDetails';
 import MapLinks from '../components/MapLinks';
 import Button from '../components/Button';
@@ -37,13 +36,7 @@ export default class BarDetailsScreen extends Component {
       this.setState({ loading: true });
       const { navigation } = this.props;
       const placeId = navigation.getParam('bar').place_id;
-
-      const response = await axios.get(
-        `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&fields=name,opening_hours/weekday_text,formatted_phone_number,vicinity,website,reviews,url,type&key=${
-          Config.GOOGLE_PLACES_API_KEY
-        }`,
-      );
-
+      const response = await nearbyPlaceDetailsSearch(placeId);
       this.setState({ details: response.data.result, loading: false });
       console.log(response);
     } catch (error) {

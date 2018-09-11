@@ -11,8 +11,8 @@ import Geolocation from 'react-native-geolocation-service';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import Modal from 'react-native-modal';
 import Config from 'react-native-config';
-import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import nearbyPlacesSearch from '../services/nearbyPlacesSearch';
 import displayPriceRating from '../util/displayPriceRating';
 import calculateDistance from '../util/calculateDistance';
 import geoJSON from '../util/geoJSON';
@@ -61,17 +61,7 @@ export default class MapScreen extends Component {
       const {
         bars, latitude, longitude, pageToken,
       } = this.state;
-
-      const urlFirst = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&rankBy=distance&type=bar&key=${
-        Config.GOOGLE_PLACES_API_KEY
-      }`;
-
-      const urlNext = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&rankBy=distance&type=bar&key=${
-        Config.GOOGLE_PLACES_API_KEY
-      }&pagetoken=${pageToken}`;
-
-      const url = pageToken === '' ? urlFirst : urlNext;
-      const response = await axios.get(url);
+      const response = await nearbyPlacesSearch(latitude, longitude, pageToken);
       const arrayData = [...bars, ...response.data.results];
       this.setState({
         bars: pageToken === '' ? response.data.results : arrayData,
@@ -87,18 +77,15 @@ export default class MapScreen extends Component {
     const feature = e.nativeEvent.payload;
     console.log('You pressed a layer here is your feature', feature);
     this.setState({ activeModal: feature.properties.id });
-  }
+  };
 
   hideModal = () => {
     this.setState({ activeModal: null });
-  }
+  };
 
   render() {
     const {
-      latitude,
-      longitude,
-      bars,
-      activeModal,
+      latitude, longitude, bars, activeModal,
     } = this.state;
 
     if (!latitude || !longitude) {
@@ -121,14 +108,16 @@ export default class MapScreen extends Component {
         >
           {bars.map(bar => (
             <View key={bar.place_id}>
-              <MapboxGL.ShapeSource
-                id={bar.place_id}
-                shape={geoJSON(bar)}
-                onPress={this.openModal}
-              >
+              <MapboxGL.ShapeSource id={bar.place_id} shape={geoJSON(bar)} onPress={this.openModal}>
                 <MapboxGL.CircleLayer id={bar.place_id} style={layerStyles.singlePoint} />
               </MapboxGL.ShapeSource>
-              <Modal id={bar.place_id} isVisible={activeModal === bar.place_id} backdropOpacity={0.8} onSwipe={this.hideModal} swipeDirection="down">
+              <Modal
+                id={bar.place_id}
+                isVisible={activeModal === bar.place_id}
+                backdropOpacity={0.8}
+                onSwipe={this.hideModal}
+                swipeDirection="down"
+              >
                 <View style={styles.modalContainer}>
                   <View style={styles.upper}>
                     <Text style={styles.modalHeader}>
@@ -149,15 +138,22 @@ export default class MapScreen extends Component {
                       m
                     </Text>
                     {displayPriceRating(bar.price_level)}
-                    <Text style={bar.opening_hours
-                    && bar.opening_hours.open_now ? styles.openText : styles.closeText
+                    <Text
+                      style={
+                        bar.opening_hours && bar.opening_hours.open_now
+                          ? styles.openText
+                          : styles.closeText
                       }
                     >
                       {bar.opening_hours && bar.opening_hours.open_now ? 'OPEN' : 'CLOSED'}
                     </Text>
                   </View>
                   <TouchableOpacity onPress={this.hideModal}>
-                    <Ionicons name={Platform.OS === 'ios' ? 'ios-close-circle' : 'md-close-circle'} size={25} color={COLORS.ACCENT_COLOR} />
+                    <Ionicons
+                      name={Platform.OS === 'ios' ? 'ios-close-circle' : 'md-close-circle'}
+                      size={25}
+                      color={COLORS.ACCENT_COLOR}
+                    />
                   </TouchableOpacity>
                 </View>
               </Modal>
