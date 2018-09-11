@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { buildSubscription } from 'aws-appsync';
 import _ from 'lodash';
+import Swipeout from 'react-native-swipeout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import MapLinks from './MapLinks';
@@ -42,41 +43,44 @@ class AllBarsList extends Component {
 
   renderItem = ({ item }) => {
     const { isVisible } = this.state;
+    const swipeoutBtns = [{ text: 'LIKE', backgroundColor: COLORS.ACCENT_COLOR }];
     return (
-      <View style={styles.card}>
-        <View style={styles.details}>
-          <Text style={styles.header}>
-            {item.name}
-          </Text>
-          <Text style={styles.location}>
-            {item.location}
-          </Text>
-          <Text style={styles.phone}>
-            {item.phone}
-          </Text>
+      <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
+        <View style={styles.card}>
+          <View style={styles.details}>
+            <Text style={styles.header}>
+              {item.name}
+            </Text>
+            <Text style={styles.location}>
+              {item.location}
+            </Text>
+            <Text style={styles.phone}>
+              {item.phone}
+            </Text>
+          </View>
+          <View style={styles.iconWrapper}>
+            <TouchableOpacity onPress={() => this.openWebsiteLink(item.website)}>
+              <MaterialCommunityIcons name="web" size={18} color={COLORS.ACCENT_COLOR} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.toggleMapLinks}>
+              <MaterialCommunityIcons name="directions" size={18} color={COLORS.DARK_PRIMARY_COLOR} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.openPhone(item.phone)}>
+              <Foundation name="telephone" size={18} color={COLORS.PRIMARY_TEXT_COLOR} />
+            </TouchableOpacity>
+          </View>
+          <MapLinks
+            isVisible={isVisible}
+            onCancelPressed={this.toggleMapLinks}
+            onAppPressed={this.toggleMapLinks}
+            onBackButtonPressed={this.toggleMapLinks}
+            name={item.name}
+            lat={parseFloat(item.lat)}
+            lng={parseFloat(item.lng)}
+            id={item.id}
+          />
         </View>
-        <View style={styles.iconWrapper}>
-          <TouchableOpacity onPress={() => this.openWebsiteLink(item.website)}>
-            <MaterialCommunityIcons name="web" size={18} color={COLORS.ACCENT_COLOR} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.toggleMapLinks}>
-            <MaterialCommunityIcons name="directions" size={18} color={COLORS.DARK_PRIMARY_COLOR} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.openPhone(item.phone)}>
-            <Foundation name="telephone" size={18} color={COLORS.PRIMARY_TEXT_COLOR} />
-          </TouchableOpacity>
-        </View>
-        <MapLinks
-          isVisible={isVisible}
-          onCancelPressed={this.toggleMapLinks}
-          onAppPressed={this.toggleMapLinks}
-          onBackButtonPressed={this.toggleMapLinks}
-          name={item.name}
-          lat={parseFloat(item.lat)}
-          lng={parseFloat(item.lng)}
-          id={item.id}
-        />
-      </View>
+      </Swipeout>
     );
   };
 
@@ -86,25 +90,19 @@ class AllBarsList extends Component {
     const { refetch, networkStatus, bars } = this.props;
 
     return (
-      <View style={styles.container}>
-        <FlatList
-          data={_.orderBy(bars, ['createdAt'], ['desc'])}
-          renderItem={this.renderItem}
-          keyExtractor={item => item.id}
-          onRefresh={() => refetch()}
-          refreshing={networkStatus === 4}
-          ItemSeparatorComponent={this.renderSeparator}
-        />
-      </View>
+      <FlatList
+        data={_.orderBy(bars, ['createdAt'], ['desc'])}
+        renderItem={this.renderItem}
+        keyExtractor={item => item.id}
+        onRefresh={() => refetch()}
+        refreshing={networkStatus === 4}
+        ItemSeparatorComponent={this.renderSeparator}
+      />
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.BACKGROUND_COLOR,
-  },
   card: {
     flexDirection: 'row',
     justifyContent: 'space-between',

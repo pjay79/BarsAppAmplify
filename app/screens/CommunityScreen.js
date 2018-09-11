@@ -20,7 +20,7 @@ export default class CommunityScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.backgroundColor,
+    backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
   },
   card: {
     marginVertical: 10,

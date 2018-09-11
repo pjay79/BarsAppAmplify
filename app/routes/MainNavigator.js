@@ -71,6 +71,7 @@ const NearbyTabs = createMaterialTopTabNavigator(
     },
   },
   {
+    swipeEnabled: false,
     tabBarOptions: {
       activeTintColor: COLORS.TEXT_PRIMARY_COLOR,
       inactiveTintColor: COLORS.LIGHT_PRIMARY_COLOR,
@@ -138,6 +139,7 @@ const FavouritesTabs = createMaterialTopTabNavigator(
     },
   },
   {
+    swipeEnabled: false,
     tabBarOptions: {
       activeTintColor: COLORS.TEXT_PRIMARY_COLOR,
       inactiveTintColor: COLORS.LIGHT_PRIMARY_COLOR,
