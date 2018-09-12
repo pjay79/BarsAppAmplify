@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  View, Text, TouchableOpacity, FlatList, Linking, StyleSheet,
+  View, Text, Alert, TouchableOpacity, FlatList, Linking, StyleSheet,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -11,6 +11,8 @@ import Swipeout from 'react-native-swipeout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import MapLinks from './MapLinks';
+import CreateBarMember from '../graphql/mutations/CreateBarMember';
+import UpdateBar from '../graphql/mutations/UpdateBar';
 import ListBars from '../graphql/queries/ListBars';
 import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
 import * as COLORS from '../config/colors';
@@ -41,12 +43,69 @@ class AllBarsList extends Component {
     this.setState(prevState => ({ isVisible: !prevState.isVisible }));
   };
 
+  addToUserFavourites = async (bar) => {
+    try {
+      const {
+        userId,
+        createBarMember,
+        updateBar,
+      } = this.props;
+
+      const {
+        id,
+        name,
+        phone,
+        location,
+        lat,
+        lng,
+        url,
+        website,
+        addedBy,
+      } = bar;
+
+      const barData = {
+        id,
+        name,
+        phone,
+        location,
+        lat,
+        lng,
+        url,
+        website,
+        addedBy,
+      };
+
+      const barMember = {
+        userId,
+        barId: id,
+      };
+
+      createBarMember({ ...barMember });
+      updateBar({ ...barData });
+      Alert.alert(
+        'Success',
+        'This bar has been added to your favourites.',
+        [{ text: 'OK', onPress: () => console.log('Alert closed.') }],
+        { cancelable: false },
+      );
+    } catch (error) {
+      console.log(error);
+      Alert.alert(
+        'Error',
+        'There was an error, please try again.',
+        [{ text: 'OK', onPress: () => console.log('Alert closed.') }],
+        { cancelable: false },
+      );
+    }
+  };
+
   renderItem = ({ item }) => {
     const { isVisible } = this.state;
     const swipeoutBtns = [
       {
-        text: 'LIKE',
         backgroundColor: COLORS.ACCENT_COLOR,
+        onPress: () => this.addToUserFavourites(item),
+        text: 'LIKE',
       },
     ];
     return (
@@ -151,6 +210,20 @@ export default compose(
       bars: data.listBars ? data.listBars.items : [],
       refetch: data.refetch,
       networkStatus: data.networkStatus,
+    }),
+  }),
+  graphql(gql(CreateBarMember), {
+    props: ({ mutate }) => ({
+      createBarMember: member => mutate({
+        variables: member,
+      }),
+    }),
+  }),
+  graphql(gql(UpdateBar), {
+    props: ({ mutate }) => ({
+      updateBar: barData => mutate({
+        variables: barData,
+      }),
     }),
   }),
 )(AllBarsList);

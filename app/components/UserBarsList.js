@@ -35,6 +35,7 @@ class UserBarsList extends Component {
     const { id, data } = this.props;
     data.subscribeToMore(
       buildSubscription(gql(AddBarSubscription), gql(GetUserBars), 'User', id, 'auto'),
+      buildSubscription(gql(AddBarSubscription), gql(ListBarMembers), 'BarMember', 'auto'),
     );
   }
 
@@ -65,18 +66,15 @@ class UserBarsList extends Component {
         backgroundColor: COLORS.ACCENT_COLOR,
         onPress: () => this.deleteFavourite(item.id),
         text: 'DELETE',
-        type: 'delete',
       },
     ];
     return (
       <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
         <View style={styles.card}>
           <View style={styles.details}>
-            <TouchableOpacity>
-              <Text style={styles.header}>
-                {item.name}
-              </Text>
-            </TouchableOpacity>
+            <Text style={styles.header}>
+              {item.name}
+            </Text>
             <Text style={styles.location}>
               {item.location}
             </Text>
