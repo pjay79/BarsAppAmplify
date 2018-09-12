@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
 export default compose(
   graphql(gql(ListBars), {
     options: {
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'network-only',
       notifyOnNetworkStatusChange: true,
     },
     props: ({ data }) => ({

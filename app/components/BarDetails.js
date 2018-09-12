@@ -11,14 +11,10 @@ import {
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
-import { graphqlMutation } from 'aws-appsync-react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import GetBar from '../graphql/queries/GetBar';
-import ListBars from '../graphql/queries/ListBars';
-import ListBarMembers from '../graphql/queries/ListBarMembers';
-import GetUserBars from '../graphql/queries/GetUserBars';
 import CreateBar from '../graphql/mutations/CreateBar';
 import UpdateBar from '../graphql/mutations/UpdateBar';
 import CreateBarMember from '../graphql/mutations/CreateBarMember';
@@ -46,8 +42,6 @@ class BarDetails extends Component {
       const barData = {
         id,
         name,
-        createdAt: '',
-        updatedAt: '',
         phone,
         location,
         lat,
@@ -58,9 +52,6 @@ class BarDetails extends Component {
       };
 
       const barMember = {
-        id: -1,
-        createdAt: '',
-        updatedAt: '',
         userId,
         barId: id,
       };
@@ -319,7 +310,7 @@ export default compose(
       variables: {
         id: ownProps.id,
       },
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'network-only',
     }),
     props: ({ data }) => ({
       bar: data.getBar ? data.getBar : null,
@@ -327,31 +318,23 @@ export default compose(
   }),
   graphql(gql(CreateBarMember), {
     props: ({ mutate }) => ({
-      options: {
-        update: (proxy, { data: { createBarMember } }) => {
-          try {
-            const data = proxy.readQuery({ query: ListBarMembers });
-            data.listBarMembers.items = [
-              ...data.listBarMembers.items.filter(member => member.id !== createBarMember.id),
-              createBarMember,
-            ];
-            proxy.writeQuery({ query: ListBarMembers, data });
-          } catch (error) {
-            console.log(error);
-          }
-        },
-      },
       createBarMember: member => mutate({
         variables: member,
-        optimisticResponse: () => ({
-          createBarMember: {
-            ...member,
-            __typename: 'BarMember',
-          },
-        }),
       }),
     }),
   }),
-  graphqlMutation(gql(UpdateBar), gql(GetUserBars), 'Bar'),
-  graphqlMutation(gql(CreateBar), gql(ListBars), 'Bar'),
+  graphql(gql(CreateBar), {
+    props: ({ mutate }) => ({
+      createBar: barData => mutate({
+        variables: barData,
+      }),
+    }),
+  }),
+  graphql(gql(UpdateBar), {
+    props: ({ mutate }) => ({
+      updateBar: barData => mutate({
+        variables: barData,
+      }),
+    }),
+  }),
 )(BarDetails);

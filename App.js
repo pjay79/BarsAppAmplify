@@ -24,6 +24,7 @@ const client = new AWSAppSyncClient({
     type: awsConfig.aws_appsync_authenticationType,
     jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken(),
   },
+  disableOffline: true,
 });
 
 const App = () => (

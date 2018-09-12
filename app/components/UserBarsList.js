@@ -11,7 +11,6 @@ import {
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { buildSubscription } from 'aws-appsync';
-import { graphqlMutation } from 'aws-appsync-react';
 import _ from 'lodash';
 import Swipeout from 'react-native-swipeout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,7 +20,6 @@ import GetUserBars from '../graphql/queries/GetUserBars';
 import ListBarMembers from '../graphql/queries/ListBarMembers';
 import DeleteBarMember from '../graphql/mutations/DeleteBarMember';
 import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
-import DeleteBarMemberSubscription from '../graphql/subscriptions/DeleteBarMemberSubscription';
 import * as COLORS from '../config/colors';
 
 class UserBarsList extends Component {
@@ -37,7 +35,6 @@ class UserBarsList extends Component {
     const { id, data } = this.props;
     data.subscribeToMore(
       buildSubscription(gql(AddBarSubscription), gql(GetUserBars), 'User', id, 'auto'),
-      buildSubscription(gql(DeleteBarMemberSubscription), gql(ListBarMembers), 'User', id, 'auto'),
     );
   }
 
@@ -57,28 +54,25 @@ class UserBarsList extends Component {
     const { id, members, deleteBarMember } = this.props;
     const barMember = _.filter(members, { userId: id, barId });
     console.log('Bar Member deleted: ', barMember[0].id);
-    deleteBarMember({
-      id: barMember[0].id,
-      userId: barMember[0].userId,
-      barId: barMember[0].barId,
-      __typename: 'BarMember',
-      version: null,
-    });
+    const memberId = barMember[0].id;
+    deleteBarMember(memberId);
   }
 
   renderItem = ({ item }) => {
     const { isVisible } = this.state;
     const swipeoutBtns = [
       {
-        text: 'DELETE',
         backgroundColor: COLORS.ACCENT_COLOR,
+        onPress: () => this.deleteFavourite(item.id),
+        text: 'DELETE',
+        type: 'delete',
       },
     ];
     return (
       <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
         <View style={styles.card}>
           <View style={styles.details}>
-            <TouchableOpacity onPress={() => this.deleteFavourite(item.id)}>
+            <TouchableOpacity>
               <Text style={styles.header}>
                 {item.name}
               </Text>
@@ -180,7 +174,7 @@ export default compose(
       variables: {
         id: ownProps.id,
       },
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'network-only',
       notifyOnNetworkStatusChange: true,
     }),
     props: ({ data }) => ({
@@ -192,17 +186,27 @@ export default compose(
   }),
   graphql(gql(ListBarMembers), {
     options: {
-      fetchPolicy: 'cache-and-network',
-      notifyOnNetworkStatusChange: true,
+      fetchPolicy: 'network-only',
     },
     props: ({ data }) => ({
       data,
       members: data.listBarMembers ? data.listBarMembers.items : [],
-      refetch: data.refetch,
-      networkStatus: data.networkStatus,
     }),
   }),
-  graphqlMutation(gql(DeleteBarMember), gql(ListBarMembers), 'BarMember'),
+  graphql(gql(DeleteBarMember), {
+    options: ownProps => ({
+      refetchQueries: [{
+        query: gql(GetUserBars),
+        variables: {
+          id: ownProps.id,
+        },
+      }],
+      fetchPolicy: 'network-only',
+    }),
+    props: ({ mutate }) => ({
+      deleteBarMember: memberId => mutate({ variables: { id: memberId } }),
+    }),
+  }),
 )(UserBarsList);
 
 UserBarsList.propTypes = {
