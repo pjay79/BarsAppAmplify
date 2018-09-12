@@ -43,7 +43,12 @@ class AllBarsList extends Component {
 
   renderItem = ({ item }) => {
     const { isVisible } = this.state;
-    const swipeoutBtns = [{ text: 'LIKE', backgroundColor: COLORS.ACCENT_COLOR }];
+    const swipeoutBtns = [
+      {
+        text: 'LIKE',
+        backgroundColor: COLORS.ACCENT_COLOR,
+      },
+    ];
     return (
       <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
         <View style={styles.card}>
@@ -119,10 +124,10 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   location: {
-    fontSize: 16,
+    fontSize: 14,
   },
   phone: {
-    fontSize: 14,
+    fontSize: 12,
     color: COLORS.SECONDARY_TEXT_COLOR,
   },
   iconWrapper: {

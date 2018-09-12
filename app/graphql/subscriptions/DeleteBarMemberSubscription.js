@@ -1,6 +1,6 @@
 export default `
-  mutation deleteBarMember($id: ID!) {
-    deleteBarMember(input: { id: $id}) {
+subscription onDeleteBarMember {
+    onDeleteBarMember {
       id
       userId
       barId
