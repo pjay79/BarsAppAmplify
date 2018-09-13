@@ -11,10 +11,12 @@ import {
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
+import _ from 'lodash';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import GetBar from '../graphql/queries/GetBar';
+import ListBarMembers from '../graphql/queries/ListBarMembers';
 import CreateBar from '../graphql/mutations/CreateBar';
 import UpdateBar from '../graphql/mutations/UpdateBar';
 import CreateBarMember from '../graphql/mutations/CreateBarMember';
@@ -30,6 +32,7 @@ class BarDetails extends Component {
         details,
         userId,
         bar,
+        members,
         createBarMember,
         createBar,
         updateBar,
@@ -56,27 +59,42 @@ class BarDetails extends Component {
         barId: id,
       };
 
-      if (bar === null) {
-        createBarMember({ ...barMember });
-        createBar({ ...barData });
-      } else {
-        createBarMember({ ...barMember });
-        updateBar({ ...barData });
+      const barMemberAdded = await _.filter(members, { userId, barId: id });
+      console.log('Bar Member added: ', barMemberAdded);
+
+      if (barMemberAdded !== null) {
+        console.log('Already added');
+        Alert.alert(
+          'Already added',
+          'This bar is already in your favourites.',
+          [{ text: 'OK' }],
+          { cancelable: false },
+        );
       }
-      Alert.alert(
-        'Success',
-        'This bar has been added to your favourites.',
-        [{ text: 'OK', onPress: () => console.log('Alert closed.') }],
-        { cancelable: false },
-      );
+
+      if (bar === null) {
+        await createBarMember({ ...barMember });
+        await createBar({ ...barData });
+        Alert.alert(
+          'Success',
+          'This bar has been added to your favourites.',
+          [{ text: 'OK' }],
+          { cancelable: false },
+        );
+      }
+
+      if (bar !== null && barMemberAdded === null) {
+        await createBarMember({ ...barMember });
+        await updateBar({ ...barData });
+        Alert.alert(
+          'Success',
+          'This bar has been added to your favourites.',
+          [{ text: 'OK' }],
+          { cancelable: false },
+        );
+      }
     } catch (error) {
       console.log(error);
-      Alert.alert(
-        'Error',
-        'There was an error, please try again.',
-        [{ text: 'OK', onPress: () => console.log('Alert closed.') }],
-        { cancelable: false },
-      );
     }
   };
 
@@ -314,6 +332,15 @@ export default compose(
     }),
     props: ({ data }) => ({
       bar: data.getBar ? data.getBar : null,
+    }),
+  }),
+  graphql(gql(ListBarMembers), {
+    options: {
+      fetchPolicy: 'network-only',
+    },
+    props: ({ data }) => ({
+      data,
+      members: data.listBarMembers ? data.listBarMembers.items : [],
     }),
   }),
   graphql(gql(CreateBarMember), {

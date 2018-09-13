@@ -80,8 +80,9 @@ class AllBarsList extends Component {
         barId: id,
       };
 
-      createBarMember({ ...barMember });
-      updateBar({ ...barData });
+      await createBarMember({ ...barMember });
+      await updateBar({ ...barData });
+
       Alert.alert(
         'Success',
         'This bar has been added to your favourites.',

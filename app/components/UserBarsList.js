@@ -7,6 +7,7 @@ import {
   FlatList,
   Linking,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -51,12 +52,29 @@ class UserBarsList extends Component {
     this.setState(prevState => ({ isVisible: !prevState.isVisible }));
   };
 
-  deleteFavourite = (barId) => {
-    const { id, members, deleteBarMember } = this.props;
-    const barMember = _.filter(members, { userId: id, barId });
-    console.log('Bar Member deleted: ', barMember[0].id);
-    const memberId = barMember[0].id;
-    deleteBarMember(memberId);
+  deleteFavourite = async (barId) => {
+    try {
+      const { id, members, deleteBarMember } = this.props;
+      const barMember = _.filter(members, { userId: id, barId });
+      console.log('Bar Member deleted: ', barMember[0].id);
+      const memberId = barMember[0].id;
+      await deleteBarMember(memberId);
+
+      Alert.alert(
+        'Success',
+        'This bar has been deleted from your favourites.',
+        [{ text: 'OK', onPress: () => console.log('Alert closed.') }],
+        { cancelable: false },
+      );
+    } catch (error) {
+      console.log(error);
+      Alert.alert(
+        'Error',
+        'There was an error, please try again.',
+        [{ text: 'OK', onPress: () => console.log('Alert closed.') }],
+        { cancelable: false },
+      );
+    }
   }
 
   renderItem = ({ item }) => {
