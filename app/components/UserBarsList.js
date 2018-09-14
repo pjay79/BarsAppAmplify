@@ -55,15 +55,17 @@ class UserBarsList extends Component {
   deleteFavourite = async (barId) => {
     try {
       const { id, members, deleteBarMember } = this.props;
-      const barMember = _.filter(members, { userId: id, barId });
-      console.log('Bar Member deleted: ', barMember[0].id);
-      const memberId = barMember[0].id;
+      const barMemberDeleted = await members.filter(
+        member => member.userId === id && member.barId === barId,
+      );
+      console.log('Bar Member deleted: ', barMemberDeleted[0].id);
+      const memberId = barMemberDeleted[0].id;
       await deleteBarMember(memberId);
 
       Alert.alert(
         'Success',
         'This bar has been deleted from your favourites.',
-        [{ text: 'OK', onPress: () => console.log('Alert closed.') }],
+        [{ text: 'OK' }],
         { cancelable: false },
       );
     } catch (error) {
@@ -71,7 +73,7 @@ class UserBarsList extends Component {
       Alert.alert(
         'Error',
         'There was an error, please try again.',
-        [{ text: 'OK', onPress: () => console.log('Alert closed.') }],
+        [{ text: 'OK' }],
         { cancelable: false },
       );
     }

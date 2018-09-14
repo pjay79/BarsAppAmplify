@@ -64,8 +64,8 @@ class BarDetails extends Component {
       console.log(barMemberAdded);
 
       if (!bar && barMemberAdded.length === 0) {
-        createBarMember({ ...barMember });
-        createBar({ ...barData });
+        await createBarMember({ ...barMember });
+        await createBar({ ...barData });
         Alert.alert(
           'Success',
           'This bar has been added to your favourites.',
@@ -73,8 +73,8 @@ class BarDetails extends Component {
           { cancelable: false },
         );
       } else if (bar && barMemberAdded.length === 0) {
-        createBarMember({ ...barMember });
-        updateBar({ ...barData });
+        await createBarMember({ ...barMember });
+        await updateBar({ ...barData });
         Alert.alert(
           'Success',
           'This bar has been added to your favourites.',
