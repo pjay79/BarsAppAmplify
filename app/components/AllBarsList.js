@@ -14,6 +14,7 @@ import MapLinks from './MapLinks';
 import CreateBarMember from '../graphql/mutations/CreateBarMember';
 import UpdateBar from '../graphql/mutations/UpdateBar';
 import ListBars from '../graphql/queries/ListBars';
+import ListBarMembers from '../graphql/queries/ListBarMembers';
 import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
 import * as COLORS from '../config/colors';
 
@@ -47,6 +48,7 @@ class AllBarsList extends Component {
     try {
       const {
         userId,
+        members,
         createBarMember,
         updateBar,
       } = this.props;
@@ -80,21 +82,34 @@ class AllBarsList extends Component {
         barId: id,
       };
 
-      await createBarMember({ ...barMember });
-      await updateBar({ ...barData });
-
-      Alert.alert(
-        'Success',
-        'This bar has been added to your favourites.',
-        [{ text: 'OK', onPress: () => console.log('Alert closed.') }],
-        { cancelable: false },
+      const barMemberAdded = await members.filter(
+        member => member.userId === userId && member.barId === id,
       );
+      console.log(barMemberAdded);
+
+      if (barMemberAdded.length === 0) {
+        await createBarMember({ ...barMember });
+        await updateBar({ ...barData });
+        Alert.alert(
+          'Success',
+          'This bar has been added to your favourites.',
+          [{ text: 'OK' }],
+          { cancelable: false },
+        );
+      } else {
+        Alert.alert(
+          'Already added',
+          'This bar is already in your favourites.',
+          [{ text: 'OK' }],
+          { cancelable: false },
+        );
+      }
     } catch (error) {
       console.log(error);
       Alert.alert(
         'Error',
         'There was an error, please try again.',
-        [{ text: 'OK', onPress: () => console.log('Alert closed.') }],
+        [{ text: 'OK' }],
         { cancelable: false },
       );
     }
@@ -211,6 +226,15 @@ export default compose(
       bars: data.listBars ? data.listBars.items : [],
       refetch: data.refetch,
       networkStatus: data.networkStatus,
+    }),
+  }),
+  graphql(gql(ListBarMembers), {
+    options: {
+      fetchPolicy: 'network-only',
+    },
+    props: ({ data }) => ({
+      data,
+      members: data.listBarMembers ? data.listBarMembers.items : null,
     }),
   }),
   graphql(gql(CreateBarMember), {
