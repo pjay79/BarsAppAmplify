@@ -36,7 +36,6 @@ class UserBarsList extends Component {
     const { id, data } = this.props;
     data.subscribeToMore(
       buildSubscription(gql(AddBarSubscription), gql(GetUserBars), 'User', id, 'auto'),
-      buildSubscription(gql(AddBarSubscription), gql(ListBarMembers), 'BarMember', 'auto'),
     );
   }
 

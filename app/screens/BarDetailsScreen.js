@@ -59,12 +59,30 @@ export default class BarDetailsScreen extends Component {
   };
 
   openWebsiteLink = () => {
-    const { details } = this.state;
-    Linking.openURL(details.website);
+    try {
+      const { details: { website } } = this.state;
+      const supported = Linking.canOpenURL(website);
+      if (supported) {
+        Linking.openURL(website);
+        console.log(website);
+      } else {
+        console.log('Website url not valid.');
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  openPhone = (phone) => {
-    Linking.openURL(`tel://+${phone}`).catch(error => console.log(error));
+  openPhone = () => {
+    try {
+      const { details } = this.state;
+      const phone = details.formatted_phone_number;
+      Linking.openURL(`tel://${phone}`);
+      console.log(phone);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   toggleMapLinks = () => {
