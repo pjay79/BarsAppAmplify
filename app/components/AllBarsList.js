@@ -28,8 +28,8 @@ class AllBarsList extends Component {
   };
 
   componentDidMount() {
-    const { data } = this.props;
-    data.subscribeToMore(buildSubscription(gql(AddBarSubscription), gql(ListBars)));
+    const { listBars } = this.props;
+    listBars.subscribeToMore(buildSubscription(gql(AddBarSubscription), gql(ListBars)));
   }
 
   openWebsiteLink = (website) => {
@@ -238,7 +238,7 @@ export default compose(
       notifyOnNetworkStatusChange: true,
     },
     props: ({ data }) => ({
-      data,
+      listBars: data,
       bars: data.listBars ? data.listBars.items : [],
       refetch: data.refetch,
       networkStatus: data.networkStatus,
@@ -276,7 +276,7 @@ export default compose(
 )(AllBarsList);
 
 AllBarsList.propTypes = {
-  data: PropTypes.shape().isRequired,
+  listBars: PropTypes.shape().isRequired,
   bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   refetch: PropTypes.func.isRequired,
   networkStatus: PropTypes.number.isRequired,

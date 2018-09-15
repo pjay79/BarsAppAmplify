@@ -33,8 +33,8 @@ class UserBarsList extends Component {
   };
 
   componentDidMount() {
-    const { id, data } = this.props;
-    data.subscribeToMore(
+    const { id, getUserBars } = this.props;
+    getUserBars.subscribeToMore(
       buildSubscription(gql(AddBarSubscription), gql(GetUserBars), 'User', id, 'auto'),
     );
   }
@@ -211,7 +211,7 @@ export default compose(
       notifyOnNetworkStatusChange: true,
     }),
     props: ({ data }) => ({
-      data,
+      getUserBars: data,
       bars: data.getUser ? data.getUser.bars.items : [],
       refetch: data.refetch,
       networkStatus: data.networkStatus,
@@ -244,7 +244,7 @@ export default compose(
 
 UserBarsList.propTypes = {
   id: PropTypes.string.isRequired,
-  data: PropTypes.shape().isRequired,
+  getUserBars: PropTypes.shape().isRequired,
   bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   members: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   refetch: PropTypes.func.isRequired,
