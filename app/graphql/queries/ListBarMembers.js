@@ -3,8 +3,6 @@ export default `
     listBarMembers {
         items {
           id
-          createdAt
-          updatedAt
           userId
           barId
           __typename

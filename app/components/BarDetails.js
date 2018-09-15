@@ -347,6 +347,9 @@ export default compose(
     }),
   }),
   graphql(gql(CreateBarMember), {
+    options: {
+      fetchPolicy: 'network-only',
+    },
     props: ({ mutate }) => ({
       createBarMember: member => mutate({
         variables: member,
@@ -354,6 +357,9 @@ export default compose(
     }),
   }),
   graphql(gql(CreateBar), {
+    options: {
+      fetchPolicy: 'network-only',
+    },
     props: ({ mutate }) => ({
       createBar: barData => mutate({
         variables: barData,
@@ -361,6 +367,9 @@ export default compose(
     }),
   }),
   graphql(gql(UpdateBar), {
+    options: {
+      fetchPolicy: 'network-only',
+    },
     props: ({ mutate }) => ({
       updateBar: barData => mutate({
         variables: barData,

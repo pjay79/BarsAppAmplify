@@ -33,11 +33,27 @@ class AllBarsList extends Component {
   }
 
   openWebsiteLink = (website) => {
-    Linking.openURL(website).catch(error => console.log(error));
+    try {
+      const supported = Linking.canOpenURL(website);
+      if (supported) {
+        Linking.openURL(website);
+        console.log(website);
+      } else {
+        console.log('Website url not valid.');
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   openPhone = (phone) => {
-    Linking.openURL(`tel://+${phone}`).catch(error => console.log(error));
+    try {
+      Linking.openURL(`tel://${phone}`);
+      console.log(phone);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   toggleMapLinks = () => {
