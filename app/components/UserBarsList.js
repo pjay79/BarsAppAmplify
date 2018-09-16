@@ -13,6 +13,7 @@ import {
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { buildSubscription } from 'aws-appsync';
+import _ from 'lodash';
 import Swipeout from 'react-native-swipeout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
@@ -31,6 +32,8 @@ class UserBarsList extends Component {
 
   state = {
     isVisible: false,
+    options: ['Name', 'Created At'],
+    selectedIndex: 0,
     property: 'name',
     direction: 'asc',
   };
@@ -69,6 +72,14 @@ class UserBarsList extends Component {
   toggleMapLinks = () => {
     this.setState(prevState => ({ isVisible: !prevState.isVisible }));
   };
+
+  toggleBarSortOrder = (event) => {
+    const {
+      options,
+    } = this.state;
+    this.setState({ property: _.camelCase(options[event.nativeEvent.selectedSegmentIndex]) });
+    console.log(event.nativeEvent);
+  }
 
   deleteFavourite = async (barId) => {
     try {
@@ -155,26 +166,31 @@ class UserBarsList extends Component {
 
   render() {
     const { refetch, networkStatus, bars } = this.props;
-    const { property, direction } = this.state;
+    const {
+      property,
+      direction,
+      options,
+      selectedIndex,
+    } = this.state;
 
     return (
-      <View>
-        <FlatList
-          data={orderData(bars, property, direction)}
-          renderItem={this.renderItem}
-          keyExtractor={item => item.id}
-          onRefresh={() => refetch()}
-          refreshing={networkStatus === 4}
-          ItemSeparatorComponent={this.renderSeparator}
-        />
+      <View style={styles.container}>
+        <View style={styles.flatListWrapper}>
+          <FlatList
+            data={orderData(bars, property, direction)}
+            renderItem={this.renderItem}
+            keyExtractor={item => item.id}
+            onRefresh={() => refetch()}
+            refreshing={networkStatus === 4}
+            ItemSeparatorComponent={this.renderSeparator}
+          />
+        </View>
         <View style={styles.segmentedControlWrapper}>
           <SegmentedControlIOS
-            values={['Name', 'Created At']}
+            values={options}
             tintColor={COLORS.DEFAULT_PRIMARY_COLOR}
-            selectedIndex={this.state.selectedIndex}
-            onChange={(event) => {
-              this.setState({ selectedIndex: event.nativeEvent.selectedSegmentIndex });
-            }}
+            selectedIndex={selectedIndex}
+            onChange={event => this.toggleBarSortOrder(event)}
           />
         </View>
       </View>
@@ -183,6 +199,10 @@ class UserBarsList extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
   card: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -208,6 +228,9 @@ const styles = StyleSheet.create({
   iconWrapper: {
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  flatListWrapper: {
+    marginBottom: 30,
   },
   segmentedControlWrapper: {
     backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
