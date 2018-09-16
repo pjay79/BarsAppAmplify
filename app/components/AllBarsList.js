@@ -6,7 +6,6 @@ import {
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { buildSubscription } from 'aws-appsync';
-import _ from 'lodash';
 import Swipeout from 'react-native-swipeout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
@@ -16,6 +15,7 @@ import UpdateBar from '../graphql/mutations/UpdateBar';
 import ListBars from '../graphql/queries/ListBars';
 import ListBarMembers from '../graphql/queries/ListBarMembers';
 import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
+import orderData from '../util/orderData';
 import * as COLORS from '../config/colors';
 
 class AllBarsList extends Component {
@@ -25,6 +25,8 @@ class AllBarsList extends Component {
 
   state = {
     isVisible: false,
+    property: 'name',
+    direction: 'asc',
   };
 
   componentDidMount() {
@@ -184,10 +186,11 @@ class AllBarsList extends Component {
 
   render() {
     const { refetch, networkStatus, bars } = this.props;
+    const { property, direction } = this.state;
 
     return (
       <FlatList
-        data={_.orderBy(bars, ['createdAt'], ['desc'])}
+        data={orderData(bars, property, direction)}
         renderItem={this.renderItem}
         keyExtractor={item => item.id}
         onRefresh={() => refetch()}

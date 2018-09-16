@@ -12,7 +12,6 @@ import {
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { buildSubscription } from 'aws-appsync';
-import _ from 'lodash';
 import Swipeout from 'react-native-swipeout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
@@ -21,6 +20,7 @@ import GetUserBars from '../graphql/queries/GetUserBars';
 import ListBarMembers from '../graphql/queries/ListBarMembers';
 import DeleteBarMember from '../graphql/mutations/DeleteBarMember';
 import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
+import orderData from '../util/orderData';
 import * as COLORS from '../config/colors';
 
 class UserBarsList extends Component {
@@ -30,6 +30,8 @@ class UserBarsList extends Component {
 
   state = {
     isVisible: false,
+    property: 'name',
+    direction: 'asc',
   };
 
   componentDidMount() {
@@ -158,10 +160,11 @@ class UserBarsList extends Component {
 
   render() {
     const { refetch, networkStatus, bars } = this.props;
+    const { property, direction } = this.state;
 
     return (
       <FlatList
-        data={_.orderBy(bars, ['createdAt'], ['desc'])}
+        data={orderData(bars, property, direction)}
         renderItem={this.renderItem}
         keyExtractor={item => item.id}
         onRefresh={() => refetch()}
