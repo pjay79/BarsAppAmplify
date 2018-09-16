@@ -7,6 +7,7 @@ import {
   FlatList,
   Linking,
   StyleSheet,
+  SegmentedControlIOS,
   Alert,
 } from 'react-native';
 import gql from 'graphql-tag';
@@ -79,22 +80,16 @@ class UserBarsList extends Component {
       const memberId = barMemberDeleted[0].id;
       await deleteBarMember(memberId);
 
-      Alert.alert(
-        'Success',
-        'This bar has been deleted from your favourites.',
-        [{ text: 'OK' }],
-        { cancelable: false },
-      );
+      Alert.alert('Success', 'This bar has been deleted from your favourites.', [{ text: 'OK' }], {
+        cancelable: false,
+      });
     } catch (error) {
       console.log(error);
-      Alert.alert(
-        'Error',
-        'There was an error, please try again.',
-        [{ text: 'OK' }],
-        { cancelable: false },
-      );
+      Alert.alert('Error', 'There was an error, please try again.', [{ text: 'OK' }], {
+        cancelable: false,
+      });
     }
-  }
+  };
 
   renderItem = ({ item }) => {
     const { isVisible } = this.state;
@@ -163,14 +158,26 @@ class UserBarsList extends Component {
     const { property, direction } = this.state;
 
     return (
-      <FlatList
-        data={orderData(bars, property, direction)}
-        renderItem={this.renderItem}
-        keyExtractor={item => item.id}
-        onRefresh={() => refetch()}
-        refreshing={networkStatus === 4}
-        ItemSeparatorComponent={this.renderSeparator}
-      />
+      <View>
+        <FlatList
+          data={orderData(bars, property, direction)}
+          renderItem={this.renderItem}
+          keyExtractor={item => item.id}
+          onRefresh={() => refetch()}
+          refreshing={networkStatus === 4}
+          ItemSeparatorComponent={this.renderSeparator}
+        />
+        <View style={styles.segmentedControlWrapper}>
+          <SegmentedControlIOS
+            values={['Name', 'Created At']}
+            tintColor={COLORS.DEFAULT_PRIMARY_COLOR}
+            selectedIndex={this.state.selectedIndex}
+            onChange={(event) => {
+              this.setState({ selectedIndex: event.nativeEvent.selectedSegmentIndex });
+            }}
+          />
+        </View>
+      </View>
     );
   }
 }
@@ -202,6 +209,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  segmentedControlWrapper: {
+    backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
 });
 
 export default compose(
@@ -231,12 +247,14 @@ export default compose(
   }),
   graphql(gql(DeleteBarMember), {
     options: ownProps => ({
-      refetchQueries: [{
-        query: gql(GetUserBars),
-        variables: {
-          id: ownProps.id,
+      refetchQueries: [
+        {
+          query: gql(GetUserBars),
+          variables: {
+            id: ownProps.id,
+          },
         },
-      }],
+      ],
       fetchPolicy: 'network-only',
     }),
     props: ({ mutate }) => ({

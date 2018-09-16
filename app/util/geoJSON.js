@@ -10,6 +10,6 @@ export default (bar) => {
       type: 'Point',
     },
   };
-  // console.log(shape);
+  console.log(shape);
   return shape;
 };

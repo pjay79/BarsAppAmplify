@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  View, Text, Alert, TouchableOpacity, FlatList, Linking, StyleSheet,
+  View,
+  Text,
+  Alert,
+  TouchableOpacity,
+  FlatList,
+  Linking,
+  SegmentedControlIOS,
+  StyleSheet,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -25,8 +32,8 @@ class AllBarsList extends Component {
 
   state = {
     isVisible: false,
-    property: 'name',
-    direction: 'asc',
+    property: 'createdAt',
+    direction: 'desc',
   };
 
   componentDidMount() {
@@ -65,22 +72,11 @@ class AllBarsList extends Component {
   addToUserFavourites = async (bar) => {
     try {
       const {
-        userId,
-        members,
-        createBarMember,
-        updateBar,
+        userId, members, createBarMember, updateBar,
       } = this.props;
 
       const {
-        id,
-        name,
-        phone,
-        location,
-        lat,
-        lng,
-        url,
-        website,
-        addedBy,
+        id, name, phone, location, lat, lng, url, website, addedBy,
       } = bar;
 
       const barData = {
@@ -108,28 +104,19 @@ class AllBarsList extends Component {
       if (barMemberAdded.length === 0) {
         await createBarMember({ ...barMember });
         await updateBar({ ...barData });
-        Alert.alert(
-          'Success',
-          'This bar has been added to your favourites.',
-          [{ text: 'OK' }],
-          { cancelable: false },
-        );
+        Alert.alert('Success', 'This bar has been added to your favourites.', [{ text: 'OK' }], {
+          cancelable: false,
+        });
       } else {
-        Alert.alert(
-          'Already added',
-          'This bar is already in your favourites.',
-          [{ text: 'OK' }],
-          { cancelable: false },
-        );
+        Alert.alert('Already added', 'This bar is already in your favourites.', [{ text: 'OK' }], {
+          cancelable: false,
+        });
       }
     } catch (error) {
       console.log(error);
-      Alert.alert(
-        'Error',
-        'There was an error, please try again.',
-        [{ text: 'OK' }],
-        { cancelable: false },
-      );
+      Alert.alert('Error', 'There was an error, please try again.', [{ text: 'OK' }], {
+        cancelable: false,
+      });
     }
   };
 
@@ -161,7 +148,11 @@ class AllBarsList extends Component {
               <MaterialCommunityIcons name="web" size={18} color={COLORS.ACCENT_COLOR} />
             </TouchableOpacity>
             <TouchableOpacity onPress={this.toggleMapLinks}>
-              <MaterialCommunityIcons name="directions" size={18} color={COLORS.DARK_PRIMARY_COLOR} />
+              <MaterialCommunityIcons
+                name="directions"
+                size={18}
+                color={COLORS.DARK_PRIMARY_COLOR}
+              />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.openPhone(item.phone)}>
               <Foundation name="telephone" size={18} color={COLORS.PRIMARY_TEXT_COLOR} />
@@ -189,14 +180,26 @@ class AllBarsList extends Component {
     const { property, direction } = this.state;
 
     return (
-      <FlatList
-        data={orderData(bars, property, direction)}
-        renderItem={this.renderItem}
-        keyExtractor={item => item.id}
-        onRefresh={() => refetch()}
-        refreshing={networkStatus === 4}
-        ItemSeparatorComponent={this.renderSeparator}
-      />
+      <View>
+        <FlatList
+          data={orderData(bars, property, direction)}
+          renderItem={this.renderItem}
+          keyExtractor={item => item.id}
+          onRefresh={() => refetch()}
+          refreshing={networkStatus === 4}
+          ItemSeparatorComponent={this.renderSeparator}
+        />
+        <View style={styles.segmentedControlWrapper}>
+          <SegmentedControlIOS
+            values={['Name', 'Created At']}
+            tintColor={COLORS.DEFAULT_PRIMARY_COLOR}
+            selectedIndex={this.state.selectedIndex}
+            onChange={(event) => {
+              this.setState({ selectedIndex: event.nativeEvent.selectedSegmentIndex });
+            }}
+          />
+        </View>
+      </View>
     );
   }
 }
@@ -231,6 +234,15 @@ const styles = StyleSheet.create({
   separator: {
     backgroundColor: COLORS.DIVIDER_COLOR,
     height: StyleSheet.hairlineWidth,
+  },
+  segmentedControlWrapper: {
+    backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });
 
