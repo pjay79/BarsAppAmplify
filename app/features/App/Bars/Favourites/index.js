@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
@@ -8,14 +7,6 @@ import FavouritesScreen from './FavouritesScreen';
 import CommunityScreen from './CommunityScreen';
 
 import * as COLORS from '../../../../config/colors';
-
-const FavouritesIcon = ({ tintColor }) => (
-  <Ionicons name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'} size={25} color={tintColor} />
-);
-
-FavouritesIcon.propTypes = {
-  tintColor: PropTypes.string.isRequired,
-};
 
 const FavouritesStack = createStackNavigator(
   {
@@ -78,11 +69,13 @@ export const FavouritesTabStack = createStackNavigator(
         borderBottomColor: COLORS.LIGHT_PRIMARY_COLOR,
       },
       headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
-      tabBarIcon: FavouritesIcon,
     },
   },
 );
 
 FavouritesTabStack.navigationOptions = {
-  tabBarIcon: FavouritesIcon,
+  // eslint-disable-next-line react/prop-types
+  tabBarIcon: ({ tintColor }) => (
+    <Ionicons name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'} size={25} color={tintColor} />
+  ),
 };

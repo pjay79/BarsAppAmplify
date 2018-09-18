@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
@@ -9,14 +8,6 @@ import BarDetailsScreen from './BarDetailsScreen';
 import MapScreen from './MapScreen';
 
 import * as COLORS from '../../../../config/colors';
-
-const NearbyIcon = ({ tintColor }) => (
-  <Ionicons name={Platform.OS === 'ios' ? 'ios-beer' : 'md-beer'} size={20} color={tintColor} />
-);
-
-NearbyIcon.propTypes = {
-  tintColor: PropTypes.string.isRequired,
-};
 
 const ListStack = createStackNavigator(
   {
@@ -88,5 +79,8 @@ export const NearbyTabStack = createStackNavigator(
 );
 
 NearbyTabStack.navigationOptions = {
-  tabBarIcon: NearbyIcon,
+  // eslint-disable-next-line react/prop-types
+  tabBarIcon: ({ tintColor }) => (
+    <Ionicons name={Platform.OS === 'ios' ? 'ios-beer' : 'md-beer'} size={20} color={tintColor} />
+  ),
 };
