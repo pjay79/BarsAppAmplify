@@ -14,6 +14,7 @@ import { graphql, compose } from 'react-apollo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import uuidV4 from 'uuid/v4';
 import GetBar from '../graphql/queries/GetBar';
 import ListBarMembers from '../graphql/queries/ListBarMembers';
 import CreateBar from '../graphql/mutations/CreateBar';
@@ -151,7 +152,7 @@ class BarDetails extends Component {
           </Text>
           {details.opening_hours
             && details.opening_hours.weekday_text.map(data => (
-              <View key={data}>
+              <View key={uuidV4()}>
                 <Text style={styles.openingHoursText}>
                   {data}
                 </Text>
@@ -171,7 +172,7 @@ class BarDetails extends Component {
           </Text>
           {details.reviews
             && details.reviews.map(data => (
-              <View key={data.text} style={styles.reviewContainer}>
+              <View key={uuidV4()} style={styles.reviewContainer}>
                 <Text style={styles.author}>
                   Posted by
                   {' '}

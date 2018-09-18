@@ -14,6 +14,7 @@ import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { buildSubscription } from 'aws-appsync';
 import _ from 'lodash';
+import moment from 'moment';
 import Swipeout from 'react-native-swipeout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
@@ -111,6 +112,7 @@ class UserBarsList extends Component {
         text: 'DELETE',
       },
     ];
+    const date = moment.utc(item.createdAt).format('MMMM Do YYYY, h:mm:ss a');
     return (
       <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
         <View style={styles.card}>
@@ -123,6 +125,9 @@ class UserBarsList extends Component {
             </Text>
             <Text style={styles.phone}>
               {item.phone}
+            </Text>
+            <Text style={styles.date}>
+              {`Added on ${date}`}
             </Text>
           </View>
           <View style={styles.iconWrapper}>
@@ -223,6 +228,9 @@ const styles = StyleSheet.create({
   },
   phone: {
     fontSize: 12,
+  },
+  date: {
+    fontSize: 12,
     color: COLORS.SECONDARY_TEXT_COLOR,
   },
   iconWrapper: {
@@ -230,6 +238,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   flatListWrapper: {
+    flex: 1,
     marginBottom: 30,
   },
   segmentedControlWrapper: {

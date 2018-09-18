@@ -17,6 +17,7 @@
     "geolib": "^2.0.24",
     "graphql-tag": "^2.9.2",
     "lodash": "^4.17.10",
+    "moment": "^2.22.2",
     "prop-types": "^15.6.2",
     "react": "16.4.1",
     "react-apollo": "^2.1.9",
@@ -29,7 +30,8 @@
     "react-native-splash-screen": "^3.1.1",
     "react-native-swipeout": "^2.3.6",
     "react-native-vector-icons": "^5.0.0",
-    "react-navigation": "^2.9.3"
+    "react-navigation": "^2.9.3",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",

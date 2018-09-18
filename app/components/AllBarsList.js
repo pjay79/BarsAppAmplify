@@ -14,6 +14,7 @@ import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { buildSubscription } from 'aws-appsync';
 import _ from 'lodash';
+import moment from 'moment';
 import Swipeout from 'react-native-swipeout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
@@ -140,6 +141,7 @@ class AllBarsList extends Component {
         text: 'LIKE',
       },
     ];
+    const date = moment.utc(item.createdAt).format('MMMM Do YYYY, h:mm:ss a');
     return (
       <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
         <View style={styles.card}>
@@ -152,6 +154,9 @@ class AllBarsList extends Component {
             </Text>
             <Text style={styles.phone}>
               {item.phone}
+            </Text>
+            <Text style={styles.date}>
+              {`Added on ${date}`}
             </Text>
           </View>
           <View style={styles.iconWrapper}>
@@ -244,7 +249,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   phone: {
-    fontSize: 12,
+    fontSize: 10,
+  },
+  date: {
+    fontSize: 10,
     color: COLORS.SECONDARY_TEXT_COLOR,
   },
   iconWrapper: {
@@ -256,6 +264,7 @@ const styles = StyleSheet.create({
     height: StyleSheet.hairlineWidth,
   },
   flatListWrapper: {
+    flex: 1,
     marginBottom: 30,
   },
   segmentedControlWrapper: {
