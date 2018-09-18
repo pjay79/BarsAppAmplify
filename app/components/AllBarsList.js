@@ -12,19 +12,23 @@ import {
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
-import { buildSubscription } from 'aws-appsync';
 import _ from 'lodash';
 import moment from 'moment';
 import Swipeout from 'react-native-swipeout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import MapLinks from './MapLinks';
+
+// GraphQL
+import ListBars from '../graphql/queries/ListBars';
+import GetBarMember from '../graphql/queries/GetBarMember';
 import CreateBarMember from '../graphql/mutations/CreateBarMember';
 import UpdateBar from '../graphql/mutations/UpdateBar';
-import ListBars from '../graphql/queries/ListBars';
-import ListBarMembers from '../graphql/queries/ListBarMembers';
-import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
+
+// Util
 import orderData from '../util/orderData';
+
+// Config
 import * as COLORS from '../config/colors';
 
 class AllBarsList extends Component {
@@ -39,11 +43,6 @@ class AllBarsList extends Component {
     property: 'name',
     direction: 'asc',
   };
-
-  componentDidMount() {
-    const { listBars } = this.props;
-    listBars.subscribeToMore(buildSubscription(gql(AddBarSubscription), gql(ListBars)));
-  }
 
   openWebsiteLink = (website) => {
     try {
@@ -84,7 +83,7 @@ class AllBarsList extends Component {
   addToUserFavourites = async (bar) => {
     try {
       const {
-        userId, members, createBarMember, updateBar,
+        userId, getBarMember, createBarMember, updateBar,
       } = this.props;
 
       const {
@@ -108,18 +107,12 @@ class AllBarsList extends Component {
         barId: id,
       };
 
-      const barMemberAdded = await members.filter(
-        member => member.userId === userId && member.barId === id,
-      );
-      console.log(barMemberAdded);
-
-      if (barMemberAdded.length === 0) {
-        await createBarMember({ ...barMember });
-        await updateBar({ ...barData });
+      if (getBarMember === null) {
+        await Promise.all([createBarMember({ ...barMember }), updateBar({ ...barData })]);
         Alert.alert('Success', 'This bar has been added to your favourites.', [{ text: 'OK' }], {
           cancelable: false,
         });
-      } else {
+      } else if (getBarMember !== null) {
         Alert.alert('Already added', 'This bar is already in your favourites.', [{ text: 'OK' }], {
           cancelable: false,
         });
@@ -278,6 +271,12 @@ const styles = StyleSheet.create({
   },
 });
 
+AllBarsList.propTypes = {
+  bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  refetch: PropTypes.func.isRequired,
+  networkStatus: PropTypes.number.isRequired,
+};
+
 export default compose(
   graphql(gql(ListBars), {
     options: {
@@ -291,13 +290,16 @@ export default compose(
       networkStatus: data.networkStatus,
     }),
   }),
-  graphql(gql(ListBarMembers), {
-    options: {
+  graphql(gql(GetBarMember), {
+    options: ownProps => ({
+      variables: {
+        userId: ownProps.userId,
+        barId: ownProps.id,
+      },
       fetchPolicy: 'network-only',
-    },
+    }),
     props: ({ data }) => ({
-      data,
-      members: data.listBarMembers ? data.listBarMembers.items : null,
+      getBarMember: data.getBarMember ? data.getBarMember : null,
     }),
   }),
   graphql(gql(CreateBarMember), {
@@ -321,10 +323,3 @@ export default compose(
     }),
   }),
 )(AllBarsList);
-
-AllBarsList.propTypes = {
-  listBars: PropTypes.shape().isRequired,
-  bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  refetch: PropTypes.func.isRequired,
-  networkStatus: PropTypes.number.isRequired,
-};

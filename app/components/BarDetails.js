@@ -15,11 +15,17 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Foundation from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import uuidV4 from 'uuid/v4';
+
+// GraphQL
+import ListBars from '../graphql/queries/ListBars';
+import GetUserBars from '../graphql/queries/GetUserBars';
 import GetBar from '../graphql/queries/GetBar';
-import ListBarMembers from '../graphql/queries/ListBarMembers';
+import GetBarMember from '../graphql/queries/GetBarMember';
+import CreateBarMember from '../graphql/mutations/CreateBarMember';
 import CreateBar from '../graphql/mutations/CreateBar';
 import UpdateBar from '../graphql/mutations/UpdateBar';
-import CreateBarMember from '../graphql/mutations/CreateBarMember';
+
+// Config
 import * as COLORS from '../config/colors';
 
 class BarDetails extends Component {
@@ -32,7 +38,7 @@ class BarDetails extends Component {
         details,
         userId,
         bar,
-        members,
+        getBarMember,
         createBarMember,
         createBar,
         updateBar,
@@ -59,30 +65,23 @@ class BarDetails extends Component {
         barId: id,
       };
 
-      const barMemberAdded = await members.filter(
-        member => member.userId === userId && member.barId === id,
-      );
-      console.log(barMemberAdded);
-
-      if (!bar && barMemberAdded.length === 0) {
-        await createBarMember({ ...barMember });
-        await createBar({ ...barData });
+      if (!bar && getBarMember === null) {
+        await Promise.all([createBarMember({ ...barMember }), createBar({ ...barData })]);
         Alert.alert(
           'Success',
           'This bar has been added to your favourites.',
           [{ text: 'OK' }],
           { cancelable: false },
         );
-      } else if (bar && barMemberAdded.length === 0) {
-        await createBarMember({ ...barMember });
-        await updateBar({ ...barData });
+      } else if (bar && getBarMember === null) {
+        await Promise.all([createBarMember({ ...barMember }), updateBar({ ...barData })]);
         Alert.alert(
           'Success',
           'This bar has been added to your favourites.',
           [{ text: 'OK' }],
           { cancelable: false },
         );
-      } else {
+      } else if (getBarMember !== null) {
         console.log('This bar has already been favourited!');
         Alert.alert(
           'Already added',
@@ -338,13 +337,16 @@ export default compose(
       bar: data.getBar ? data.getBar : null,
     }),
   }),
-  graphql(gql(ListBarMembers), {
-    options: {
+  graphql(gql(GetBarMember), {
+    options: ownProps => ({
+      variables: {
+        userId: ownProps.userId,
+        barId: ownProps.id,
+      },
       fetchPolicy: 'network-only',
-    },
+    }),
     props: ({ data }) => ({
-      data,
-      members: data.listBarMembers ? data.listBarMembers.items : null,
+      getBarMember: data.getBarMember ? data.getBarMember : null,
     }),
   }),
   graphql(gql(CreateBarMember), {
@@ -354,6 +356,10 @@ export default compose(
     props: ({ mutate }) => ({
       createBarMember: member => mutate({
         variables: member,
+        refetchQueries: [
+          { query: gql(ListBars) },
+          { query: gql(GetUserBars), variables: { id: member.userId } },
+        ],
       }),
     }),
   }),

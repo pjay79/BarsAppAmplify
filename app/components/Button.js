@@ -4,8 +4,6 @@ import {
   TouchableOpacity, View, Text, Dimensions, StyleSheet,
 } from 'react-native';
 
-const { width } = Dimensions.get('window');
-
 const Button = ({
   title, onPress, style, textStyle,
 }) => (
@@ -18,17 +16,7 @@ const Button = ({
   </TouchableOpacity>
 );
 
-Button.propTypes = {
-  title: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired,
-  style: PropTypes.shape(),
-  textStyle: PropTypes.shape(),
-};
-
-Button.defaultProps = {
-  style: {},
-  textStyle: {},
-};
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -49,5 +37,17 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
   },
 });
+
+Button.propTypes = {
+  title: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+  style: PropTypes.shape(),
+  textStyle: PropTypes.shape(),
+};
+
+Button.defaultProps = {
+  style: {},
+  textStyle: {},
+};
 
 export default Button;

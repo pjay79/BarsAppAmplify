@@ -4,8 +4,6 @@ import {
   View, TextInput, StyleSheet, Dimensions,
 } from 'react-native';
 
-const { width } = Dimensions.get('window');
-
 const Input = ({
   onChangeText, value, placeholder, secureTextEntry, style,
 }) => (
@@ -24,6 +22,8 @@ const Input = ({
   </View>
 );
 
+const { width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   inputStyle: {
     backgroundColor: 'white',
@@ -35,8 +35,6 @@ const styles = StyleSheet.create({
     width: width * 0.8,
   },
 });
-
-export default Input;
 
 Input.propTypes = {
   onChangeText: PropTypes.func.isRequired,
@@ -51,3 +49,5 @@ Input.defaultProps = {
   secureTextEntry: false,
   style: {},
 };
+
+export default Input;

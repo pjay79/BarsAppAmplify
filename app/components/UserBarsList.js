@@ -12,18 +12,22 @@ import {
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
-import { buildSubscription } from 'aws-appsync';
 import _ from 'lodash';
 import moment from 'moment';
 import Swipeout from 'react-native-swipeout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import MapLinks from './MapLinks';
+
+// GraphQL
 import GetUserBars from '../graphql/queries/GetUserBars';
 import ListBarMembers from '../graphql/queries/ListBarMembers';
 import DeleteBarMember from '../graphql/mutations/DeleteBarMember';
-import AddBarSubscription from '../graphql/subscriptions/AddBarSubscription';
+
+// Util
 import orderData from '../util/orderData';
+
+// Config
 import * as COLORS from '../config/colors';
 
 class UserBarsList extends Component {
@@ -38,13 +42,6 @@ class UserBarsList extends Component {
     property: 'name',
     direction: 'asc',
   };
-
-  componentDidMount() {
-    const { id, getUserBars } = this.props;
-    getUserBars.subscribeToMore(
-      buildSubscription(gql(AddBarSubscription), gql(GetUserBars), 'User', id, 'auto'),
-    );
-  }
 
   openWebsiteLink = (website) => {
     try {
@@ -252,6 +249,15 @@ const styles = StyleSheet.create({
   },
 });
 
+UserBarsList.propTypes = {
+  id: PropTypes.string.isRequired,
+  bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  members: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  refetch: PropTypes.func.isRequired,
+  networkStatus: PropTypes.number.isRequired,
+  deleteBarMember: PropTypes.func.isRequired,
+};
+
 export default compose(
   graphql(gql(GetUserBars), {
     options: ownProps => ({
@@ -294,13 +300,3 @@ export default compose(
     }),
   }),
 )(UserBarsList);
-
-UserBarsList.propTypes = {
-  id: PropTypes.string.isRequired,
-  getUserBars: PropTypes.shape().isRequired,
-  bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  members: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  refetch: PropTypes.func.isRequired,
-  networkStatus: PropTypes.number.isRequired,
-  deleteBarMember: PropTypes.func.isRequired,
-};
