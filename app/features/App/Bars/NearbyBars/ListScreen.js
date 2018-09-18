@@ -13,10 +13,10 @@ import {
 import { Auth } from 'aws-amplify';
 import Geolocation from 'react-native-geolocation-service';
 import SplashScreen from 'react-native-splash-screen';
-import nearbyPlacesSearch from '../services/nearbyPlacesSearch';
-import displayPriceRating from '../util/displayPriceRating';
-import calculateDistance from '../util/calculateDistance';
-import * as COLORS from '../config/colors';
+import nearbyPlacesSearch from '../../../../services/nearbyPlacesSearch';
+import displayPriceRating from '../../../../util/displayPriceRating';
+import calculateDistance from '../../../../util/calculateDistance';
+import * as COLORS from '../../../../config/colors';
 
 export default class ListScreen extends Component {
   static navigationOptions = {

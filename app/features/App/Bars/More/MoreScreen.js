@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as COLORS from '../config/colors';
+import * as COLORS from '../../../../config/colors';
 
 export default class MoreScreen extends Component {
   static navigationOptions = {

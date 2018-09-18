@@ -4,11 +4,11 @@ import {
   View, Text, StyleSheet, ActivityIndicator,
 } from 'react-native';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
-import GetUser from '../graphql/queries/GetUser';
-import CreateUser from '../graphql/mutations/CreateUser';
-import Button from '../components/Button';
-import Input from '../components/Input';
-import * as COLORS from '../config/colors';
+import GetUser from '../../graphql/queries/GetUser';
+import CreateUser from '../../graphql/mutations/CreateUser';
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import * as COLORS from '../../config/colors';
 
 export default class SignInScreen extends Component {
   static navigationOptions = {

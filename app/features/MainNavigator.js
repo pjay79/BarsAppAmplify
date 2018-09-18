@@ -1,8 +1,8 @@
 import { createSwitchNavigator } from 'react-navigation';
-import LoadingScreen from './Loading/Loading';
-import IntroScreen from './Intro/Intro';
-import AuthStack from './Auth/AuthStack';
-import AppStack from './App/AppStack';
+import LoadingScreen from './Loading/LoadingScreen';
+import IntroScreen from './Intro/IntroScreen';
+import AuthStack from './Auth';
+import AppStack from './App';
 
 export default createSwitchNavigator(
   {

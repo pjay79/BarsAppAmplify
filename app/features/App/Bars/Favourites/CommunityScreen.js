@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Auth } from 'aws-amplify';
-import UserBarsList from '../components/UserBarsList';
-import * as COLORS from '../config/colors';
+import AllBarsList from '../../../../components/AllBarsList';
+import * as COLORS from '../../../../config/colors';
 
-export default class FavouritesScreen extends Component {
+export default class CommunityScreen extends Component {
   static navigationOptions = {
     header: null,
   };
 
   state = {
-    id: '',
+    userId: '',
     loading: false,
   };
 
@@ -22,9 +22,9 @@ export default class FavouritesScreen extends Component {
     try {
       this.setState({ loading: true });
       const currentUser = await Auth.currentAuthenticatedUser();
-      const id = currentUser.signInUserSession.accessToken.payload.sub;
-      this.setState({ id, loading: false });
-      console.log(id);
+      const userId = currentUser.signInUserSession.accessToken.payload.sub;
+      this.setState({ userId, loading: false });
+      console.log(userId);
     } catch (error) {
       this.setState({ loading: false });
       console.log(error);
@@ -32,7 +32,7 @@ export default class FavouritesScreen extends Component {
   };
 
   render() {
-    const { id, loading } = this.state;
+    const { userId, loading } = this.state;
 
     if (loading) {
       return (
@@ -44,7 +44,7 @@ export default class FavouritesScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <UserBarsList id={id} />
+        <AllBarsList userId={userId} />
       </View>
     );
   }

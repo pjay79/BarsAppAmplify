@@ -4,48 +4,53 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import FavouritesScreen from '../../../../screens/FavouritesScreen';
-import CommunityScreen from '../../../../screens/CommunityScreen';
+import ListScreen from './ListScreen';
+import BarDetailsScreen from './BarDetailsScreen';
+import MapScreen from './MapScreen';
 
 import * as COLORS from '../../../../config/colors';
 
-const FavouritesIcon = ({ tintColor }) => (
-  <Ionicons name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'} size={25} color={tintColor} />
+const NearbyIcon = ({ tintColor }) => (
+  <Ionicons name={Platform.OS === 'ios' ? 'ios-beer' : 'md-beer'} size={20} color={tintColor} />
 );
 
-FavouritesIcon.propTypes = {
+NearbyIcon.propTypes = {
   tintColor: PropTypes.string.isRequired,
 };
 
-const FavouritesStack = createStackNavigator(
+const ListStack = createStackNavigator(
   {
-    Favourites: {
-      screen: FavouritesScreen,
+    List: {
+      screen: ListScreen,
+    },
+    Details: {
+      screen: BarDetailsScreen,
     },
   },
   {
-    inititalRouteName: 'Favourites',
+    inititalRouteName: 'List',
+    headerMode: 'none',
   },
 );
 
-const CommunityStack = createStackNavigator(
+const MapStack = createStackNavigator(
   {
-    Community: {
-      screen: CommunityScreen,
+    Maps: {
+      screen: MapScreen,
     },
   },
   {
-    inititalRouteName: 'Community',
+    inititalRouteName: 'Map',
   },
 );
 
-const FavouritesTabs = createMaterialTopTabNavigator(
+const NearbyTabs = createMaterialTopTabNavigator(
   {
-    All: {
-      screen: CommunityStack,
+    List: {
+      screen: ListStack,
     },
-    Me: {
-      screen: FavouritesStack,
+    Map: {
+      screen: MapStack,
     },
   },
   {
@@ -64,25 +69,24 @@ const FavouritesTabs = createMaterialTopTabNavigator(
 );
 
 // eslint-disable-next-line import/prefer-default-export
-export const FavouritesTabStack = createStackNavigator(
+export const NearbyTabStack = createStackNavigator(
   {
-    FavouritesTabs: {
-      screen: FavouritesTabs,
+    NearybyTabs: {
+      screen: NearbyTabs,
     },
   },
   {
     navigationOptions: {
-      headerTitle: 'Favourites',
+      headerTitle: 'Nearby Bars',
       headerStyle: {
         backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
         borderBottomColor: COLORS.LIGHT_PRIMARY_COLOR,
       },
       headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
-      tabBarIcon: FavouritesIcon,
     },
   },
 );
 
-FavouritesTabStack.navigationOptions = {
-  tabBarIcon: FavouritesIcon,
+NearbyTabStack.navigationOptions = {
+  tabBarIcon: NearbyIcon,
 };

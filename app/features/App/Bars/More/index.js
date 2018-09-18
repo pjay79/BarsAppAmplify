@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import MoreScreen from '../../../../screens/MoreScreen';
+import MoreScreen from './MoreScreen';
 
 const MoreIcon = ({ tintColor }) => (
   <Ionicons name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} size={20} color={tintColor} />

@@ -10,8 +10,8 @@ import {
   AsyncStorage,
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import Button from '../components/Button';
-import * as COLORS from '../config/colors';
+import Button from '../../components/Button';
+import * as COLORS from '../../config/colors';
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
@@ -38,7 +38,7 @@ Bar Finder
           </Text>
         </View>
         <View style={styles.imageWrapper}>
-          <Image source={require('../assets/images/bars-logo.png')} style={styles.image} />
+          <Image source={require('../../assets/images/bars-logo.png')} style={styles.image} />
           <Text style={styles.imageSlogan}>
             Because no great story ever
             {' '}

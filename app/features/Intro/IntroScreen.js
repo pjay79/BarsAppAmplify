@@ -4,14 +4,14 @@ import { View, StyleSheet } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as COLORS from '../config/colors';
+import * as COLORS from '../../config/colors';
 
 const slides = [
   {
     key: '1',
     title: 'Find nearby bars',
     text: 'Add to favourites...',
-    image: require('../assets/images/bar.png'),
+    image: require('../../assets/images/bar.png'),
     imageStyle: { height: 180, width: 180 },
     backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
   },
@@ -19,7 +19,7 @@ const slides = [
     key: '2',
     title: 'Get directions',
     text: 'And start bar hopping!',
-    image: require('../assets/images/jumping-dancer.png'),
+    image: require('../../assets/images/jumping-dancer.png'),
     imageStyle: { height: 180, width: 180 },
     backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
   },

@@ -12,12 +12,12 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import Modal from 'react-native-modal';
 import Config from 'react-native-config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import nearbyPlacesSearch from '../services/nearbyPlacesSearch';
-import displayPriceRating from '../util/displayPriceRating';
-import calculateDistance from '../util/calculateDistance';
-import geoJSON from '../util/geoJSON';
-import Button from '../components/Button';
-import * as COLORS from '../config/colors';
+import nearbyPlacesSearch from '../../../../services/nearbyPlacesSearch';
+import displayPriceRating from '../../../../util/displayPriceRating';
+import calculateDistance from '../../../../util/calculateDistance';
+import geoJSON from '../../../../util/geoJSON';
+import Button from '../../../../components/Button';
+import * as COLORS from '../../../../config/colors';
 
 MapboxGL.setAccessToken(Config.MAPBOX_ACCESS_TOKEN);
 

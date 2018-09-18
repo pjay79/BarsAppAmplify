@@ -1,8 +1,8 @@
 import { createStackNavigator } from 'react-navigation';
 
-import HomeScreen from '../../screens/HomeScreen';
-import SignInScreen from '../../screens/SignInScreen';
-import SignUpScreen from '../../screens/SignUpScreen';
+import HomeScreen from './HomeScreen';
+import SignInScreen from './SignInScreen';
+import SignUpScreen from './SignUpScreen';
 
 export default createStackNavigator({
   Home: {
