@@ -29,10 +29,20 @@ import UpdateBar from '../graphql/mutations/UpdateBar';
 import * as COLORS from '../config/colors';
 
 class BarDetails extends Component {
+  componentDidMount() {
+    this.getMember();
+  }
+
+  getMember = async () => {
+    const { getBarMember } = this.props;
+    const member = await getBarMember;
+    console.log(`Member: ${member}`);
+  }
+
   addToFavourites = async () => {
     try {
       const {
-        id,
+        barId,
         lat,
         lng,
         details,
@@ -43,26 +53,23 @@ class BarDetails extends Component {
         createBar,
         updateBar,
       } = this.props;
-
-      const { name, url, website } = details;
-      const phone = details.formatted_phone_number;
-      const location = details.vicinity;
+      console.log(`userId: ${userId}, barId: ${barId}`);
 
       const barData = {
-        id,
-        name,
-        phone,
-        location,
+        id: barId,
+        name: details.name,
+        phone: details.formatted_phone_number,
+        location: details.vicinity,
         lat,
         lng,
-        url,
-        website,
+        url: details.url,
+        website: details.website,
         addedBy: userId,
       };
 
       const barMember = {
         userId,
-        barId: id,
+        barId,
       };
 
       if (!bar && getBarMember === null) {
@@ -81,7 +88,7 @@ class BarDetails extends Component {
           [{ text: 'OK' }],
           { cancelable: false },
         );
-      } else if (getBarMember !== null) {
+      } else if (bar && getBarMember !== null) {
         console.log('This bar has already been favourited!');
         Alert.alert(
           'Already added',
@@ -89,6 +96,10 @@ class BarDetails extends Component {
           [{ text: 'OK' }],
           { cancelable: false },
         );
+      } else if (!bar && getBarMember !== null) {
+        await createBar({ ...barData });
+      } else {
+        console.log('What the?');
       }
     } catch (error) {
       console.log(error);
@@ -108,21 +119,18 @@ class BarDetails extends Component {
       openPhone,
       toggleMapLinks,
     } = this.props;
-    const { name } = details;
-    const phone = details.formatted_phone_number;
-    const location = details.vicinity;
 
     return (
       <View style={styles.container}>
         <View style={styles.top}>
           <Text style={styles.header}>
-            {name}
+            {details.name}
           </Text>
           <Text style={styles.location}>
-            {location}
+            {details.formatted_phone_number}
           </Text>
           <Text style={styles.phone}>
-            {phone}
+            {details.vicinity}
           </Text>
           <TouchableOpacity onPress={this.addToFavourites} style={styles.iconHeader}>
             <Ionicons name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'} size={25} color={COLORS.TEXT_PRIMARY_COLOR} />
@@ -329,7 +337,7 @@ export default compose(
   graphql(gql(GetBar), {
     options: ownProps => ({
       variables: {
-        id: ownProps.id,
+        id: ownProps.placeId,
       },
       fetchPolicy: 'network-only',
     }),
@@ -341,7 +349,7 @@ export default compose(
     options: ownProps => ({
       variables: {
         userId: ownProps.userId,
-        barId: ownProps.id,
+        barId: ownProps.placeId,
       },
       fetchPolicy: 'network-only',
     }),
@@ -368,8 +376,8 @@ export default compose(
       fetchPolicy: 'network-only',
     },
     props: ({ mutate }) => ({
-      createBar: barData => mutate({
-        variables: barData,
+      createBar: bar => mutate({
+        variables: bar,
       }),
     }),
   }),
@@ -378,8 +386,12 @@ export default compose(
       fetchPolicy: 'network-only',
     },
     props: ({ mutate }) => ({
-      updateBar: barData => mutate({
-        variables: barData,
+      updateBar: bar => mutate({
+        variables: bar,
+        refetchQueries: [
+          { query: gql(ListBars) },
+          { query: gql(GetUserBars), variables: { id: bar.userId } },
+        ],
       }),
     }),
   }),

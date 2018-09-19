@@ -11,13 +11,12 @@ import Button from '../../../../components/Button';
 import * as COLORS from '../../../../config/colors';
 
 export default class BarDetailsScreen extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('bar').name,
+  static navigationOptions = {
     headerStyle: {
       backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
     },
     headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
-  });
+  };
 
   state = {
     details: {},
@@ -49,9 +48,9 @@ export default class BarDetailsScreen extends Component {
     try {
       this.setState({ loading: true });
       const currentUser = await Auth.currentAuthenticatedUser();
-      const userId = currentUser.signInUserSession.accessToken.payload.sub;
+      const userId = await currentUser.signInUserSession.accessToken.payload.sub;
       this.setState({ userId, loading: false });
-      console.log(userId);
+      console.log(`userID: ${userId}`);
     } catch (error) {
       this.setState({ loading: false });
       console.log(error);
@@ -91,12 +90,11 @@ export default class BarDetailsScreen extends Component {
 
   render() {
     const { navigation } = this.props;
-    const id = navigation.getParam('bar').place_id;
+    const barId = navigation.getParam('bar').place_id;
     const { lat, lng } = navigation.getParam('bar').geometry.location;
     const {
       details, userId, isVisible, loading,
     } = this.state;
-    const { name } = details;
 
     if (loading) {
       return (
@@ -110,7 +108,7 @@ export default class BarDetailsScreen extends Component {
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.containerContentStyle}>
           <BarDetails
-            id={id}
+            barId={barId}
             lat={lat}
             lng={lng}
             details={details}
@@ -124,10 +122,10 @@ export default class BarDetailsScreen extends Component {
             onCancelPressed={this.toggleMapLinks}
             onAppPressed={this.toggleMapLinks}
             onBackButtonPressed={this.toggleMapLinks}
-            name={name}
+            name={details.name}
             lat={lat}
             lng={lng}
-            id={id}
+            barId={barId}
           />
         </ScrollView>
         <Button

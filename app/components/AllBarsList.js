@@ -175,7 +175,7 @@ class AllBarsList extends Component {
             name={item.name}
             lat={parseFloat(item.lat)}
             lng={parseFloat(item.lng)}
-            id={item.id}
+            barId={item.id}
           />
         </View>
       </Swipeout>
@@ -183,6 +183,20 @@ class AllBarsList extends Component {
   };
 
   renderSeparator = () => <View style={styles.separator} />;
+
+  renderListEmptyComponent = () => (
+    <View style={{
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 20,
+    }}
+    >
+      <Text>
+        Nothing to see here.
+      </Text>
+    </View>
+  );
 
   render() {
     const { refetch, networkStatus, bars } = this.props;
@@ -203,6 +217,7 @@ class AllBarsList extends Component {
             onRefresh={() => refetch()}
             refreshing={networkStatus === 4}
             ItemSeparatorComponent={this.renderSeparator}
+            ListEmptyComponent={this.renderListEmptyComponent}
           />
         </View>
         <View style={styles.segmentedControlWrapper}>

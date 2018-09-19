@@ -21,6 +21,7 @@ import MapLinks from './MapLinks';
 
 // GraphQL
 import GetUserBars from '../graphql/queries/GetUserBars';
+import GetBarMember from '../graphql/queries/GetBarMember';
 import ListBarMembers from '../graphql/queries/ListBarMembers';
 import DeleteBarMember from '../graphql/mutations/DeleteBarMember';
 
@@ -81,9 +82,9 @@ class UserBarsList extends Component {
 
   deleteFavourite = async (barId) => {
     try {
-      const { id, members, deleteBarMember } = this.props;
+      const { userId, members, deleteBarMember } = this.props;
       const barMemberDeleted = await members.filter(
-        member => member.userId === id && member.barId === barId,
+        member => member.userId === userId && member.barId === barId,
       );
       console.log('Bar Member deleted: ', barMemberDeleted[0].id);
       const memberId = barMemberDeleted[0].id;
@@ -150,7 +151,7 @@ class UserBarsList extends Component {
             name={item.name}
             lat={parseFloat(item.lat)}
             lng={parseFloat(item.lng)}
-            id={item.id}
+            barId={item.id}
           />
         </View>
       </Swipeout>
@@ -164,6 +165,20 @@ class UserBarsList extends Component {
         height: StyleSheet.hairlineWidth,
       }}
     />
+  );
+
+  renderListEmptyComponent = () => (
+    <View style={{
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 20,
+    }}
+    >
+      <Text>
+        Nothing to see here.
+      </Text>
+    </View>
   );
 
   render() {
@@ -185,6 +200,7 @@ class UserBarsList extends Component {
             onRefresh={() => refetch()}
             refreshing={networkStatus === 4}
             ItemSeparatorComponent={this.renderSeparator}
+            ListEmptyComponent={this.renderListEmptyComponent}
           />
         </View>
         <View style={styles.segmentedControlWrapper}>
@@ -250,7 +266,7 @@ const styles = StyleSheet.create({
 });
 
 UserBarsList.propTypes = {
-  id: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
   bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   members: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   refetch: PropTypes.func.isRequired,
@@ -262,7 +278,7 @@ export default compose(
   graphql(gql(GetUserBars), {
     options: ownProps => ({
       variables: {
-        id: ownProps.id,
+        id: ownProps.userId,
       },
       fetchPolicy: 'network-only',
       notifyOnNetworkStatusChange: true,
@@ -272,6 +288,18 @@ export default compose(
       bars: data.getUser ? data.getUser.bars.items : [],
       refetch: data.refetch,
       networkStatus: data.networkStatus,
+    }),
+  }),
+  graphql(gql(GetBarMember), {
+    options: ownProps => ({
+      variables: {
+        userId: ownProps.userId,
+        barId: ownProps.placeId,
+      },
+      fetchPolicy: 'network-only',
+    }),
+    props: ({ data }) => ({
+      getBarMember: data.getBarMember ? data.getBarMember : null,
     }),
   }),
   graphql(gql(ListBarMembers), {
@@ -289,7 +317,7 @@ export default compose(
         {
           query: gql(GetUserBars),
           variables: {
-            id: ownProps.id,
+            id: ownProps.userId,
           },
         },
       ],

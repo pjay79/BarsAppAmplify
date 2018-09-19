@@ -10,7 +10,7 @@ export default class FavouritesScreen extends Component {
   };
 
   state = {
-    id: '',
+    userId: '',
     loading: false,
   };
 
@@ -22,9 +22,9 @@ export default class FavouritesScreen extends Component {
     try {
       this.setState({ loading: true });
       const currentUser = await Auth.currentAuthenticatedUser();
-      const id = currentUser.signInUserSession.accessToken.payload.sub;
-      this.setState({ id, loading: false });
-      console.log(id);
+      const userId = await currentUser.signInUserSession.accessToken.payload.sub;
+      this.setState({ userId, loading: false });
+      console.log(userId);
     } catch (error) {
       this.setState({ loading: false });
       console.log(error);
@@ -32,7 +32,7 @@ export default class FavouritesScreen extends Component {
   };
 
   render() {
-    const { id, loading } = this.state;
+    const { userId, loading } = this.state;
 
     if (loading) {
       return (
@@ -44,7 +44,7 @@ export default class FavouritesScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <UserBarsList id={id} />
+        <UserBarsList userId={userId} />
       </View>
     );
   }

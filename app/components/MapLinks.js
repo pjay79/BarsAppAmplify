@@ -10,7 +10,7 @@ const MapLinks = ({
   name,
   lat,
   lng,
-  id,
+  barId,
 }) => (
   <Popup
     isVisible={isVisible}
@@ -37,7 +37,7 @@ const MapLinks = ({
       title: name,
       latitude: lat,
       longitude: lng,
-      googlePlaceId: id,
+      googlePlaceId: barId,
       dialogTitle: 'Directions',
       dialogMessage: 'Open bar location in one of the following apps:',
       cancelText: 'Cancel',
@@ -58,7 +58,7 @@ MapLinks.propTypes = {
   name: PropTypes.string,
   lat: PropTypes.number.isRequired,
   lng: PropTypes.number.isRequired,
-  id: PropTypes.string.isRequired,
+  barId: PropTypes.string.isRequired,
 };
 
 MapLinks.defaultProps = {
