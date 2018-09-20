@@ -4,6 +4,8 @@ import { View, StyleSheet } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+// Config
 import * as COLORS from '../../config/colors';
 
 const slides = [

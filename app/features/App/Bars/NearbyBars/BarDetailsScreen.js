@@ -4,11 +4,15 @@ import {
   ScrollView, Dimensions, View, StyleSheet, Linking, ActivityIndicator,
 } from 'react-native';
 import { Auth } from 'aws-amplify';
-import nearbyPlaceDetailsSearch from '../../../../services/nearbyPlaceDetailsSearch';
+
+// Components
 import BarDetails from '../../../../components/BarDetails';
 import MapLinks from '../../../../components/MapLinks';
 import Button from '../../../../components/Button';
 import * as COLORS from '../../../../config/colors';
+
+// Util
+import nearbyPlaceDetailsSearch from '../../../../services/nearbyPlaceDetailsSearch';
 
 export default class BarDetailsScreen extends Component {
   static navigationOptions = {

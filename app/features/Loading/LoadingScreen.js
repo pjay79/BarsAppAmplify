@@ -4,6 +4,8 @@ import {
   View, ActivityIndicator, StyleSheet, AsyncStorage,
 } from 'react-native';
 import { Auth } from 'aws-amplify';
+
+// Config
 import * as COLORS from '../../config/colors';
 
 export default class LoadingScreen extends Component {
@@ -38,7 +40,7 @@ export default class LoadingScreen extends Component {
     } catch (error) {
       const { navigation } = this.props;
       navigation.navigate('Auth');
-      console.log(error.message);
+      console.log(error);
     }
   };
 

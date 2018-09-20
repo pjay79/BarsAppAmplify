@@ -3,8 +3,12 @@ import {
   View, Text, StyleSheet, ActivityIndicator,
 } from 'react-native';
 import { Auth } from 'aws-amplify';
+
+// Components
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+
+// Config
 import * as COLORS from '../../config/colors';
 
 export default class SignUpScreen extends Component {
@@ -89,7 +93,7 @@ export default class SignUpScreen extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.label}>
-USERNAME:
+          USERNAME:
         </Text>
         <Input
           placeholder="Bob"
@@ -97,7 +101,7 @@ USERNAME:
           value={username}
         />
         <Text style={styles.label}>
-EMAIL:
+          EMAIL:
         </Text>
         <Input
           placeholder="bob@gmail.com"
@@ -105,7 +109,7 @@ EMAIL:
           value={email}
         />
         <Text style={styles.label}>
-PHONE NUMBER:
+          PHONE NUMBER:
         </Text>
         <Input
           placeholder="+61XXXXXXXX"
@@ -113,7 +117,7 @@ PHONE NUMBER:
           value={phoneNumber}
         />
         <Text style={styles.label}>
-PASSWORD:
+          PASSWORD:
         </Text>
         <Input
           placeholder="********"
@@ -128,7 +132,7 @@ PASSWORD:
         />
         <View style={styles.verification}>
           <Text style={styles.label}>
-ENTER VERIFICATION CODE HERE:
+            ENTER VERIFICATION CODE HERE:
           </Text>
           <Input
             placeholder="******"

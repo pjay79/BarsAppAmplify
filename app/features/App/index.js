@@ -1,4 +1,5 @@
 import { createStackNavigator } from 'react-navigation';
+
 import BarsTabs from './Bars';
 
 export default createStackNavigator(

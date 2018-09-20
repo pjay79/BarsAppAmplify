@@ -1,15 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Foundation from 'react-native-vector-icons/Foundation';
+
+// Config
 import * as COLORS from '../config/colors';
 
 export default (price) => {
   if (!price) {
-    return (
-      <Text style={styles.priceEmpty}>
-NO PRICE INFO
-      </Text>
-    );
+    return <Text style={styles.priceEmpty}>NO PRICE INFO</Text>;
   }
   if (price === 0) {
     return (

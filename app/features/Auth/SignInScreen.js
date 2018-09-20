@@ -4,10 +4,16 @@ import {
   View, Text, StyleSheet, ActivityIndicator,
 } from 'react-native';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
+
+// GraphQL
 import GetUser from '../../graphql/queries/GetUser';
 import CreateUser from '../../graphql/mutations/CreateUser';
+
+// Components
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+
+// Config
 import * as COLORS from '../../config/colors';
 
 export default class SignInScreen extends Component {
@@ -68,17 +74,13 @@ export default class SignInScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.label}>
-USERNAME:
-        </Text>
+        <Text style={styles.label}>USERNAME:</Text>
         <Input
           placeholder="Bob"
           onChangeText={text => this.onChangeText('username', text)}
           value={username}
         />
-        <Text style={styles.label}>
-PASSWORD:
-        </Text>
+        <Text style={styles.label}>PASSWORD:</Text>
         <Input
           placeholder="********"
           onChangeText={text => this.onChangeText('password', text)}
@@ -91,9 +93,7 @@ PASSWORD:
           style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 20 }}
         />
         {loading && <ActivityIndicator color={COLORS.TEXT_PRIMARY_COLOR} />}
-        <Text style={styles.error}>
-          {error}
-        </Text>
+        <Text style={styles.error}>{error}</Text>
       </View>
     );
   }

@@ -4,6 +4,7 @@ import { NearbyTabStack } from './NearbyBars';
 import { FavouritesTabStack } from './Favourites';
 import { MoreStack } from './More';
 
+// Config
 import * as COLORS from '../../../config/colors';
 
 export default createBottomTabNavigator(

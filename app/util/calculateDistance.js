@@ -10,6 +10,6 @@ export default (userLat, userLng, barLat, barLng) => {
     longitude: barLng,
   };
   const distance = geolib.getDistance(startCoords, barCoords);
-  // console.log(distance);
+  console.log(distance);
   return distance;
 };

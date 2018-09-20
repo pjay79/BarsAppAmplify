@@ -24,7 +24,6 @@ import ListBars from '../graphql/queries/ListBars';
 import GetUserBars from '../graphql/queries/GetUserBars';
 import GetBarMember from '../graphql/queries/GetBarMember';
 import CreateBarMember from '../graphql/mutations/CreateBarMember';
-import UpdateBar from '../graphql/mutations/UpdateBar';
 
 // Util
 import orderData from '../util/orderData';
@@ -269,7 +268,7 @@ AllBarsList.propTypes = {
 export default compose(
   graphql(gql(ListBars), {
     options: {
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
       notifyOnNetworkStatusChange: true,
     },
     props: ({ data }) => ({
@@ -302,14 +301,6 @@ export default compose(
         variables: member,
         refetchQueries: [{ query: gql(GetUserBars), variables: { id: member.userId } }],
       }),
-    }),
-  }),
-  graphql(gql(UpdateBar), {
-    options: {
-      fetchPolicy: 'network-only',
-    },
-    props: ({ mutate }) => ({
-      updateBar: barData => mutate({ variables: barData }),
     }),
   }),
 )(AllBarsList);

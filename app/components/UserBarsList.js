@@ -259,7 +259,7 @@ export default compose(
       variables: {
         id: ownProps.userId,
       },
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
       notifyOnNetworkStatusChange: true,
     }),
     props: ({ data }) => ({

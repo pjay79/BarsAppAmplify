@@ -10,7 +10,11 @@ import {
   AsyncStorage,
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+
+// Components
 import Button from '../../components/Button';
+
+// Config
 import * as COLORS from '../../config/colors';
 
 export default class HomeScreen extends Component {
@@ -25,12 +29,11 @@ export default class HomeScreen extends Component {
 
   render() {
     const { navigation } = this.props;
+
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>
-Bar Finder
-          </Text>
+          <Text style={styles.title}>Bar Finder</Text>
           <Text style={styles.subtitle}>
             Powered by
             {'\n'}
@@ -44,7 +47,7 @@ Bar Finder
             {' '}
             {'\n'}
             {' '}
-started with a salad.
+            started with a salad.
           </Text>
         </View>
         <View>
@@ -60,9 +63,7 @@ started with a salad.
             style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 10 }}
           />
           <TouchableOpacity onPress={() => console.log('Go to ForgotPasswordScreen')}>
-            <Text style={styles.forgotPassword}>
-Forgot Password?
-            </Text>
+            <Text style={styles.forgotPassword}>Forgot Password?</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

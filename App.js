@@ -1,19 +1,12 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React from 'react';
 import Amplify, { Auth } from 'aws-amplify';
 import AWSAppSyncClient from 'aws-appsync';
 import { Rehydrated } from 'aws-appsync-react';
 import { ApolloProvider } from 'react-apollo';
-import MainNavigator from './app/features/MainNavigator';
-
 import awsConfig from './app/aws-exports';
+
+// Features
+import MainNavigator from './app/features/MainNavigator';
 
 Amplify.configure(awsConfig);
 

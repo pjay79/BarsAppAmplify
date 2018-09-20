@@ -24,23 +24,11 @@ import GetBar from '../graphql/queries/GetBar';
 import GetBarMember from '../graphql/queries/GetBarMember';
 import CreateBarMember from '../graphql/mutations/CreateBarMember';
 import CreateBar from '../graphql/mutations/CreateBar';
-import UpdateBar from '../graphql/mutations/UpdateBar';
 
 // Config
 import * as COLORS from '../config/colors';
 
 class BarDetails extends Component {
-  componentDidMount() {
-    this.getMember();
-  }
-
-  getMember = async () => {
-    const { userId, barId, getBarMember } = this.props;
-    const member = await getBarMember;
-    console.log(`userId: ${userId}, barId: ${barId}`);
-    console.log(`Member: ${member}`);
-  };
-
   addToFavourites = async () => {
     try {
       const {
@@ -54,6 +42,7 @@ class BarDetails extends Component {
         createBarMember,
         createBar,
       } = this.props;
+
       console.log(`userId: ${userId}, barId: ${barId}`);
 
       const barData = {
@@ -80,7 +69,6 @@ class BarDetails extends Component {
         });
         console.log(getBarMember);
       } else if (bar && getBarMember === null) {
-        // await Promise.all([createBarMember({ ...barMember }), updateBar({ ...barData })]);
         await createBarMember({ ...barMember });
         Alert.alert('Success', 'This bar has been added to your favourites.', [{ text: 'OK' }], {
           cancelable: false,
@@ -346,7 +334,6 @@ export default compose(
       createBarMember: member => mutate({
         variables: member,
         refetchQueries: [
-          // { query: gql(ListBars) },
           { query: gql(GetUserBars), variables: { id: member.userId } },
         ],
       }),
@@ -361,21 +348,6 @@ export default compose(
         variables: bar,
         refetchQueries: [
           { query: gql(ListBars) },
-          // { query: gql(GetUserBars), variables: { id: bar.userId } }
-        ],
-      }),
-    }),
-  }),
-  graphql(gql(UpdateBar), {
-    options: {
-      fetchPolicy: 'network-only',
-    },
-    props: ({ mutate }) => ({
-      updateBar: bar => mutate({
-        variables: bar,
-        refetchQueries: [
-          { query: gql(ListBars) },
-          // { query: gql(GetUserBars), variables: { id: bar.userId } }
         ],
       }),
     }),
