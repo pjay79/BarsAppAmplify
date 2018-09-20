@@ -73,12 +73,10 @@ class UserBarsList extends Component {
   };
 
   toggleBarSortOrder = (event) => {
-    const {
-      options,
-    } = this.state;
+    const { options } = this.state;
     this.setState({ property: _.camelCase(options[event.nativeEvent.selectedSegmentIndex]) });
     console.log(event.nativeEvent);
-  }
+  };
 
   deleteFavourite = async (barId) => {
     try {
@@ -115,18 +113,10 @@ class UserBarsList extends Component {
       <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
         <View style={styles.card}>
           <View style={styles.details}>
-            <Text style={styles.header}>
-              {item.name}
-            </Text>
-            <Text style={styles.location}>
-              {item.location}
-            </Text>
-            <Text style={styles.phone}>
-              {item.phone}
-            </Text>
-            <Text style={styles.date}>
-              {`Added on ${date}`}
-            </Text>
+            <Text style={styles.header}>{item.name}</Text>
+            <Text style={styles.location}>{item.location}</Text>
+            <Text style={styles.phone}>{item.phone}</Text>
+            <Text style={styles.date}>{`Added on ${date}`}</Text>
           </View>
           <View style={styles.iconWrapper}>
             <TouchableOpacity onPress={() => this.openWebsiteLink(item.website)}>
@@ -168,13 +158,16 @@ class UserBarsList extends Component {
   );
 
   render() {
-    const { refetch, networkStatus, bars } = this.props;
     const {
-      property,
-      direction,
-      options,
-      selectedIndex,
+      refetch, networkStatus, bars, loading,
+    } = this.props;
+    const {
+      property, direction, options, selectedIndex,
     } = this.state;
+
+    if (loading) {
+      return null;
+    }
 
     return (
       <View style={styles.container}>
@@ -257,6 +250,7 @@ UserBarsList.propTypes = {
   refetch: PropTypes.func.isRequired,
   networkStatus: PropTypes.number.isRequired,
   deleteBarMember: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default compose(
@@ -269,7 +263,7 @@ export default compose(
       notifyOnNetworkStatusChange: true,
     }),
     props: ({ data }) => ({
-      getUserBars: data,
+      loading: data.loading,
       bars: data.getUser ? data.getUser.bars.items : [],
       refetch: data.refetch,
       networkStatus: data.networkStatus,
@@ -284,6 +278,7 @@ export default compose(
       fetchPolicy: 'network-only',
     }),
     props: ({ data }) => ({
+      loading: data.loading,
       getBarMember: data.getBarMember ? data.getBarMember : null,
     }),
   }),

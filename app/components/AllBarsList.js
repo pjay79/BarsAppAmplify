@@ -81,96 +81,51 @@ class AllBarsList extends Component {
     console.log(event.nativeEvent);
   };
 
-  addToUserFavourites = async (bar) => {
+  addToUserFavourites = async (barId, userId) => {
     try {
-      const {
-        userId,
-        getBarMember,
-        createBarMember,
-        updateBar,
-      } = this.props;
-
-      const {
-        id,
-        name,
-        phone,
-        location,
-        lat,
-        lng,
-        url,
-        website,
-        addedBy,
-      } = bar;
-
-      const barData = {
-        id,
-        name,
-        phone,
-        location,
-        lat,
-        lng,
-        url,
-        website,
-        addedBy,
-      };
+      const { createBarMember, refetch } = this.props;
 
       const barMember = {
         userId,
-        barId: id,
+        barId,
       };
 
-      if (getBarMember === null) {
-        await Promise.all([
-          createBarMember({ ...barMember }),
-          updateBar({ ...barData }),
-        ]);
-        Alert.alert(
-          'Success',
-          'This bar has been added to your favourites.',
-          [{ text: 'OK' }],
-          {
-            cancelable: false,
-          },
-        );
-      } else if (getBarMember !== null) {
-        Alert.alert(
-          'Already added',
-          'This bar is already in your favourites.',
-          [{ text: 'OK' }],
-          {
-            cancelable: false,
-          },
-        );
+      console.log(`userId: ${userId}, barId: ${barId}`);
+
+      const barMemberAdded = await refetch({ userId, barId });
+      console.log(barMemberAdded);
+
+      if (barMemberAdded.data.getBarMember === null) {
+        await createBarMember({ ...barMember });
+        Alert.alert('Success', 'This bar has been added to your favourites.', [{ text: 'OK' }], {
+          cancelable: false,
+        });
+      } else if (barMemberAdded.data.getBarMember !== null) {
+        Alert.alert('Already added', 'This bar is already in your favourites.', [{ text: 'OK' }], {
+          cancelable: false,
+        });
       }
     } catch (error) {
       console.log(error);
-      Alert.alert(
-        'Error',
-        'There was an error, please try again.',
-        [{ text: 'OK' }],
-        {
-          cancelable: false,
-        },
-      );
+      Alert.alert('Error', 'There was an error, please try again.', [{ text: 'OK' }], {
+        cancelable: false,
+      });
     }
   };
 
   renderItem = ({ item }) => {
     const { isVisible } = this.state;
+    const { userId } = this.props;
     const swipeoutBtns = [
       {
         backgroundColor: COLORS.ACCENT_COLOR,
-        onPress: () => this.addToUserFavourites(item),
+        onPress: () => this.addToUserFavourites(item.id, userId),
         text: 'LIKE',
       },
     ];
     const date = moment.utc(item.createdAt).format('MMMM Do YYYY, h:mm:ss a');
     return (
-      <Swipeout
-        right={swipeoutBtns}
-        backgroundColor={COLORS.TEXT_PRIMARY_COLOR}
-        autoClose
-      >
+      <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
         <View style={styles.card}>
           <View style={styles.details}>
             <Text style={styles.header}>{item.name}</Text>
@@ -179,14 +134,8 @@ class AllBarsList extends Component {
             <Text style={styles.date}>{`Added on ${date}`}</Text>
           </View>
           <View style={styles.iconWrapper}>
-            <TouchableOpacity
-              onPress={() => this.openWebsiteLink(item.website)}
-            >
-              <MaterialCommunityIcons
-                name="web"
-                size={18}
-                color={COLORS.ACCENT_COLOR}
-              />
+            <TouchableOpacity onPress={() => this.openWebsiteLink(item.website)}>
+              <MaterialCommunityIcons name="web" size={18} color={COLORS.ACCENT_COLOR} />
             </TouchableOpacity>
             <TouchableOpacity onPress={this.toggleMapLinks}>
               <MaterialCommunityIcons
@@ -196,11 +145,7 @@ class AllBarsList extends Component {
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.openPhone(item.phone)}>
-              <Foundation
-                name="telephone"
-                size={18}
-                color={COLORS.PRIMARY_TEXT_COLOR}
-              />
+              <Foundation name="telephone" size={18} color={COLORS.PRIMARY_TEXT_COLOR} />
             </TouchableOpacity>
           </View>
           <MapLinks
@@ -221,13 +166,16 @@ class AllBarsList extends Component {
   renderSeparator = () => <View style={styles.separator} />;
 
   render() {
-    const { refetch, networkStatus, bars } = this.props;
     const {
-      property,
-      direction,
-      options,
-      selectedIndex,
+      refetch, networkStatus, bars, loading,
+    } = this.props;
+    const {
+      property, direction, options, selectedIndex,
     } = this.state;
+
+    if (loading) {
+      return null;
+    }
 
     return (
       <View style={styles.container}>
@@ -311,9 +259,11 @@ const styles = StyleSheet.create({
 });
 
 AllBarsList.propTypes = {
+  userId: PropTypes.string.isRequired,
   bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   refetch: PropTypes.func.isRequired,
   networkStatus: PropTypes.number.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default compose(
@@ -323,7 +273,7 @@ export default compose(
       notifyOnNetworkStatusChange: true,
     },
     props: ({ data }) => ({
-      listBars: data,
+      loading: data.loading,
       bars: data.listBars ? data.listBars.items : [],
       refetch: data.refetch,
       networkStatus: data.networkStatus,
@@ -333,11 +283,13 @@ export default compose(
     options: ownProps => ({
       variables: {
         userId: ownProps.userId,
-        barId: ownProps.id,
+        barId: ownProps.barId,
       },
       fetchPolicy: 'network-only',
     }),
     props: ({ data }) => ({
+      loading: data.loading,
+      refetch: data.refetch,
       getBarMember: data.getBarMember ? data.getBarMember : null,
     }),
   }),

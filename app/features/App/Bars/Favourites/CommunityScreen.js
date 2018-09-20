@@ -44,7 +44,7 @@ export default class CommunityScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <AllBarsList userId={userId} />
+        <AllBarsList userId={userId} barId="" />
       </View>
     );
   }
