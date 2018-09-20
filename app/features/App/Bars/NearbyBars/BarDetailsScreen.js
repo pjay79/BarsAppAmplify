@@ -26,31 +26,20 @@ export default class BarDetailsScreen extends Component {
   };
 
   componentDidMount() {
-    this.getBarDetails();
-    this.getUser();
+    this.getAllDetails();
   }
 
-  getBarDetails = async () => {
+  getAllDetails = async () => {
     try {
       this.setState({ loading: true });
       const { navigation } = this.props;
       const placeId = navigation.getParam('bar').place_id;
       const response = await nearbyPlaceDetailsSearch(placeId);
-      this.setState({ details: response.data.result, loading: false });
-      console.log(response);
-    } catch (error) {
-      this.setState({ loading: false });
-      console.log(error);
-    }
-  };
-
-  getUser = async () => {
-    try {
-      this.setState({ loading: true });
       const currentUser = await Auth.currentAuthenticatedUser();
       const userId = await currentUser.signInUserSession.accessToken.payload.sub;
-      this.setState({ userId, loading: false });
-      console.log(`userID: ${userId}`);
+      this.setState({ details: response.data.result, userId, loading: false });
+      console.log(response);
+      console.log(userId);
     } catch (error) {
       this.setState({ loading: false });
       console.log(error);
@@ -59,7 +48,9 @@ export default class BarDetailsScreen extends Component {
 
   openWebsiteLink = () => {
     try {
-      const { details: { website } } = this.state;
+      const {
+        details: { website },
+      } = this.state;
       const supported = Linking.canOpenURL(website);
       if (supported) {
         Linking.openURL(website);
@@ -93,7 +84,7 @@ export default class BarDetailsScreen extends Component {
     const barId = navigation.getParam('bar').place_id;
     const { lat, lng } = navigation.getParam('bar').geometry.location;
     const {
-      details, userId, isVisible, loading,
+      details, isVisible, loading, userId,
     } = this.state;
 
     if (loading) {

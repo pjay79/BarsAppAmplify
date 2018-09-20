@@ -8,6 +8,7 @@ import {
   Dimensions,
   Platform,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -34,10 +35,11 @@ class BarDetails extends Component {
   }
 
   getMember = async () => {
-    const { getBarMember } = this.props;
+    const { userId, barId, getBarMember } = this.props;
     const member = await getBarMember;
+    console.log(`userId: ${userId}, barId: ${barId}`);
     console.log(`Member: ${member}`);
-  }
+  };
 
   addToFavourites = async () => {
     try {
@@ -51,7 +53,6 @@ class BarDetails extends Component {
         getBarMember,
         createBarMember,
         createBar,
-        updateBar,
       } = this.props;
       console.log(`userId: ${userId}, barId: ${barId}`);
 
@@ -74,28 +75,21 @@ class BarDetails extends Component {
 
       if (!bar && getBarMember === null) {
         await Promise.all([createBarMember({ ...barMember }), createBar({ ...barData })]);
-        Alert.alert(
-          'Success',
-          'This bar has been added to your favourites.',
-          [{ text: 'OK' }],
-          { cancelable: false },
-        );
+        Alert.alert('Success', 'This bar has been added to your favourites.', [{ text: 'OK' }], {
+          cancelable: false,
+        });
+        console.log(getBarMember);
       } else if (bar && getBarMember === null) {
-        await Promise.all([createBarMember({ ...barMember }), updateBar({ ...barData })]);
-        Alert.alert(
-          'Success',
-          'This bar has been added to your favourites.',
-          [{ text: 'OK' }],
-          { cancelable: false },
-        );
+        // await Promise.all([createBarMember({ ...barMember }), updateBar({ ...barData })]);
+        await createBarMember({ ...barMember });
+        Alert.alert('Success', 'This bar has been added to your favourites.', [{ text: 'OK' }], {
+          cancelable: false,
+        });
       } else if (bar && getBarMember !== null) {
         console.log('This bar has already been favourited!');
-        Alert.alert(
-          'Already added',
-          'This bar is already in your favourites.',
-          [{ text: 'OK' }],
-          { cancelable: false },
-        );
+        Alert.alert('Already added', 'This bar is already in your favourites.', [{ text: 'OK' }], {
+          cancelable: false,
+        });
       } else if (!bar && getBarMember !== null) {
         await createBar({ ...barData });
       } else {
@@ -103,37 +97,37 @@ class BarDetails extends Component {
       }
     } catch (error) {
       console.log(error);
-      Alert.alert(
-        'Error',
-        'There was an error, please try again.',
-        [{ text: 'OK' }],
-        { cancelable: false },
-      );
+      Alert.alert('Error', 'There was an error, please try again.', [{ text: 'OK' }], {
+        cancelable: false,
+      });
     }
   };
 
   render() {
     const {
-      details,
-      openWebsiteLink,
-      openPhone,
-      toggleMapLinks,
+      details, openWebsiteLink, openPhone, toggleMapLinks, loading,
     } = this.props;
+
+    if (loading) {
+      return (
+        <View style={styles.loading}>
+          <ActivityIndicator color={COLORS.PRIMARY_TEXT_COLOR} />
+        </View>
+      );
+    }
 
     return (
       <View style={styles.container}>
         <View style={styles.top}>
-          <Text style={styles.header}>
-            {details.name}
-          </Text>
-          <Text style={styles.location}>
-            {details.formatted_phone_number}
-          </Text>
-          <Text style={styles.phone}>
-            {details.vicinity}
-          </Text>
+          <Text style={styles.header}>{details.name}</Text>
+          <Text style={styles.location}>{details.formatted_phone_number}</Text>
+          <Text style={styles.phone}>{details.vicinity}</Text>
           <TouchableOpacity onPress={this.addToFavourites} style={styles.iconHeader}>
-            <Ionicons name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'} size={25} color={COLORS.TEXT_PRIMARY_COLOR} />
+            <Ionicons
+              name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'}
+              size={25}
+              color={COLORS.TEXT_PRIMARY_COLOR}
+            />
           </TouchableOpacity>
         </View>
         <View style={styles.iconGroup}>
@@ -144,7 +138,11 @@ class BarDetails extends Component {
           </View>
           <View style={styles.iconMiddle}>
             <TouchableOpacity onPress={toggleMapLinks}>
-              <MaterialCommunityIcons name="directions" size={25} color={COLORS.TEXT_PRIMARY_COLOR} />
+              <MaterialCommunityIcons
+                name="directions"
+                size={25}
+                color={COLORS.TEXT_PRIMARY_COLOR}
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.iconRight}>
@@ -154,29 +152,17 @@ class BarDetails extends Component {
           </View>
         </View>
         <View style={styles.content}>
-          <Text style={styles.subHeader}>
-          OPENING HOURS:
-          </Text>
+          <Text style={styles.subHeader}>OPENING HOURS:</Text>
           {details.opening_hours
             && details.opening_hours.weekday_text.map(data => (
               <View key={uuidV4()}>
-                <Text style={styles.openingHoursText}>
-                  {data}
-                </Text>
+                <Text style={styles.openingHoursText}>{data}</Text>
               </View>
             ))}
-          {!details.opening_hours
-            && (
-            <Text>
-              UNAVAILABLE
-            </Text>
-            )
-          }
+          {!details.opening_hours && <Text>UNAVAILABLE</Text>}
         </View>
         <View style={[styles.content, { marginBottom: 10 }]}>
-          <Text style={styles.subHeader}>
-          REVIEWS:
-          </Text>
+          <Text style={styles.subHeader}>REVIEWS:</Text>
           {details.reviews
             && details.reviews.map(data => (
               <View key={uuidV4()} style={styles.reviewContainer}>
@@ -186,7 +172,7 @@ class BarDetails extends Component {
                   {data.author_name}
                   {' '}
                   {data.relative_time_description}
-                  .
+.
                 </Text>
                 <Text style={styles.rating}>
                   Rating:
@@ -194,18 +180,10 @@ class BarDetails extends Component {
                   {data.rating}
                   /5
                 </Text>
-                <Text style={styles.text}>
-                  {data.text}
-                </Text>
+                <Text style={styles.text}>{data.text}</Text>
               </View>
             ))}
-          {!details.reviews
-            && (
-            <Text>
-              NONE
-            </Text>
-            )
-          }
+          {!details.reviews && <Text>NONE</Text>}
         </View>
       </View>
     );
@@ -327,6 +305,7 @@ BarDetails.propTypes = {
   openPhone: PropTypes.func.isRequired,
   toggleMapLinks: PropTypes.func.isRequired,
   bar: PropTypes.shape(),
+  loading: PropTypes.bool.isRequired,
 };
 
 BarDetails.defaultProps = {
@@ -337,11 +316,12 @@ export default compose(
   graphql(gql(GetBar), {
     options: ownProps => ({
       variables: {
-        id: ownProps.placeId,
+        id: ownProps.barId,
       },
       fetchPolicy: 'network-only',
     }),
     props: ({ data }) => ({
+      loading: data.loading,
       bar: data.getBar ? data.getBar : null,
     }),
   }),
@@ -349,11 +329,12 @@ export default compose(
     options: ownProps => ({
       variables: {
         userId: ownProps.userId,
-        barId: ownProps.placeId,
+        barId: ownProps.barId,
       },
       fetchPolicy: 'network-only',
     }),
     props: ({ data }) => ({
+      loading: data.loading,
       getBarMember: data.getBarMember ? data.getBarMember : null,
     }),
   }),
@@ -365,7 +346,7 @@ export default compose(
       createBarMember: member => mutate({
         variables: member,
         refetchQueries: [
-          { query: gql(ListBars) },
+          // { query: gql(ListBars) },
           { query: gql(GetUserBars), variables: { id: member.userId } },
         ],
       }),
@@ -378,6 +359,10 @@ export default compose(
     props: ({ mutate }) => ({
       createBar: bar => mutate({
         variables: bar,
+        refetchQueries: [
+          { query: gql(ListBars) },
+          // { query: gql(GetUserBars), variables: { id: bar.userId } }
+        ],
       }),
     }),
   }),
@@ -390,7 +375,7 @@ export default compose(
         variables: bar,
         refetchQueries: [
           { query: gql(ListBars) },
-          { query: gql(GetUserBars), variables: { id: bar.userId } },
+          // { query: gql(GetUserBars), variables: { id: bar.userId } }
         ],
       }),
     }),

@@ -167,20 +167,6 @@ class UserBarsList extends Component {
     />
   );
 
-  renderListEmptyComponent = () => (
-    <View style={{
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 20,
-    }}
-    >
-      <Text>
-        Nothing to see here.
-      </Text>
-    </View>
-  );
-
   render() {
     const { refetch, networkStatus, bars } = this.props;
     const {
@@ -200,7 +186,6 @@ class UserBarsList extends Component {
             onRefresh={() => refetch()}
             refreshing={networkStatus === 4}
             ItemSeparatorComponent={this.renderSeparator}
-            ListEmptyComponent={this.renderListEmptyComponent}
           />
         </View>
         <View style={styles.segmentedControlWrapper}>

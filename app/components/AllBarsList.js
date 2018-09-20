@@ -21,6 +21,7 @@ import MapLinks from './MapLinks';
 
 // GraphQL
 import ListBars from '../graphql/queries/ListBars';
+import GetUserBars from '../graphql/queries/GetUserBars';
 import GetBarMember from '../graphql/queries/GetBarMember';
 import CreateBarMember from '../graphql/mutations/CreateBarMember';
 import UpdateBar from '../graphql/mutations/UpdateBar';
@@ -73,21 +74,32 @@ class AllBarsList extends Component {
   };
 
   toggleBarSortOrder = (event) => {
-    const {
-      options,
-    } = this.state;
-    this.setState({ property: _.camelCase(options[event.nativeEvent.selectedSegmentIndex]) });
+    const { options } = this.state;
+    this.setState({
+      property: _.camelCase(options[event.nativeEvent.selectedSegmentIndex]),
+    });
     console.log(event.nativeEvent);
-  }
+  };
 
   addToUserFavourites = async (bar) => {
     try {
       const {
-        userId, getBarMember, createBarMember, updateBar,
+        userId,
+        getBarMember,
+        createBarMember,
+        updateBar,
       } = this.props;
 
       const {
-        id, name, phone, location, lat, lng, url, website, addedBy,
+        id,
+        name,
+        phone,
+        location,
+        lat,
+        lng,
+        url,
+        website,
+        addedBy,
       } = bar;
 
       const barData = {
@@ -108,20 +120,38 @@ class AllBarsList extends Component {
       };
 
       if (getBarMember === null) {
-        await Promise.all([createBarMember({ ...barMember }), updateBar({ ...barData })]);
-        Alert.alert('Success', 'This bar has been added to your favourites.', [{ text: 'OK' }], {
-          cancelable: false,
-        });
+        await Promise.all([
+          createBarMember({ ...barMember }),
+          updateBar({ ...barData }),
+        ]);
+        Alert.alert(
+          'Success',
+          'This bar has been added to your favourites.',
+          [{ text: 'OK' }],
+          {
+            cancelable: false,
+          },
+        );
       } else if (getBarMember !== null) {
-        Alert.alert('Already added', 'This bar is already in your favourites.', [{ text: 'OK' }], {
-          cancelable: false,
-        });
+        Alert.alert(
+          'Already added',
+          'This bar is already in your favourites.',
+          [{ text: 'OK' }],
+          {
+            cancelable: false,
+          },
+        );
       }
     } catch (error) {
       console.log(error);
-      Alert.alert('Error', 'There was an error, please try again.', [{ text: 'OK' }], {
-        cancelable: false,
-      });
+      Alert.alert(
+        'Error',
+        'There was an error, please try again.',
+        [{ text: 'OK' }],
+        {
+          cancelable: false,
+        },
+      );
     }
   };
 
@@ -136,25 +166,27 @@ class AllBarsList extends Component {
     ];
     const date = moment.utc(item.createdAt).format('MMMM Do YYYY, h:mm:ss a');
     return (
-      <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
+      <Swipeout
+        right={swipeoutBtns}
+        backgroundColor={COLORS.TEXT_PRIMARY_COLOR}
+        autoClose
+      >
         <View style={styles.card}>
           <View style={styles.details}>
-            <Text style={styles.header}>
-              {item.name}
-            </Text>
-            <Text style={styles.location}>
-              {item.location}
-            </Text>
-            <Text style={styles.phone}>
-              {item.phone}
-            </Text>
-            <Text style={styles.date}>
-              {`Added on ${date}`}
-            </Text>
+            <Text style={styles.header}>{item.name}</Text>
+            <Text style={styles.location}>{item.location}</Text>
+            <Text style={styles.phone}>{item.phone}</Text>
+            <Text style={styles.date}>{`Added on ${date}`}</Text>
           </View>
           <View style={styles.iconWrapper}>
-            <TouchableOpacity onPress={() => this.openWebsiteLink(item.website)}>
-              <MaterialCommunityIcons name="web" size={18} color={COLORS.ACCENT_COLOR} />
+            <TouchableOpacity
+              onPress={() => this.openWebsiteLink(item.website)}
+            >
+              <MaterialCommunityIcons
+                name="web"
+                size={18}
+                color={COLORS.ACCENT_COLOR}
+              />
             </TouchableOpacity>
             <TouchableOpacity onPress={this.toggleMapLinks}>
               <MaterialCommunityIcons
@@ -164,7 +196,11 @@ class AllBarsList extends Component {
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.openPhone(item.phone)}>
-              <Foundation name="telephone" size={18} color={COLORS.PRIMARY_TEXT_COLOR} />
+              <Foundation
+                name="telephone"
+                size={18}
+                color={COLORS.PRIMARY_TEXT_COLOR}
+              />
             </TouchableOpacity>
           </View>
           <MapLinks
@@ -183,20 +219,6 @@ class AllBarsList extends Component {
   };
 
   renderSeparator = () => <View style={styles.separator} />;
-
-  renderListEmptyComponent = () => (
-    <View style={{
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 20,
-    }}
-    >
-      <Text>
-        Nothing to see here.
-      </Text>
-    </View>
-  );
 
   render() {
     const { refetch, networkStatus, bars } = this.props;
@@ -217,7 +239,6 @@ class AllBarsList extends Component {
             onRefresh={() => refetch()}
             refreshing={networkStatus === 4}
             ItemSeparatorComponent={this.renderSeparator}
-            ListEmptyComponent={this.renderListEmptyComponent}
           />
         </View>
         <View style={styles.segmentedControlWrapper}>
@@ -237,6 +258,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
+  },
+  loading: {
+    paddingTop: 20,
   },
   card: {
     flexDirection: 'row',
@@ -324,6 +348,7 @@ export default compose(
     props: ({ mutate }) => ({
       createBarMember: member => mutate({
         variables: member,
+        refetchQueries: [{ query: gql(GetUserBars), variables: { id: member.userId } }],
       }),
     }),
   }),
@@ -332,9 +357,7 @@ export default compose(
       fetchPolicy: 'network-only',
     },
     props: ({ mutate }) => ({
-      updateBar: barData => mutate({
-        variables: barData,
-      }),
+      updateBar: barData => mutate({ variables: barData }),
     }),
   }),
 )(AllBarsList);
