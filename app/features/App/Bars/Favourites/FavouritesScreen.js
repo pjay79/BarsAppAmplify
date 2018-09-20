@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Auth } from 'aws-amplify';
+
+// Components
 import UserBarsList from '../../../../components/UserBarsList';
+
+// Config
 import * as COLORS from '../../../../config/colors';
 
 export default class FavouritesScreen extends Component {

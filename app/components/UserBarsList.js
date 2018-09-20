@@ -21,7 +21,6 @@ import MapLinks from './MapLinks';
 
 // GraphQL
 import GetUserBars from '../graphql/queries/GetUserBars';
-import GetBarMember from '../graphql/queries/GetBarMember';
 import ListBarMembers from '../graphql/queries/ListBarMembers';
 import DeleteBarMember from '../graphql/mutations/DeleteBarMember';
 
@@ -109,6 +108,7 @@ class UserBarsList extends Component {
       },
     ];
     const date = moment.utc(item.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+
     return (
       <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
         <View style={styles.card}>
@@ -267,19 +267,6 @@ export default compose(
       bars: data.getUser ? data.getUser.bars.items : [],
       refetch: data.refetch,
       networkStatus: data.networkStatus,
-    }),
-  }),
-  graphql(gql(GetBarMember), {
-    options: ownProps => ({
-      variables: {
-        userId: ownProps.userId,
-        barId: ownProps.placeId,
-      },
-      fetchPolicy: 'network-only',
-    }),
-    props: ({ data }) => ({
-      loading: data.loading,
-      getBarMember: data.getBarMember ? data.getBarMember : null,
     }),
   }),
   graphql(gql(ListBarMembers), {

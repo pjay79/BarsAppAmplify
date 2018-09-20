@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FavouritesScreen from './FavouritesScreen';
 import CommunityScreen from './CommunityScreen';
 
+// Config
 import * as COLORS from '../../../../config/colors';
 
 const FavouritesStack = createStackNavigator(

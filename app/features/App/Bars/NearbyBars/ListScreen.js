@@ -13,9 +13,15 @@ import {
 import { Auth } from 'aws-amplify';
 import Geolocation from 'react-native-geolocation-service';
 import SplashScreen from 'react-native-splash-screen';
+
+// Services
 import nearbyPlacesSearch from '../../../../services/nearbyPlacesSearch';
+
+// Util
 import displayPriceRating from '../../../../util/displayPriceRating';
 import calculateDistance from '../../../../util/calculateDistance';
+
+// Config
 import * as COLORS from '../../../../config/colors';
 
 export default class ListScreen extends Component {
@@ -137,6 +143,7 @@ export default class ListScreen extends Component {
   renderItem = ({ item }) => {
     const { navigation } = this.props;
     const { latitude, longitude } = this.state;
+
     return (
       <View style={styles.card}>
         <TouchableOpacity onPress={() => navigation.navigate('Details', { bar: item })}>

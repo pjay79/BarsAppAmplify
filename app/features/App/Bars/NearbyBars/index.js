@@ -7,6 +7,7 @@ import ListScreen from './ListScreen';
 import BarDetailsScreen from './BarDetailsScreen';
 import MapScreen from './MapScreen';
 
+// Config
 import * as COLORS from '../../../../config/colors';
 
 const ListStack = createStackNavigator(

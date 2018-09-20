@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Auth } from 'aws-amplify';
+
+// Components
 import AllBarsList from '../../../../components/AllBarsList';
+
+// Config
 import * as COLORS from '../../../../config/colors';
 
 export default class CommunityScreen extends Component {
