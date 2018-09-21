@@ -1,6 +1,6 @@
 export default `
-subscription onAddBar {
-    onAddBar {
+  subscription onCreateBar {
+    onCreateBar {
       id
       createdAt
       updatedAt
@@ -12,7 +12,6 @@ subscription onAddBar {
       url
       website
       addedBy
-      __typename
     }
   }
 `;

@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
+import { buildSubscription } from 'aws-appsync';
 import _ from 'lodash';
 import moment from 'moment';
 import Swipeout from 'react-native-swipeout';
@@ -24,6 +25,7 @@ import ListBars from '../graphql/queries/ListBars';
 import GetUserBars from '../graphql/queries/GetUserBars';
 import GetBarMember from '../graphql/queries/GetBarMember';
 import CreateBarMember from '../graphql/mutations/CreateBarMember';
+import CreateBarSubscription from '../graphql/subscriptions/CreateBarSubscription';
 
 // Util
 import orderData from '../util/orderData';
@@ -43,6 +45,11 @@ class AllBarsList extends Component {
     property: 'name',
     direction: 'asc',
   };
+
+  componentDidMount() {
+    const { data } = this.props;
+    data.subscribeToMore(buildSubscription(gql(CreateBarSubscription), gql(ListBars)));
+  }
 
   openWebsiteLink = (website) => {
     try {
@@ -82,7 +89,7 @@ class AllBarsList extends Component {
 
   addToUserFavourites = async (barId, userId) => {
     try {
-      const { createBarMember, refetch } = this.props;
+      const { createBarMember, refetchBarMember } = this.props;
 
       const barMember = {
         userId,
@@ -91,7 +98,7 @@ class AllBarsList extends Component {
 
       console.log(`userId: ${userId}, barId: ${barId}`);
 
-      const barMemberAdded = await refetch({ userId, barId });
+      const barMemberAdded = await refetchBarMember({ userId, barId });
       console.log(barMemberAdded);
 
       if (barMemberAdded.data.getBarMember === null) {
@@ -123,6 +130,7 @@ class AllBarsList extends Component {
       },
     ];
     const date = moment.utc(item.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+
     return (
       <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
         <View style={styles.card}>
@@ -166,15 +174,11 @@ class AllBarsList extends Component {
 
   render() {
     const {
-      refetch, networkStatus, bars, loading,
+      refetch, networkStatus, bars,
     } = this.props;
     const {
       property, direction, options, selectedIndex,
     } = this.state;
-
-    if (loading) {
-      return null;
-    }
 
     return (
       <View style={styles.container}>
@@ -258,11 +262,11 @@ const styles = StyleSheet.create({
 });
 
 AllBarsList.propTypes = {
+  data: PropTypes.shape().isRequired,
   userId: PropTypes.string.isRequired,
   bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   refetch: PropTypes.func.isRequired,
   networkStatus: PropTypes.number.isRequired,
-  loading: PropTypes.bool.isRequired,
 };
 
 export default compose(
@@ -272,6 +276,7 @@ export default compose(
       notifyOnNetworkStatusChange: true,
     },
     props: ({ data }) => ({
+      data,
       loading: data.loading,
       bars: data.listBars ? data.listBars.items : [],
       refetch: data.refetch,
@@ -284,17 +289,17 @@ export default compose(
         userId: ownProps.userId,
         barId: ownProps.barId,
       },
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     }),
     props: ({ data }) => ({
       loading: data.loading,
-      refetch: data.refetch,
+      refetchBarMember: data.refetch,
       getBarMember: data.getBarMember ? data.getBarMember : null,
     }),
   }),
   graphql(gql(CreateBarMember), {
     options: {
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     },
     props: ({ mutate }) => ({
       createBarMember: member => mutate({

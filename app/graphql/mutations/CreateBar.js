@@ -12,7 +12,6 @@ export default `
       url
       website
       addedBy
-      __typename
     }
   }
 `;

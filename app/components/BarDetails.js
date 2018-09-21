@@ -18,7 +18,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import uuidV4 from 'uuid/v4';
 
 // GraphQL
-import ListBars from '../graphql/queries/ListBars';
 import GetUserBars from '../graphql/queries/GetUserBars';
 import GetBar from '../graphql/queries/GetBar';
 import GetBarMember from '../graphql/queries/GetBarMember';
@@ -74,7 +73,6 @@ class BarDetails extends Component {
           cancelable: false,
         });
       } else if (bar && getBarMember !== null) {
-        console.log('This bar has already been favourited!');
         Alert.alert('Already added', 'This bar is already in your favourites.', [{ text: 'OK' }], {
           cancelable: false,
         });
@@ -306,7 +304,7 @@ export default compose(
       variables: {
         id: ownProps.barId,
       },
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     }),
     props: ({ data }) => ({
       loading: data.loading,
@@ -319,7 +317,7 @@ export default compose(
         userId: ownProps.userId,
         barId: ownProps.barId,
       },
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     }),
     props: ({ data }) => ({
       loading: data.loading,
@@ -328,7 +326,7 @@ export default compose(
   }),
   graphql(gql(CreateBarMember), {
     options: {
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     },
     props: ({ mutate }) => ({
       createBarMember: member => mutate({
@@ -341,14 +339,11 @@ export default compose(
   }),
   graphql(gql(CreateBar), {
     options: {
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     },
     props: ({ mutate }) => ({
       createBar: bar => mutate({
         variables: bar,
-        refetchQueries: [
-          { query: gql(ListBars) },
-        ],
       }),
     }),
   }),

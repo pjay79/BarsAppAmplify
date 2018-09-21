@@ -159,15 +159,11 @@ class UserBarsList extends Component {
 
   render() {
     const {
-      refetch, networkStatus, bars, loading,
+      refetch, networkStatus, bars,
     } = this.props;
     const {
       property, direction, options, selectedIndex,
     } = this.state;
-
-    if (loading) {
-      return null;
-    }
 
     return (
       <View style={styles.container}>
@@ -250,7 +246,6 @@ UserBarsList.propTypes = {
   refetch: PropTypes.func.isRequired,
   networkStatus: PropTypes.number.isRequired,
   deleteBarMember: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
 };
 
 export default compose(
@@ -274,7 +269,7 @@ export default compose(
       fetchPolicy: 'network-only',
     },
     props: ({ data }) => ({
-      data,
+      // data,
       members: data.listBarMembers ? data.listBarMembers.items : [],
     }),
   }),
