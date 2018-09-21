@@ -27,6 +27,9 @@ import GetBarMember from '../graphql/queries/GetBarMember';
 import CreateBarMember from '../graphql/mutations/CreateBarMember';
 import CreateBarSubscription from '../graphql/subscriptions/CreateBarSubscription';
 
+// Components
+import AllBarsListItems from './AllBarsListItem';
+
 // Util
 import orderData from '../util/orderData';
 

@@ -9,10 +9,12 @@ import { Auth } from 'aws-amplify';
 import BarDetails from '../../../../components/BarDetails';
 import MapLinks from '../../../../components/MapLinks';
 import Button from '../../../../components/Button';
-import * as COLORS from '../../../../config/colors';
 
 // Util
 import nearbyPlaceDetailsSearch from '../../../../services/nearbyPlaceDetailsSearch';
+
+// Config
+import * as COLORS from '../../../../config/colors';
 
 export default class BarDetailsScreen extends Component {
   static navigationOptions = {
