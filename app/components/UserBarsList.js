@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
   View,
-  Text,
-  TouchableOpacity,
   FlatList,
   Linking,
   StyleSheet,
@@ -13,16 +11,14 @@ import {
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
-import moment from 'moment';
-import Swipeout from 'react-native-swipeout';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Foundation from 'react-native-vector-icons/Foundation';
-import MapLinks from './MapLinks';
 
 // GraphQL
 import GetUserBars from '../graphql/queries/GetUserBars';
 import ListBarMembers from '../graphql/queries/ListBarMembers';
 import DeleteBarMember from '../graphql/mutations/DeleteBarMember';
+
+// Components
+import UserBarsListItem from './UserBarsListItem';
 
 // Util
 import orderData from '../util/orderData';
@@ -100,51 +96,16 @@ class UserBarsList extends Component {
 
   renderItem = ({ item }) => {
     const { isVisible } = this.state;
-    const swipeoutBtns = [
-      {
-        backgroundColor: COLORS.ACCENT_COLOR,
-        onPress: () => this.deleteFavourite(item.id),
-        text: 'DELETE',
-      },
-    ];
-    const date = moment.utc(item.createdAt).format('MMMM Do YYYY, h:mm:ss a');
 
     return (
-      <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
-        <View style={styles.card}>
-          <View style={styles.details}>
-            <Text style={styles.header}>{item.name}</Text>
-            <Text style={styles.location}>{item.location}</Text>
-            <Text style={styles.phone}>{item.phone}</Text>
-            <Text style={styles.date}>{`Added on ${date}`}</Text>
-          </View>
-          <View style={styles.iconWrapper}>
-            <TouchableOpacity onPress={() => this.openWebsiteLink(item.website)}>
-              <MaterialCommunityIcons name="web" size={18} color={COLORS.ACCENT_COLOR} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.toggleMapLinks}>
-              <MaterialCommunityIcons
-                name="directions"
-                size={18}
-                color={COLORS.DARK_PRIMARY_COLOR}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.openPhone(item.phone)}>
-              <Foundation name="telephone" size={18} color={COLORS.PRIMARY_TEXT_COLOR} />
-            </TouchableOpacity>
-          </View>
-          <MapLinks
-            isVisible={isVisible}
-            onCancelPressed={this.toggleMapLinks}
-            onAppPressed={this.toggleMapLinks}
-            onBackButtonPressed={this.toggleMapLinks}
-            name={item.name}
-            lat={parseFloat(item.lat)}
-            lng={parseFloat(item.lng)}
-            barId={item.id}
-          />
-        </View>
-      </Swipeout>
+      <UserBarsListItem
+        item={item}
+        deleteFavourite={this.deleteFavourite}
+        openWebsiteLink={this.openWebsiteLink}
+        toggleMapLinks={this.toggleMapLinks}
+        openPhone={this.openPhone}
+        isVisible={isVisible}
+      />
     );
   };
 

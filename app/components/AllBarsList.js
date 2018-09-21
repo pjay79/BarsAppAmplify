@@ -21,7 +21,7 @@ import CreateBarMember from '../graphql/mutations/CreateBarMember';
 import CreateBarSubscription from '../graphql/subscriptions/CreateBarSubscription';
 
 // Components
-import AllBarsListItems from './AllBarsListItem';
+import AllBarsListItem from './AllBarsListItem';
 
 // Util
 import orderData from '../util/orderData';
@@ -83,9 +83,9 @@ class AllBarsList extends Component {
     console.log(event.nativeEvent);
   };
 
-  addToUserFavourites = async (barId, userId) => {
+  addToUserFavourites = async (barId) => {
     try {
-      const { createBarMember, refetchBarMember } = this.props;
+      const { userId, createBarMember, refetchBarMember } = this.props;
 
       const barMember = {
         userId,
@@ -117,53 +117,16 @@ class AllBarsList extends Component {
 
   renderItem = ({ item }) => {
     const { isVisible } = this.state;
-    const { userId } = this.props;
 
     return (
-      <AllBarsListItems
+      <AllBarsListItem
         item={item}
         addToUserFavourites={this.addToUserFavourites}
         openWebsiteLink={this.openWebsiteLink}
         toggleMapLinks={this.toggleMapLinks}
         openPhone={this.openPhone}
         isVisible={isVisible}
-        userId={userId}
       />
-      // <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
-      //   <View style={styles.card}>
-      //     <View style={styles.details}>
-      //       <Text style={styles.header}>{item.name}</Text>
-      //       <Text style={styles.location}>{item.location}</Text>
-      //       <Text style={styles.phone}>{item.phone}</Text>
-      //       <Text style={styles.date}>{`Added on ${date}`}</Text>
-      //     </View>
-      //     <View style={styles.iconWrapper}>
-      //       <TouchableOpacity onPress={() => this.openWebsiteLink(item.website)}>
-      //         <MaterialCommunityIcons name="web" size={18} color={COLORS.ACCENT_COLOR} />
-      //       </TouchableOpacity>
-      //       <TouchableOpacity onPress={this.toggleMapLinks}>
-      //         <MaterialCommunityIcons
-      //           name="directions"
-      //           size={18}
-      //           color={COLORS.DARK_PRIMARY_COLOR}
-      //         />
-      //       </TouchableOpacity>
-      //       <TouchableOpacity onPress={() => this.openPhone(item.phone)}>
-      //         <Foundation name="telephone" size={18} color={COLORS.PRIMARY_TEXT_COLOR} />
-      //       </TouchableOpacity>
-      //     </View>
-      //     <MapLinks
-      //       isVisible={isVisible}
-      //       onCancelPressed={this.toggleMapLinks}
-      //       onAppPressed={this.toggleMapLinks}
-      //       onBackButtonPressed={this.toggleMapLinks}
-      //       name={item.name}
-      //       lat={parseFloat(item.lat)}
-      //       lng={parseFloat(item.lng)}
-      //       barId={item.id}
-      //     />
-      //   </View>
-      // </Swipeout>
     );
   };
 

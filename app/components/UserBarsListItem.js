@@ -12,9 +12,9 @@ import MapLinks from './MapLinks';
 // Config
 import * as COLORS from '../config/colors';
 
-const AllBarsListItem = ({
+const UserBarsListItem = ({
   item,
-  addToUserFavourites,
+  deleteFavourite,
   openWebsiteLink,
   toggleMapLinks,
   openPhone,
@@ -23,7 +23,7 @@ const AllBarsListItem = ({
   const swipeoutBtns = [
     {
       backgroundColor: COLORS.ACCENT_COLOR,
-      onPress: () => addToUserFavourites(item.id),
+      onPress: () => deleteFavourite(item.id),
       text: 'LIKE',
     },
   ];
@@ -95,13 +95,13 @@ const styles = StyleSheet.create({
   },
 });
 
-AllBarsListItem.propTypes = {
+UserBarsListItem.propTypes = {
   item: PropTypes.shape().isRequired,
-  addToUserFavourites: PropTypes.func.isRequired,
+  deleteFavourite: PropTypes.func.isRequired,
   openWebsiteLink: PropTypes.func.isRequired,
   toggleMapLinks: PropTypes.func.isRequired,
   openPhone: PropTypes.func.isRequired,
   isVisible: PropTypes.bool.isRequired,
 };
 
-export default AllBarsListItem;
+export default UserBarsListItem;
