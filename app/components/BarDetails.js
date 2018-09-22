@@ -28,8 +28,13 @@ import CreateBar from '../graphql/mutations/CreateBar';
 import * as COLORS from '../config/colors';
 
 class BarDetails extends PureComponent {
+  state = {
+    adding: false,
+  }
+
   addToFavourites = async () => {
     try {
+      this.setState({ adding: true });
       const {
         barId,
         lat,
@@ -63,26 +68,19 @@ class BarDetails extends PureComponent {
 
       if (!bar && getBarMember === null) {
         await Promise.all([createBarMember({ ...barMember }), createBar({ ...barData })]);
-        Alert.alert('Success', 'This bar has been added to your favourites.', [{ text: 'OK' }], {
-          cancelable: false,
-        });
-        console.log(getBarMember);
       } else if (bar && getBarMember === null) {
         await createBarMember({ ...barMember });
-        Alert.alert('Success', 'This bar has been added to your favourites.', [{ text: 'OK' }], {
-          cancelable: false,
-        });
       } else if (bar && getBarMember !== null) {
-        Alert.alert('Already added', 'This bar is already in your favourites.', [{ text: 'OK' }], {
-          cancelable: false,
-        });
+        console.log('Already added.');
       } else if (!bar && getBarMember !== null) {
         await createBar({ ...barData });
       } else {
-        console.log('What the?');
+        return;
       }
+      this.setState({ adding: false });
     } catch (error) {
       console.log(error);
+      this.setState({ adding: false });
       Alert.alert('Error', 'There was an error, please try again.', [{ text: 'OK' }], {
         cancelable: false,
       });
@@ -93,6 +91,8 @@ class BarDetails extends PureComponent {
     const {
       details, openWebsiteLink, openPhone, toggleMapLinks, loading,
     } = this.props;
+
+    const { adding } = this.state;
 
     if (loading) {
       return (
@@ -108,32 +108,39 @@ class BarDetails extends PureComponent {
           <Text style={styles.header}>{details.name}</Text>
           <Text style={styles.location}>{details.formatted_phone_number}</Text>
           <Text style={styles.phone}>{details.vicinity}</Text>
-          <TouchableOpacity onPress={this.addToFavourites} style={styles.iconHeader}>
-            <Ionicons
-              name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'}
-              size={25}
-              color={COLORS.TEXT_PRIMARY_COLOR}
-            />
-          </TouchableOpacity>
+          {adding ? (
+            <View style={styles.loadingHeart}>
+              <ActivityIndicator color={COLORS.TEXT_PRIMARY_COLOR} />
+            </View>
+          ) : (
+            <TouchableOpacity onPress={this.addToFavourites} style={styles.iconHeader}>
+              <Ionicons
+                name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'}
+                size={18}
+                color={COLORS.TEXT_PRIMARY_COLOR}
+              />
+            </TouchableOpacity>
+          )
+        }
         </View>
         <View style={styles.iconGroup}>
           <View style={styles.iconLeft}>
             <TouchableOpacity onPress={openWebsiteLink}>
-              <MaterialCommunityIcons name="web" size={25} color={COLORS.TEXT_PRIMARY_COLOR} />
+              <MaterialCommunityIcons name="web" size={18} color={COLORS.TEXT_PRIMARY_COLOR} />
             </TouchableOpacity>
           </View>
           <View style={styles.iconMiddle}>
             <TouchableOpacity onPress={toggleMapLinks}>
               <MaterialCommunityIcons
                 name="directions"
-                size={25}
+                size={18}
                 color={COLORS.TEXT_PRIMARY_COLOR}
               />
             </TouchableOpacity>
           </View>
           <View style={styles.iconRight}>
             <TouchableOpacity onPress={openPhone}>
-              <Foundation name="telephone" size={25} color={COLORS.TEXT_PRIMARY_COLOR} />
+              <Foundation name="telephone" size={18} color={COLORS.TEXT_PRIMARY_COLOR} />
             </TouchableOpacity>
           </View>
         </View>
@@ -184,6 +191,9 @@ const styles = StyleSheet.create({
   },
   loading: {
     paddingTop: 20,
+  },
+  loadingHeart: {
+    marginTop: 10,
   },
   top: {
     paddingVertical: 20,
