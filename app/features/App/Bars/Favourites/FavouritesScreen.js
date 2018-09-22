@@ -48,7 +48,7 @@ export default class FavouritesScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <UserBarsList userId={userId} />
+        <UserBarsList userId={userId} barId="" />
       </View>
     );
   }

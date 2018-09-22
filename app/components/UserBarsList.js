@@ -14,7 +14,7 @@ import _ from 'lodash';
 
 // GraphQL
 import GetUserBars from '../graphql/queries/GetUserBars';
-import ListBarMembers from '../graphql/queries/ListBarMembers';
+import GetBarMember from '../graphql/queries/GetBarMember';
 import DeleteBarMember from '../graphql/mutations/DeleteBarMember';
 
 // Components
@@ -75,17 +75,21 @@ class UserBarsList extends Component {
 
   deleteFavourite = async (barId) => {
     try {
-      const { userId, members, deleteBarMember } = this.props;
-      const barMemberDeleted = await members.filter(
-        member => member.userId === userId && member.barId === barId,
-      );
-      console.log('Bar Member deleted: ', barMemberDeleted[0].id);
-      const memberId = barMemberDeleted[0].id;
-      await deleteBarMember(memberId);
+      const { userId, refetchBarMember, deleteBarMember } = this.props;
 
-      Alert.alert('Success', 'This bar has been deleted from your favourites.', [{ text: 'OK' }], {
-        cancelable: false,
-      });
+      console.log(`userId: ${userId}, barId: ${barId}`);
+
+      const barMemberAdded = await refetchBarMember({ userId, barId });
+      console.log(barMemberAdded);
+      console.log(`id: ${barMemberAdded.data.getBarMember.id}`);
+
+      if (barMemberAdded.data.getBarMember !== null) {
+        await deleteBarMember(barMemberAdded.data.getBarMember.id);
+        Alert.alert('Success', 'This bar has been deleted from your favourites.', [{ text: 'OK' }], {
+          cancelable: false,
+        });
+      }
+      return;
     } catch (error) {
       console.log(error);
       Alert.alert('Error', 'There was an error, please try again.', [{ text: 'OK' }], {
@@ -203,7 +207,6 @@ const styles = StyleSheet.create({
 UserBarsList.propTypes = {
   userId: PropTypes.string.isRequired,
   bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  members: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   refetch: PropTypes.func.isRequired,
   networkStatus: PropTypes.number.isRequired,
   deleteBarMember: PropTypes.func.isRequired,
@@ -225,13 +228,18 @@ export default compose(
       networkStatus: data.networkStatus,
     }),
   }),
-  graphql(gql(ListBarMembers), {
-    options: {
-      fetchPolicy: 'network-only',
-    },
+  graphql(gql(GetBarMember), {
+    options: ownProps => ({
+      variables: {
+        userId: ownProps.userId,
+        barId: ownProps.barId,
+      },
+      fetchPolicy: 'cache-and-network',
+    }),
     props: ({ data }) => ({
-      // data,
-      members: data.listBarMembers ? data.listBarMembers.items : [],
+      loading: data.loading,
+      refetchBarMember: data.refetch,
+      getBarMember: data.getBarMember ? data.getBarMember : null,
     }),
   }),
   graphql(gql(DeleteBarMember), {
