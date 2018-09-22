@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   Text,
@@ -27,7 +27,7 @@ import CreateBar from '../graphql/mutations/CreateBar';
 // Config
 import * as COLORS from '../config/colors';
 
-class BarDetails extends Component {
+class BarDetails extends PureComponent {
   addToFavourites = async () => {
     try {
       const {

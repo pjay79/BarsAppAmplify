@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   FlatList,
@@ -26,7 +26,7 @@ import orderData from '../util/orderData';
 // Config
 import * as COLORS from '../config/colors';
 
-class UserBarsList extends Component {
+class UserBarsList extends PureComponent {
   static navigationOptions = {
     header: null,
   };

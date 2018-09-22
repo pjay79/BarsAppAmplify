@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   Alert,
@@ -29,7 +29,7 @@ import orderData from '../util/orderData';
 // Config
 import * as COLORS from '../config/colors';
 
-class AllBarsList extends Component {
+class AllBarsList extends PureComponent {
   static navigationOptions = {
     header: null,
   };
