@@ -99,13 +99,9 @@ class AllBarsList extends PureComponent {
 
       if (barMemberAdded.data.getBarMember === null) {
         await createBarMember({ ...barMember });
-        Alert.alert('Success', 'This bar has been added to your favourites.', [{ text: 'OK' }], {
-          cancelable: false,
-        });
+        console.log('Added!');
       } else if (barMemberAdded.data.getBarMember !== null) {
-        Alert.alert('Already added', 'This bar is already in your favourites.', [{ text: 'OK' }], {
-          cancelable: false,
-        });
+        console.log('Already added.');
       }
     } catch (error) {
       console.log(error);

@@ -1,12 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
-  View,
-  FlatList,
-  Linking,
-  StyleSheet,
-  SegmentedControlIOS,
-  Alert,
+  View, FlatList, Linking, StyleSheet, SegmentedControlIOS, Alert,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -85,9 +80,7 @@ class UserBarsList extends PureComponent {
 
       if (barMemberAdded.data.getBarMember !== null) {
         await deleteBarMember(barMemberAdded.data.getBarMember.id);
-        Alert.alert('Success', 'This bar has been deleted from your favourites.', [{ text: 'OK' }], {
-          cancelable: false,
-        });
+        console.log('Deleted!');
       }
       return;
     } catch (error) {
@@ -123,9 +116,7 @@ class UserBarsList extends PureComponent {
   );
 
   render() {
-    const {
-      refetch, networkStatus, bars,
-    } = this.props;
+    const { refetch, networkStatus, bars } = this.props;
     const {
       property, direction, options, selectedIndex,
     } = this.state;

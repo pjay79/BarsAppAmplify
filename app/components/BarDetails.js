@@ -68,8 +68,10 @@ class BarDetails extends PureComponent {
 
       if (!bar && getBarMember === null) {
         await Promise.all([createBarMember({ ...barMember }), createBar({ ...barData })]);
+        console.log('Added!');
       } else if (bar && getBarMember === null) {
         await createBarMember({ ...barMember });
+        console.log('Added!');
       } else if (bar && getBarMember !== null) {
         console.log('Already added.');
       } else if (!bar && getBarMember !== null) {
