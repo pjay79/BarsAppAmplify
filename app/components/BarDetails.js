@@ -30,9 +30,16 @@ import * as COLORS from '../config/colors';
 class BarDetails extends PureComponent {
   state = {
     adding: false,
+    added: false,
   }
 
   addToFavourites = async () => {
+    const { added } = this.state;
+    if (added) {
+      console.log('Already added.');
+      return;
+    }
+
     try {
       this.setState({ adding: true });
 
@@ -77,7 +84,7 @@ class BarDetails extends PureComponent {
         console.log('Already added.');
       }
 
-      this.setState({ adding: false });
+      this.setState({ adding: false, added: true });
     } catch (error) {
       console.log(error);
       this.setState({ adding: false });
