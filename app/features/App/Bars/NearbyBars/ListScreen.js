@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
   View,
-  Text,
-  TouchableOpacity,
   FlatList,
   StyleSheet,
   PermissionsAndroid,
@@ -14,12 +12,11 @@ import { Auth } from 'aws-amplify';
 import Geolocation from 'react-native-geolocation-service';
 import SplashScreen from 'react-native-splash-screen';
 
+// Components
+import ListItem from '../../../../components/ListItem';
+
 // Services
 import nearbyPlacesSearch from '../../../../services/nearbyPlacesSearch';
-
-// Util
-import displayPriceRating from '../../../../util/displayPriceRating';
-import calculateDistance from '../../../../util/calculateDistance';
 
 // Config
 import * as COLORS from '../../../../config/colors';
@@ -145,33 +142,12 @@ export default class ListScreen extends PureComponent {
     const { latitude, longitude } = this.state;
 
     return (
-      <View style={styles.card}>
-        <TouchableOpacity onPress={() => navigation.navigate('Details', { bar: item })}>
-          <View style={styles.cardUpper}>
-            <Text style={styles.header}>
-              {item.name}
-            </Text>
-            <Text style={
-              item.opening_hours
-              && item.opening_hours.open_now ? styles.openText : styles.closeText}
-            >
-              {item.opening_hours && item.opening_hours.open_now ? 'OPEN' : 'CLOSED'}
-            </Text>
-          </View>
-          <View style={styles.cardLower}>
-            {displayPriceRating(item.price_level)}
-            <Text style={styles.distance}>
-              {calculateDistance(
-                latitude,
-                longitude,
-                item.geometry.location.lat,
-                item.geometry.location.lng,
-              )}
-              m
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <ListItem
+        item={item}
+        navigation={navigation}
+        latitude={latitude}
+        longitude={longitude}
+      />
     );
   };
 
@@ -201,48 +177,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
   },
-  card: {
-    marginVertical: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  cardUpper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  openText: {
-    fontWeight: '600',
-    letterSpacing: 2,
-    color: COLORS.ACCENT_COLOR,
-  },
-  closeText: {
-    fontWeight: '600',
-    color: COLORS.SECONDARY_TEXT_COLOR,
-  },
-  cardLower: {
-    flexDirection: 'row',
-    letterSpacing: 2,
-    justifyContent: 'space-between',
-  },
-  distance: {
-    color: COLORS.DARK_PRIMARY_COLOR,
-  },
   separator: {
     backgroundColor: COLORS.DIVIDER_COLOR,
     height: StyleSheet.hairlineWidth,
   },
-  header: {
-    fontSize: 18,
-    fontWeight: '500',
-  },
   footer: {
     paddingVertical: 20,
-  },
-  dollar: {
-    flexDirection: 'row',
-  },
-  noDollar: {
-    fontSize: 12,
   },
 });
 
