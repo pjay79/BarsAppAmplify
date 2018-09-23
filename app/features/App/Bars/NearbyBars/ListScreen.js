@@ -13,7 +13,7 @@ import Geolocation from 'react-native-geolocation-service';
 import SplashScreen from 'react-native-splash-screen';
 
 // Components
-import ListItem from '../../../../components/ListItem';
+import ListItem from './components/ListItem';
 
 // Services
 import nearbyPlacesSearch from '../../../../services/nearbyPlacesSearch';

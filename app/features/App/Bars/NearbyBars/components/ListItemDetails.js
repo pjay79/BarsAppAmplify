@@ -18,20 +18,20 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import uuidV4 from 'uuid/v4';
 
 // GraphQL
-import GetUserBars from '../graphql/queries/GetUserBars';
-import GetBar from '../graphql/queries/GetBar';
-import GetBarMember from '../graphql/queries/GetBarMember';
-import CreateBarMember from '../graphql/mutations/CreateBarMember';
-import CreateBar from '../graphql/mutations/CreateBar';
+import GetUserBars from '../../../../../graphql/queries/GetUserBars';
+import GetBar from '../../../../../graphql/queries/GetBar';
+import GetBarMember from '../../../../../graphql/queries/GetBarMember';
+import CreateBarMember from '../../../../../graphql/mutations/CreateBarMember';
+import CreateBar from '../../../../../graphql/mutations/CreateBar';
 
 // Config
-import * as COLORS from '../config/colors';
+import * as COLORS from '../../../../../config/colors';
 
 class ListItemDetails extends PureComponent {
   state = {
     adding: false,
     added: false,
-  }
+  };
 
   addToFavourites = async () => {
     const { added } = this.state;
@@ -127,8 +127,7 @@ class ListItemDetails extends PureComponent {
                 color={COLORS.TEXT_PRIMARY_COLOR}
               />
             </TouchableOpacity>
-          )
-        }
+          )}
         </View>
         <View style={styles.iconGroup}>
           <View style={styles.iconLeft}>
@@ -348,9 +347,7 @@ export default compose(
     props: ({ mutate }) => ({
       createBarMember: member => mutate({
         variables: member,
-        refetchQueries: [
-          { query: gql(GetUserBars), variables: { id: member.userId } },
-        ],
+        refetchQueries: [{ query: gql(GetUserBars), variables: { id: member.userId } }],
       }),
     }),
   }),

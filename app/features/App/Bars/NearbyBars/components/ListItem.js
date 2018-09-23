@@ -5,11 +5,11 @@ import {
 } from 'react-native';
 
 // Util
-import displayPriceRating from '../util/displayPriceRating';
-import calculateDistance from '../util/calculateDistance';
+import displayPriceRating from '../../../../../util/displayPriceRating';
+import calculateDistance from '../../../../../util/calculateDistance';
 
 // Config
-import * as COLORS from '../config/colors';
+import * as COLORS from '../../../../../config/colors';
 
 const ListItem = ({
   item, navigation, latitude, longitude,

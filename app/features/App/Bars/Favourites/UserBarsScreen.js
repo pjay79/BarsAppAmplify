@@ -3,7 +3,7 @@ import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Auth } from 'aws-amplify';
 
 // Components
-import UserBarsList from '../../../../components/UserBarsList';
+import UserBarsList from './components/UserBarsList';
 
 // Config
 import * as COLORS from '../../../../config/colors';

@@ -7,10 +7,10 @@ import moment from 'moment';
 import Swipeout from 'react-native-swipeout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
-import MapLinks from './MapLinks';
+import MapLinks from '../../../../../components/MapLinks';
 
 // Config
-import * as COLORS from '../config/colors';
+import * as COLORS from '../../../../../config/colors';
 
 const AllBarsListItem = ({
   item,
