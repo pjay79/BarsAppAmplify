@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, ActivityIndicator,
 } from 'react-native';
@@ -11,7 +11,7 @@ import Input from '../../components/Input';
 // Config
 import * as COLORS from '../../config/colors';
 
-export default class SignUpScreen extends Component {
+export default class SignUpScreen extends PureComponent {
   static navigationOptions = {
     title: 'Sign Up',
     headerStyle: {

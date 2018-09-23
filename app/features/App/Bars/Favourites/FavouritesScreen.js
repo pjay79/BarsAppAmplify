@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Auth } from 'aws-amplify';
 
@@ -8,7 +8,7 @@ import UserBarsList from '../../../../components/UserBarsList';
 // Config
 import * as COLORS from '../../../../config/colors';
 
-export default class FavouritesScreen extends Component {
+export default class FavouritesScreen extends PureComponent {
   static navigationOptions = {
     header: null,
   };

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   Text,
@@ -29,7 +29,7 @@ import * as COLORS from '../../../../config/colors';
 
 MapboxGL.setAccessToken(Config.MAPBOX_ACCESS_TOKEN);
 
-export default class MapScreen extends Component {
+export default class MapScreen extends PureComponent {
   static navigationOptions = {
     header: null,
   };

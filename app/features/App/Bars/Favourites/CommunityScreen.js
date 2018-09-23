@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Auth } from 'aws-amplify';
 
@@ -8,7 +8,7 @@ import AllBarsList from '../../../../components/AllBarsList';
 // Config
 import * as COLORS from '../../../../config/colors';
 
-export default class CommunityScreen extends Component {
+export default class CommunityScreen extends PureComponent {
   static navigationOptions = {
     header: null,
   };

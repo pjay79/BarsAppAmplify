@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   Text,
@@ -24,7 +24,7 @@ import calculateDistance from '../../../../util/calculateDistance';
 // Config
 import * as COLORS from '../../../../config/colors';
 
-export default class ListScreen extends Component {
+export default class ListScreen extends PureComponent {
   static navigationOptions = {
     header: null,
   };

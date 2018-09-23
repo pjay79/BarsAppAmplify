@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   StyleSheet,
   View,
@@ -13,7 +13,7 @@ import { Auth } from 'aws-amplify';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as COLORS from '../../../../config/colors';
 
-export default class MoreScreen extends Component {
+export default class MoreScreen extends PureComponent {
   static navigationOptions = {
     title: 'More',
     headerStyle: {
@@ -43,9 +43,7 @@ export default class MoreScreen extends Component {
       <View style={styles.container}>
         <TouchableOpacity onPress={() => console.log('Go to ABOUT')}>
           <View style={styles.item}>
-            <Text style={styles.itemText}>
-About
-            </Text>
+            <Text style={styles.itemText}>About</Text>
             <Ionicons
               name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
               size={20}
@@ -63,9 +61,7 @@ About
               },
             ]}
           >
-            <Text style={styles.itemText}>
-Contact Us
-            </Text>
+            <Text style={styles.itemText}>Contact Us</Text>
             <Ionicons
               name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
               size={20}
@@ -75,9 +71,7 @@ Contact Us
         </TouchableOpacity>
         <TouchableOpacity onPress={() => console.log('Go to FEEDBACK')}>
           <View style={styles.item}>
-            <Text style={styles.itemText}>
-Send Feedback
-            </Text>
+            <Text style={styles.itemText}>Send Feedback</Text>
             <Ionicons
               name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
               size={20}
@@ -87,9 +81,7 @@ Send Feedback
         </TouchableOpacity>
         <TouchableOpacity onPress={this.signOut}>
           <View style={styles.itemSignOut}>
-            <Text style={styles.itemTextSignOut}>
-SIGN OUT
-            </Text>
+            <Text style={styles.itemTextSignOut}>SIGN OUT</Text>
           </View>
         </TouchableOpacity>
         {loading && <ActivityIndicator color={COLORS.PRIMARY_TEXT_COLOR} />}

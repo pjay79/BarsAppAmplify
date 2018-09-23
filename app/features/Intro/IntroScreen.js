@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import AppIntroSlider from 'react-native-app-intro-slider';
@@ -27,7 +27,7 @@ const slides = [
   },
 ];
 
-export default class IntroScreen extends Component {
+export default class IntroScreen extends PureComponent {
   static navigationOptions = {
     header: null,
   };

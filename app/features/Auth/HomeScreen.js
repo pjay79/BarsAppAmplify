@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   Text,
@@ -17,7 +17,7 @@ import Button from '../../components/Button';
 // Config
 import * as COLORS from '../../config/colors';
 
-export default class HomeScreen extends Component {
+export default class HomeScreen extends PureComponent {
   static navigationOptions = {
     header: null,
   };
@@ -47,7 +47,7 @@ export default class HomeScreen extends Component {
             {' '}
             {'\n'}
             {' '}
-            started with a salad.
+started with a salad.
           </Text>
         </View>
         <View>

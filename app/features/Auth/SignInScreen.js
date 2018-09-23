@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, ActivityIndicator,
 } from 'react-native';
@@ -16,7 +16,7 @@ import Input from '../../components/Input';
 // Config
 import * as COLORS from '../../config/colors';
 
-export default class SignInScreen extends Component {
+export default class SignInScreen extends PureComponent {
   static navigationOptions = {
     title: 'Sign In',
     headerStyle: {

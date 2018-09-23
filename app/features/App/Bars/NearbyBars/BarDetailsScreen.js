@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   ScrollView, Dimensions, View, StyleSheet, Linking, ActivityIndicator,
 } from 'react-native';
@@ -16,7 +16,7 @@ import nearbyPlaceDetailsSearch from '../../../../services/nearbyPlaceDetailsSea
 // Config
 import * as COLORS from '../../../../config/colors';
 
-export default class BarDetailsScreen extends Component {
+export default class BarDetailsScreen extends PureComponent {
   static navigationOptions = {
     headerStyle: {
       backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
