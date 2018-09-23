@@ -3,41 +3,41 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import FavouritesScreen from './FavouritesScreen';
-import CommunityScreen from './CommunityScreen';
+import AllBarsScreen from './AllBarsScreen';
+import UserBarsScreen from './UserBarsScreen';
 
 // Config
 import * as COLORS from '../../../../config/colors';
 
-const FavouritesStack = createStackNavigator(
+const UserBarsStack = createStackNavigator(
   {
-    Favourites: {
-      screen: FavouritesScreen,
+    User: {
+      screen: UserBarsScreen,
     },
   },
   {
-    inititalRouteName: 'Favourites',
+    inititalRouteName: 'User',
   },
 );
 
-const CommunityStack = createStackNavigator(
+const AllBarsStack = createStackNavigator(
   {
-    Community: {
-      screen: CommunityScreen,
+    All: {
+      screen: AllBarsScreen,
     },
   },
   {
-    inititalRouteName: 'Community',
+    inititalRouteName: 'All',
   },
 );
 
 const FavouritesTabs = createMaterialTopTabNavigator(
   {
     All: {
-      screen: CommunityStack,
+      screen: AllBarsStack,
     },
     Me: {
-      screen: FavouritesStack,
+      screen: UserBarsStack,
     },
   },
   {

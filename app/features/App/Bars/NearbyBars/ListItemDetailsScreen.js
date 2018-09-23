@@ -6,7 +6,7 @@ import {
 import { Auth } from 'aws-amplify';
 
 // Components
-import BarDetails from '../../../../components/BarDetails';
+import ListItemDetails from '../../../../components/ListItemDetails';
 import MapLinks from '../../../../components/MapLinks';
 import Button from '../../../../components/Button';
 
@@ -16,7 +16,7 @@ import nearbyPlaceDetailsSearch from '../../../../services/nearbyPlaceDetailsSea
 // Config
 import * as COLORS from '../../../../config/colors';
 
-export default class BarDetailsScreen extends PureComponent {
+export default class ListItemDetailsScreen extends PureComponent {
   static navigationOptions = {
     headerStyle: {
       backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
@@ -104,7 +104,7 @@ export default class BarDetailsScreen extends PureComponent {
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.containerContentStyle}>
-          <BarDetails
+          <ListItemDetails
             barId={barId}
             lat={lat}
             lng={lng}
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   },
 });
 
-BarDetailsScreen.propTypes = {
+ListItemDetailsScreen.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
     getParam: PropTypes.func.isRequired,

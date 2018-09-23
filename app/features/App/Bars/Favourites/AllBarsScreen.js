@@ -3,12 +3,12 @@ import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Auth } from 'aws-amplify';
 
 // Components
-import UserBarsList from '../../../../components/UserBarsList';
+import AllBarsList from '../../../../components/AllBarsList';
 
 // Config
 import * as COLORS from '../../../../config/colors';
 
-export default class FavouritesScreen extends PureComponent {
+export default class AllBarsScreen extends PureComponent {
   static navigationOptions = {
     header: null,
   };
@@ -26,7 +26,7 @@ export default class FavouritesScreen extends PureComponent {
     try {
       this.setState({ loading: true });
       const currentUser = await Auth.currentAuthenticatedUser();
-      const userId = await currentUser.signInUserSession.accessToken.payload.sub;
+      const userId = currentUser.signInUserSession.accessToken.payload.sub;
       this.setState({ userId, loading: false });
       console.log(userId);
     } catch (error) {
@@ -48,7 +48,7 @@ export default class FavouritesScreen extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <UserBarsList userId={userId} barId="" />
+        <AllBarsList userId={userId} barId="" />
       </View>
     );
   }

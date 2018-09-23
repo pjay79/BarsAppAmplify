@@ -4,7 +4,7 @@ import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navig
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import ListScreen from './ListScreen';
-import BarDetailsScreen from './BarDetailsScreen';
+import ListItemDetailsScreen from './ListItemDetailsScreen';
 import MapScreen from './MapScreen';
 
 // Config
@@ -16,7 +16,7 @@ const ListStack = createStackNavigator(
       screen: ListScreen,
     },
     Details: {
-      screen: BarDetailsScreen,
+      screen: ListItemDetailsScreen,
     },
   },
   {

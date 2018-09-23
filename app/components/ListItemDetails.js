@@ -27,7 +27,7 @@ import CreateBar from '../graphql/mutations/CreateBar';
 // Config
 import * as COLORS from '../config/colors';
 
-class BarDetails extends PureComponent {
+class ListItemDetails extends PureComponent {
   state = {
     adding: false,
     added: false,
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
   },
 });
 
-BarDetails.propTypes = {
+ListItemDetails.propTypes = {
   details: PropTypes.shape().isRequired,
   openWebsiteLink: PropTypes.func.isRequired,
   openPhone: PropTypes.func.isRequired,
@@ -311,7 +311,7 @@ BarDetails.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-BarDetails.defaultProps = {
+ListItemDetails.defaultProps = {
   bar: null,
 };
 
@@ -364,4 +364,4 @@ export default compose(
       }),
     }),
   }),
-)(BarDetails);
+)(ListItemDetails);
