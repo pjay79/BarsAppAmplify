@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  View, Text, TouchableOpacity, StyleSheet,
+  View, Text, TouchableOpacity, StyleSheet, ActivityIndicator,
 } from 'react-native';
 import moment from 'moment';
 import Swipeout from 'react-native-swipeout';
@@ -19,17 +19,18 @@ const UserBarsListItem = ({
   toggleMapLinks,
   openPhone,
   isVisible,
+  deleting,
 }) => {
   const swipeoutBtns = [
     {
-      backgroundColor: COLORS.ACCENT_COLOR,
+      backgroundColor: deleting ? COLORS.DEFAULT_PRIMARY_COLOR : COLORS.ACCENT_COLOR,
       onPress: () => deleteFavourite(item.id),
-      text: 'LIKE',
+      text: deleting ? <ActivityIndicator color={COLORS.TEXT_PRIMARY_COLOR} /> : 'DELETE',
     },
   ];
   const date = moment.utc(item.createdAt).format('MMMM Do YYYY, h:mm:ss a');
   return (
-    <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR} autoClose>
+    <Swipeout right={swipeoutBtns} backgroundColor={COLORS.TEXT_PRIMARY_COLOR}>
       <View style={styles.card}>
         <View style={styles.details}>
           <Text style={styles.header}>{item.name}</Text>
@@ -102,6 +103,7 @@ UserBarsListItem.propTypes = {
   toggleMapLinks: PropTypes.func.isRequired,
   openPhone: PropTypes.func.isRequired,
   isVisible: PropTypes.bool.isRequired,
+  deleting: PropTypes.bool.isRequired,
 };
 
 export default UserBarsListItem;

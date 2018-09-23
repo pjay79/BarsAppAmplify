@@ -35,6 +35,7 @@ class BarDetails extends PureComponent {
   addToFavourites = async () => {
     try {
       this.setState({ adding: true });
+
       const {
         barId,
         lat,
@@ -72,13 +73,10 @@ class BarDetails extends PureComponent {
       } else if (bar && getBarMember === null) {
         await createBarMember({ ...barMember });
         console.log('Added!');
-      } else if (bar && getBarMember !== null) {
-        console.log('Already added.');
-      } else if (!bar && getBarMember !== null) {
-        await createBar({ ...barData });
       } else {
-        return;
+        console.log('Already added.');
       }
+
       this.setState({ adding: false });
     } catch (error) {
       console.log(error);

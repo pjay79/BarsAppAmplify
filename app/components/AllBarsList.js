@@ -36,6 +36,7 @@ class AllBarsList extends PureComponent {
 
   state = {
     isVisible: false,
+    adding: false,
     options: ['Name', 'Created At'],
     selectedIndex: 0,
     property: 'name',
@@ -85,6 +86,8 @@ class AllBarsList extends PureComponent {
 
   addToUserFavourites = async (barId) => {
     try {
+      this.setState({ adding: true });
+
       const { userId, createBarMember, refetchBarMember } = this.props;
 
       const barMember = {
@@ -103,8 +106,11 @@ class AllBarsList extends PureComponent {
       } else if (barMemberAdded.data.getBarMember !== null) {
         console.log('Already added.');
       }
+
+      this.setState({ adding: false });
     } catch (error) {
       console.log(error);
+      this.setState({ adding: false });
       Alert.alert('Error', 'There was an error, please try again.', [{ text: 'OK' }], {
         cancelable: false,
       });
@@ -112,7 +118,7 @@ class AllBarsList extends PureComponent {
   };
 
   renderItem = ({ item }) => {
-    const { isVisible } = this.state;
+    const { isVisible, adding } = this.state;
 
     return (
       <AllBarsListItem
@@ -122,6 +128,7 @@ class AllBarsList extends PureComponent {
         toggleMapLinks={this.toggleMapLinks}
         openPhone={this.openPhone}
         isVisible={isVisible}
+        adding={adding}
       />
     );
   };

@@ -28,6 +28,7 @@ class UserBarsList extends PureComponent {
 
   state = {
     isVisible: false,
+    deleting: false,
     options: ['Name', 'Created At'],
     selectedIndex: 0,
     property: 'name',
@@ -70,6 +71,8 @@ class UserBarsList extends PureComponent {
 
   deleteFavourite = async (barId) => {
     try {
+      this.setState({ deleting: true });
+
       const { userId, refetchBarMember, deleteBarMember } = this.props;
 
       console.log(`userId: ${userId}, barId: ${barId}`);
@@ -82,9 +85,10 @@ class UserBarsList extends PureComponent {
         await deleteBarMember(barMemberAdded.data.getBarMember.id);
         console.log('Deleted!');
       }
-      return;
+      this.setState({ deleting: false });
     } catch (error) {
       console.log(error);
+      this.setState({ deleting: false });
       Alert.alert('Error', 'There was an error, please try again.', [{ text: 'OK' }], {
         cancelable: false,
       });
@@ -92,7 +96,7 @@ class UserBarsList extends PureComponent {
   };
 
   renderItem = ({ item }) => {
-    const { isVisible } = this.state;
+    const { isVisible, deleting } = this.state;
 
     return (
       <UserBarsListItem
@@ -102,6 +106,7 @@ class UserBarsList extends PureComponent {
         toggleMapLinks={this.toggleMapLinks}
         openPhone={this.openPhone}
         isVisible={isVisible}
+        deleting={deleting}
       />
     );
   };
