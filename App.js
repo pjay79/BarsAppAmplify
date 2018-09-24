@@ -3,7 +3,7 @@ import Amplify, { Auth } from 'aws-amplify';
 import AWSAppSyncClient from 'aws-appsync';
 import { Rehydrated } from 'aws-appsync-react';
 import { ApolloProvider } from 'react-apollo';
-import awsConfig from './app/aws-exports';
+import awsConfig from './aws-exports';
 
 // Features
 import MainNavigator from './app/features/MainNavigator';

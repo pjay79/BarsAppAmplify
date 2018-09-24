@@ -17,6 +17,11 @@ Please note: this is a work still in progress, and many features are not fully d
 - subscription for AllBarsList works intermittently, sometimes refetch required when AllBarsList is empty, disabling remote debugging seems to help, and occasionally getting metro bundler error that may be associated with this ('Error: not opened at WebSocket.send')
 - MapboxGL not working on android
 
+## Folder structure:
+
+![folder1](https://user-images.githubusercontent.com/14052885/45941175-3ece6400-c020-11e8-88bb-cbd366398788.jpeg)
+![folder2](https://user-images.githubusercontent.com/14052885/45941176-3ece6400-c020-11e8-9585-1cdce50b81cd.jpeg)
+
 # Screenshots
 
 ## iOS
@@ -154,7 +159,7 @@ Note: AWS Amplify has has the following directives that can be used with AppSync
 
 `amplify push`
 
-This command will update your cloud resources and add an **_aws-exports.js_** file to your **_project root directory_**. In your App.js file make sure this file is imported from the correct location. In my case, I had amplify cli placing this file within the **_app_** sub-directory. So you will have to edit the App.js file accordingly otherwise the app will not run.
+This command will update your cloud resources and add an **_aws-exports.js_** file to your **_project root directory_**. In your App.js file make sure this file is imported from the correct location.
 
 ## AWS AppSync
 

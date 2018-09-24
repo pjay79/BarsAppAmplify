@@ -59,6 +59,7 @@ buck-out/
 amplify/
 .amplifyrc
 app/aws-exports.js
+aws-exports.js
 
 # Config
 .env
