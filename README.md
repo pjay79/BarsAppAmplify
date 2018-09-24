@@ -3,9 +3,23 @@
 React Native, AWS AppSync, AWS Amplify, AWS Cognito, GraphQL, DynamoDB.
 Please note: this is a work still in progress, and many features are not fully developed yet.
 
-## Screenshots
+## ToDo
 
-### iOS
+- enable offline support
+- add search
+- add pagination
+- add Geolocation.watchPosition to Nearyby Bars (ListScreen and MapScreen)
+- add alternative to SegmentControlIOS for android
+
+## Issues
+
+- refetchQuery does not work when UserBarsList is empty, requires refetch to load first items, but seems to work thereafter
+- subscription for AllBarsList works intermittently, sometimes refetch required when AllBarsList is empty, disabling remote debugging seems to help, and occasionally getting metro bundler error that may be associated with this ('Error: not opened at WebSocket.send')
+- MapboxGL not working on android
+
+# Screenshots
+
+## iOS
 
 ## Technology stack:
 
@@ -34,17 +48,17 @@ Please note: this is a work still in progress, and many features are not fully d
 - react-navigation
 - uuid
 
-## Installation
+# Installation
 
-### React Native setup:
+## React Native setup:
 
 `brew install node`  
 `brew install watchman`  
 `npm install -g react-native-cli`
 
-And also install Xcode for iOS simulator + Android Studio / Genymotion for Android simulator. Alternatively connect up a hardware device.
+And also install Xcode for iOS simulator + Android Studio / Genymotion for Android simulator. Preferably connect up a hardware device for this particular app to access geolocation, maps + directions, and phone connection.
 
-### Project setup:
+## Project setup:
 
 Clone the repo:
 `git clone https://github.com/pjay79/BarsAppAmplify.git`  
@@ -58,121 +72,107 @@ Add dependencies:
 Sign up to AWS Free Tier:  
 https://aws.amazon.com/free/
 
-### AWS Mobile CLI setup
+### AWS Amplify CLI setup
 
-(note: you will be directed to create a new **IAM** user and prompted to enter the **accessKeyId** and **secretAccessKey**, store these in a safe place):
+`npm install -g @aws-amplify/cli`
 
-`npm install -g awsmobile-cli`  
-`awsmobile configure`  
-`awsmobile init` (in the project folder)
+`amplify configure`
 
-![awsmobile2](https://user-images.githubusercontent.com/14052885/41520984-b04a9234-7313-11e8-9d6e-ead22f033725.jpeg)
+This command will direct you to create a new **IAM** user, when prompted enter the **accessKeyId** and **secretAccessKey**, store these in a safe place, you can also assign this user an AWS Profile Name:
 
-`awsmobile user-signin enable`  
-`awsmobile push`  
-`awsmobile console` (opens the aws console in browser)
+![amplify-cropped](https://user-images.githubusercontent.com/14052885/45936158-a53e8c80-bff6-11e8-9b85-81cc4557fb44.jpg)
 
-This project's source directory is 'app'.
+`amplify init` (in the project folder)
 
-### AWS AppSync setup:
+![amplify-init-cropped](https://user-images.githubusercontent.com/14052885/45936167-c3a48800-bff6-11e8-85c1-aaf17281f20d.jpg)
 
-In the aws console **Services** section locate **AWS AppSync** and then do the following:
+`amplify add auth`
 
-- select **Create API**
+![amplify-auth](https://user-images.githubusercontent.com/14052885/45937057-5eee2b00-c000-11e8-9672-6e24d689d88b.jpeg)
 
-![appsync-starter](https://user-images.githubusercontent.com/14052885/41519711-0afcbaf6-730d-11e8-87d8-255a19960345.jpeg)
+`amplify add api`
 
-- enter API name **AWS Movies App** and select authorization type to **Amazon Cognito User Pool**
+![amplify-api-setup](https://user-images.githubusercontent.com/14052885/45937062-61e91b80-c000-11e8-908c-826c56cb5741.jpeg)
 
-![appsync-settings](https://user-images.githubusercontent.com/14052885/41507521-184374f2-7277-11e8-9b26-ab5d22a56ba3.jpeg)
-![appsync-settings-userpool](https://user-images.githubusercontent.com/14052885/41507522-18768892-7277-11e8-9c6b-355653347db1.jpeg)
-
-- select **Custom Schema**
-
-Paste the following into the Custom Schema box:
+The base **_schema.graphql_** file looks like this:
 
 ```
-type Movie {
-    id: ID!
-    title: String!
-    genre: String!
-    director: String!
-    reviews: [Review]
-    likes: Int!
-    author: String!
-    createdAt: String!
-}
-
-type Review {
-    id: ID!
-    movieID: ID!
-    rating: Int!
-    content: String!
-    author: String!
-    createdAt: String!
-}
-
-type Query {
-    fetchMovie(id: ID!): Movie
-}
-
-schema {
-    query: Query
+type Bar @model {
+	id: ID!
+	title: String!
+	content: String!
+	price: Int
+	rating: Float
 }
 ```
 
-Select **Save** and then **Create Resources**, then select type **Movie** with table name **MovieTable**. Repeat the same process for type **Review** with table name **ReviewTable**.
-
-![create resources](https://user-images.githubusercontent.com/14052885/41507580-4a4fe6b4-7278-11e8-87c6-6dcfd3df5657.jpeg)
-
-### Update resolvers
-
-Back in the AppSync console, find the Data Type **Movie** and **attach** a resolver to the **reviews** field, it should look like this:
-
-![resolver-reviews](https://user-images.githubusercontent.com/14052885/41519804-977471ea-730d-11e8-8abb-047845e242c9.jpeg)
-
-Back again in the AppSync console, find the Data Type **Query** and modify resolver for the **listReviews** field, it should look like this:
-
-![resolver-query](https://user-images.githubusercontent.com/14052885/41508261-38668d92-7285-11e8-9ba0-d2efd369eb22.jpeg)
-
-### DynamoDB table index:
-
-From your AppSync console:
-
-- select **DataSources**
-- select **ReviewTable**
-- select **Create index** in DynamoDB
-- select primary key **movieID**, and index name **movieID-index**
-- set read and write capacity to 1 unit each
-
-![create-index](https://user-images.githubusercontent.com/14052885/41519854-f0a4d624-730d-11e8-89cc-c1b3a1ea5348.jpeg)
-
-![index-table](https://user-images.githubusercontent.com/14052885/41508128-1d491220-7283-11e8-9d08-2f581042fd48.jpeg)
-
-### Add AppSync configuration
-
-Download the React Native AppSync.js file:
-
-![appsync-config](https://user-images.githubusercontent.com/14052885/41519914-43c0cfe8-730e-11e8-9ee8-4a0329ec2b12.jpeg)
-
-Add the contents of this file to **app/aws-appsync.js** as follows:
+Currently AWS Amplify does not yet support many-to-many connections, hence the **_@connection_** directive which is used for specifying relationships between **_@model_** object types cannot be used. Update the **_schema.graphql_** file to look as follows.
 
 ```
-export default {
-    graphqlEndpoint: 'ENTER_ENDPOINT',
-    region: 'ENTER_REGION',
-    authenticationType: 'AMAZON_COGNITO_USER_POOLS',
-    apiKey: 'null',
-};
+type Bar @model {
+  id: ID!
+  createdAt: String
+  updatedAt: String
+  name: String!
+  phone: String
+  location: String
+  lat: String
+  lng: String
+  url: AWSURL
+  addedBy: ID!
+  users(first: Int, after: String): [Bar]
+}
+
+type BarMember @model {
+  id: ID!
+  createdAt: String
+  updatedAt: String
+  userId: ID!
+  barId: ID!
+}
+
+type User @model {
+  id: ID!
+  createdAt: String
+  updatedAt: String
+  username: String!
+  bars(first: Int, after: String): [Bar]
+}
 ```
 
-### AWS Cognito
+`amplify push`
 
-In the aws console **Services** section locate **Cognito** and select **Manage User Pools**. Here you can customise the user and authorisation settings. For this project **MFA** has been set to **OPTIONAL**.
+This command will update your cloud resources.
 
-![cognito-page](https://user-images.githubusercontent.com/14052885/41520257-1d1a67b2-7310-11e8-81a4-ae8696976e09.jpeg)
+## Google Places API
 
-### Launch
+Sign up to **_Google Places_** and get an API key.
+
+![google-places](https://user-images.githubusercontent.com/14052885/45939122-6d920d80-c013-11e8-8c2e-e48354b2c998.jpeg)
+
+## Mapbox API
+
+Sign up to **_Mapbox_** and get an API key.
+
+![mapbox](https://user-images.githubusercontent.com/14052885/45939123-6ff46780-c013-11e8-9519-c5bb57452869.jpeg)
+
+## Add API keys
+
+This project uses **_react-native-config_** to store API keys in an environment file. Creata a **_.env_** file in the project root directory, then add your Google Places API and Mapbox API keys here.
+
+```
+GOOGLE_PLACES_API_KEY=YOUR_KEY_GOES_HERE
+MAPBOX_ACCESS_TOKEN=YOUR_KEY_GOES_HERE
+```
+
+## Launch
+
+Run on ios device:  
+`react-native run-ios --device "iPhone"`
+
+Run on android device:  
+`adb devices`  
+`react-native run-android --deviceId "myDeviceId"`
 
 Run on ios:
 `react-native run-ios`  
