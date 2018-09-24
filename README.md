@@ -106,7 +106,7 @@ type Bar @model {
 }
 ```
 
-Currently AWS Amplify does not yet support many-to-many connections, hence the **_@connection_** directive which is used for specifying relationships between **_@model_** object types cannot be used. Update the **_schema.graphql_** file to look as follows.
+This app will have a many-to-many connection between type Bar and type User. Currently AWS Amplify does not yet support **_many-to-many connections_**, hence the **_@connection_** directive which is used for specifying relationships between **_@model_** object types cannot be used. Update the **_schema.graphql_** file to look as follows.
 
 ```
 type Bar @model {
@@ -139,6 +139,16 @@ type User @model {
   bars(first: Int, after: String): [Bar]
 }
 ```
+
+Note: AWS Amplify has has 4 directives that can be used with AppSync:
+
+> **_@model_**: Used for storing types in Amazon DynamoDB.
+
+> **_@connection_**: Used to define different authorization strategies.
+
+> **_@auth_**: Used for specifying relationships between @model object types.
+
+> **_@searchable_**: Used for streaming the data of an @model object type to Amazon ElasticSearch Service.
 
 `amplify push`
 
