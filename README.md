@@ -150,6 +150,8 @@ Note: AWS Amplify has has 4 directives that can be used with AppSync:
 
 > **_@searchable_**: Used for streaming the data of an @model object type to Amazon ElasticSearch Service.
 
+## Important Step
+
 `amplify push`
 
 This command will update your cloud resources and add an **_aws-exports.js_** file to your **_project root directory_**. In your App.js file make sure this file is imported from the correct location. In my case, I had amplify cli placing this file within the **_app_** sub-directory. So you will have to edit the App.js file accordingly otherwise the app will not run.
