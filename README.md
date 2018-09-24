@@ -140,7 +140,7 @@ type User @model {
 }
 ```
 
-Note: AWS Amplify has has 4 directives that can be used with AppSync:
+Note: AWS Amplify has has the following directives that can be used with AppSync:
 
 > **_@model_**: Used for storing types in Amazon DynamoDB.
 
@@ -155,6 +155,265 @@ Note: AWS Amplify has has 4 directives that can be used with AppSync:
 `amplify push`
 
 This command will update your cloud resources and add an **_aws-exports.js_** file to your **_project root directory_**. In your App.js file make sure this file is imported from the correct location. In my case, I had amplify cli placing this file within the **_app_** sub-directory. So you will have to edit the App.js file accordingly otherwise the app will not run.
+
+## AWS AppSync
+
+Go to the AWS Console and **_AWS AppSync_** under Services. Select the API that has been generated API for this app and go to the schema.
+
+![schema](https://user-images.githubusercontent.com/14052885/45940494-c4501500-c01c-11e8-9683-a3f80fff0423.jpeg)
+
+The schema that has been created needs some modification to allow for the many-to-many relationship between Bars and Users to work. Modify the schema as follows:
+
+```
+type Bar {
+	id: ID!
+	createdAt: String
+	updatedAt: String
+	name: String!
+	phone: String
+	location: String
+	lat: String
+	lng: String
+	url: AWSURL
+	website: AWSURL
+	addedBy: ID!
+	users(first: Int, after: String): BarUsersConnection
+}
+
+type BarMember {
+	id: ID
+	createdAt: String
+	updatedAt: String
+	userId: ID!
+	barId: ID!
+}
+
+type BarUsersConnection {
+	items: [User]
+	nextToken: String
+}
+
+input CreateBarInput {
+	id: ID!
+	name: String!
+	phone: String
+	location: String
+	lat: String
+	lng: String
+	url: AWSURL
+	website: AWSURL
+	addedBy: ID!
+}
+
+input CreateBarMemberInput {
+	userId: ID!
+	barId: ID!
+}
+
+input CreateUserInput {
+	id: ID!
+	username: String!
+}
+
+input DeleteBarInput {
+	id: ID
+}
+
+input DeleteBarMemberInput {
+	id: ID
+}
+
+input DeleteUserInput {
+	id: ID
+}
+
+type ModelBarConnection {
+	items: [Bar]
+	nextToken: String
+}
+
+input ModelBarFilterInput {
+	id: ModelIDFilterInput
+	createdAt: ModelStringFilterInput
+	name: ModelStringFilterInput
+	phone: ModelStringFilterInput
+	location: ModelStringFilterInput
+	lat: ModelStringFilterInput
+	lng: ModelStringFilterInput
+	url: ModelStringFilterInput
+	website: ModelStringFilterInput
+	addedBy: ModelIDFilterInput
+	and: [ModelBarFilterInput]
+	or: [ModelBarFilterInput]
+	not: ModelBarFilterInput
+}
+
+type ModelBarMemberConnection {
+	items: [BarMember]
+	nextToken: String
+}
+
+input ModelBarMemberFilterInput {
+	id: ModelIDFilterInput
+	createdAt: ModelStringFilterInput
+	userId: ModelIDFilterInput
+	barId: ModelIDFilterInput
+	and: [ModelBarMemberFilterInput]
+	or: [ModelBarMemberFilterInput]
+	not: ModelBarMemberFilterInput
+}
+
+input ModelBooleanFilterInput {
+	ne: Boolean
+	eq: Boolean
+}
+
+input ModelFloatFilterInput {
+	ne: Float
+	eq: Float
+	le: Float
+	lt: Float
+	ge: Float
+	gt: Float
+	contains: Float
+	notContains: Float
+	between: [Float]
+}
+
+input ModelIDFilterInput {
+	ne: ID
+	eq: ID
+	le: ID
+	lt: ID
+	ge: ID
+	gt: ID
+	contains: ID
+	notContains: ID
+	between: [ID]
+	beginsWith: ID
+}
+
+input ModelIntFilterInput {
+	ne: Int
+	eq: Int
+	le: Int
+	lt: Int
+	ge: Int
+	gt: Int
+	contains: Int
+	notContains: Int
+	between: [Int]
+}
+
+enum ModelSortDirection {
+	ASC
+	DESC
+}
+
+input ModelStringFilterInput {
+	ne: String
+	eq: String
+	le: String
+	lt: String
+	ge: String
+	gt: String
+	contains: String
+	notContains: String
+	between: [String]
+	beginsWith: String
+}
+
+type ModelUserConnection {
+	items: [User]
+	nextToken: String
+}
+
+input ModelUserFilterInput {
+	id: ModelIDFilterInput
+	createdAt: ModelStringFilterInput
+	username: ModelStringFilterInput
+	and: [ModelUserFilterInput]
+	or: [ModelUserFilterInput]
+	not: ModelUserFilterInput
+}
+
+type Mutation {
+	createBar(input: CreateBarInput!): Bar
+	updateBar(input: UpdateBarInput!): Bar
+	deleteBar(input: DeleteBarInput!): Bar
+	createBarMember(input: CreateBarMemberInput!): BarMember
+	updateBarMember(input: UpdateBarMemberInput!): BarMember
+	deleteBarMember(input: DeleteBarMemberInput!): BarMember
+	createUser(input: CreateUserInput!): User
+	updateUser(input: UpdateUserInput!): User
+	deleteUser(input: DeleteUserInput!): User
+}
+
+type Query {
+	getBar(id: ID!): Bar
+	listBars(filter: ModelBarFilterInput, limit: Int, nextToken: String): ModelBarConnection
+	getBarMember(userId: ID!, barId: ID!): BarMember
+	listBarMembers(filter: ModelBarMemberFilterInput, limit: Int, nextToken: String): ModelBarMemberConnection
+	getUser(id: ID!): User
+	listUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection
+}
+
+type Subscription {
+	onCreateBar: Bar
+		@aws_subscribe(mutations: ["createBar"])
+	onUpdateBar: Bar
+		@aws_subscribe(mutations: ["updateBar"])
+	onDeleteBar: Bar
+		@aws_subscribe(mutations: ["deleteBar"])
+	onCreateBarMember: BarMember
+		@aws_subscribe(mutations: ["createBarMember"])
+	onUpdateBarMember: BarMember
+		@aws_subscribe(mutations: ["updateBarMember"])
+	onDeleteBarMember: BarMember
+		@aws_subscribe(mutations: ["deleteBarMember"])
+	onCreateUser: User
+		@aws_subscribe(mutations: ["createUser"])
+	onUpdateUser: User
+		@aws_subscribe(mutations: ["updateUser"])
+	onDeleteUser: User
+		@aws_subscribe(mutations: ["deleteUser"])
+}
+
+input UpdateBarInput {
+	id: ID!
+	name: String
+	phone: String
+	location: String
+	lat: String
+	lng: String
+	url: AWSURL
+	website: AWSURL
+}
+
+input UpdateBarMemberInput {
+	id: ID!
+	userId: ID
+	barId: ID
+}
+
+input UpdateUserInput {
+	id: ID!
+	username: String
+}
+
+type User {
+	id: ID!
+	createdAt: String
+	updatedAt: String
+	username: String!
+	bars(first: Int, after: String): UserBarsConnection
+}
+
+type UserBarsConnection {
+	items: [Bar]
+	nextToken: String
+}
+```
 
 ## Google Places API
 
@@ -180,7 +439,7 @@ MAPBOX_ACCESS_TOKEN=YOUR_KEY_GOES_HERE
 ## Launch
 
 Run on ios device:  
-`react-native run-ios --device "iPhone"`
+`react-native run-ios --device "iPhone X"`
 
 Run on android device:  
 `adb devices`  
