@@ -19,8 +19,8 @@ Please note: this is a work still in progress, and many features are not fully d
 
 ## Folder structure:
 
-![folder1](https://user-images.githubusercontent.com/14052885/45941175-3ece6400-c020-11e8-88bb-cbd366398788.jpeg)
-![folder2](https://user-images.githubusercontent.com/14052885/45941176-3ece6400-c020-11e8-9585-1cdce50b81cd.jpeg)
+![folder1-small](https://user-images.githubusercontent.com/14052885/45946797-56641780-c035-11e8-920b-3d2c8af1fedb.jpg)
+![folder2-small](https://user-images.githubusercontent.com/14052885/45946798-56641780-c035-11e8-917e-ae34bc57a98e.jpg)
 
 # Screenshots
 
@@ -161,7 +161,7 @@ Note: AWS Amplify has has the following directives that can be used with AppSync
 
 This command will update your cloud resources and add an **_aws-exports.js_** file to your **_project root directory_**. In your App.js file make sure this file is imported from the correct location.
 
-## AWS AppSync
+## AWS AppSync Schema
 
 Go to the AWS Console and **_AWS AppSync_** under Services. Select the API that has been generated API for this app and go to the schema.
 
@@ -419,6 +419,199 @@ type UserBarsConnection {
 	nextToken: String
 }
 ```
+
+## AWS AppSync Resolvers
+
+### Resolver for Bar.users: BarMemberTable
+
+```
+## Request
+
+{
+    "version" : "2017-02-28",
+    "operation" : "Query",
+    "query" : {
+        "expression": "barId = :id",
+        "expressionValues" : {
+            ":id" : {
+                "S" : "${ctx.source.id}"
+            }
+        }
+    },
+    "index": "barId-index",
+    "limit": $util.defaultIfNull(${ctx.args.first}, 20),
+    "nextToken": $util.toJson($util.defaultIfNullOrBlank($ctx.args.after, null))
+}
+```
+
+```
+## Response
+
+{
+    "items": $util.toJson($ctx.result.items),
+    "nextToken": $util.toJson($util.defaultIfNullOrBlank($context.result.nextToken, null))
+}
+```
+
+### Resolver for BarUsersConnection.items: UserTable
+
+```
+## Request
+
+#set($ids = [])
+#foreach($user in ${ctx.source.items})
+    #set($map = {})
+    $util.qr($map.put("id", $util.dynamodb.toString($user.get("userId"))))
+    $util.qr($ids.add($map))
+#end
+
+{
+    "version" : "2018-05-29",
+    "operation" : "BatchGetItem",
+    "tables" : {
+        "User-rndmxxybyjfv5lvzou3767zbte": {
+               "keys": $util.toJson($ids),
+               "consistentRead": true
+       }
+    }
+}
+```
+
+```
+## Response
+
+#if( ! ${ctx.result.data} )
+  $util.toJson([])
+#else
+  $util.toJson($ctx.result.data.User-uq7n63nywrc4tku2tzgx4mx75u)
+#end
+```
+
+### Resolver for User.bars: BarMemberTable
+
+```
+## Request
+
+{
+    "version" : "2017-02-28",
+    "operation" : "Query",
+    "query" : {
+        "expression": "userId = :id",
+        "expressionValues" : {
+            ":id" : {
+                "S" : "${ctx.source.id}"
+            }
+        }
+    },
+    "index": "userId-index",
+    "limit": $util.defaultIfNull(${ctx.args.first}, 20),
+    "nextToken": $util.toJson($util.defaultIfNullOrBlank($ctx.args.after, null))
+}
+```
+
+```
+## Response
+
+{
+    "items": $util.toJson($ctx.result.items),
+    "nextToken": $util.toJson($util.defaultIfNullOrBlank($context.result.nextToken, null))
+}
+```
+
+### Resolver for UserBarsConnection.items: BarTable
+
+```
+## Request
+
+#set($ids = [])
+#foreach($bar in ${ctx.source.items})
+    #set($map = {})
+    $util.qr($map.put("id", $util.dynamodb.toString($bar.get("barId"))))
+    $util.qr($ids.add($map))
+#end
+
+{
+    "version" : "2018-05-29",
+    "operation" : "BatchGetItem",
+    "tables" : {
+        "Bar-rndmxxybyjfv5lvzou3767zbte": {
+               "keys": $util.toJson($ids),
+               "consistentRead": true
+       }
+    }
+}
+```
+
+```
+## Response
+
+#if( ! ${ctx.result.data} )
+  $util.toJson([])
+#else
+  $util.toJson($ctx.result.data.Bar-uq7n63nywrc4tku2tzgx4mx75u)
+#end
+```
+
+### Resolver for Query.getBarMember: BarMember
+
+```
+## Request
+
+{
+    "version" : "2017-02-28",
+    "operation" : "Query",
+    "index" : "userId-index",
+    "query" : {
+        ## Provide a query expression. **
+        "expression": "userId = :userId",
+        "expressionValues" : {
+            ":userId" : $util.dynamodb.toDynamoDBJson($ctx.args.userId)
+        }
+    },
+    "filter" : {
+    	"expression" : "barId = :barId",
+        "expressionValues" : {
+            ":barId" : $util.dynamodb.toDynamoDBJson($ctx.args.barId)
+        }
+    },
+}
+```
+
+```
+## Response
+
+#if($ctx.result.items.size() > 0)
+  $util.toJson($ctx.result.items[0])
+#else
+  null
+#end
+```
+
+### Resolver for Mutation.createBar: BarTable
+
+Update the key only, leave the rest as it is.
+
+```
+"key": {
+  "id": $util.dynamodb.toDynamoDBJson($ctx.args.input.id),
+},
+```
+
+### Resolver for Mutation.createUser: UserTable
+
+Update the key only, leave the rest as it is.
+
+```
+"key": {
+  "id": $util.dynamodb.toDynamoDBJson($ctx.args.input.id),
+},
+```
+
+## DynamoDB
+
+From the AWS AppSync console select **_Data Sources_** and find the **_BarMember_** table. Create 2 indexes for this table, **_barId-index_**, and **_userId-index_**, with no sort keys and default settings. See example below:
+
+![create-index](https://user-images.githubusercontent.com/14052885/45951609-6dac0080-c047-11e8-870a-83f621c181d5.jpeg)
 
 ## Google Places API
 
