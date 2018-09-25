@@ -684,7 +684,7 @@ Run on android:
 
 ## React Apollo
 
-In this project I have chosen to primarily use React Apollo's graphql **_higher order component_** to connect queries, mutations, and subscriptions to the app. With React Apollo 2.1 you can use the new **_Query, Mutation, and Subscription_** components instead.
+In this app I have chosen to primarily use React Apollo's graphql **_higher order component_** to connect queries, mutations, and subscriptions to the app. With React Apollo 2.1 you can use the new **_Query, Mutation, and Subscription_** components instead.
 
 ## AWS Amplify API
 
@@ -692,4 +692,4 @@ In the Auth section of this app I have used AWS Amplify's API and **_graphqlOper
 
 ## AWS Appsync
 
-Just to confuse your life even more, with AWS AppSync you can combine React Apollo's graphql higher order component with the **_graphqlMutation_** (offline support) and **_buildSubscription_** helpers. These take away some of the boilerplate code normally required to implement mutations and subscriptions.
+With AWS AppSync you can combine React Apollo's graphql higher order component with the **_graphqlMutation_** (offline support) and **_buildSubscription_** helpers. These take away some of the boilerplate code normally required to implement mutations and subscriptions. I have used the buildSubscription helper in this app.
