@@ -14,7 +14,7 @@ React Native, AWS Amplify, AWS AppSync, AWS Cognito, Google Places, Mapbox. Plea
 
 - on adding a bar as a favourite, the refetchQuery does not work when UserBarsList is initially empty, the UserBarsList requires an initial refetch to load first items, but seems to work thereafter
 - when deleting bars, if only 1 bar is left in the UserBarsList, and error is thrown with a yellow screen warning on deleting this last item
-- subscription for AllBarsList works intermittently, sometimes a refetch is required when AllBarsList is empty, disabling remote debugging seems to help, and occasionally getting metro bundler error that may be associated with this ('Error: not opened at WebSocket.send')
+- subscription for AllBarsList works intermittently, sometimes a refetch +/- reload is required when AllBarsList is empty, disabling remote debugging seems to help, and occasionally getting metro bundler error that may be associated with this ('Error: not opened at WebSocket.send')
 - MapboxGL not working on android
 
 ## Folder structure:
@@ -31,8 +31,8 @@ React Native, AWS Amplify, AWS AppSync, AWS Cognito, Google Places, Mapbox. Plea
 ![img_3562](https://user-images.githubusercontent.com/14052885/45955619-c08bb500-c053-11e8-9b21-e32996e1f8a0.PNG)
 ![img_3563](https://user-images.githubusercontent.com/14052885/45955620-c1244b80-c053-11e8-9b7c-ac420ad5dfb1.PNG)
 ![img_3556](https://user-images.githubusercontent.com/14052885/45955612-bff31e80-c053-11e8-8d03-998a9216f33e.PNG)
-![img_3557](https://user-images.githubusercontent.com/14052885/45955614-bff31e80-c053-11e8-89b4-626a2fb7c7fd.PNG)
-![img_3558](https://user-images.githubusercontent.com/14052885/45955615-bff31e80-c053-11e8-9f2d-f8a2c386de6a.PNG)
+![img_3616](https://user-images.githubusercontent.com/14052885/46045156-2c5b4400-c160-11e8-8d57-47a32827a2b4.PNG)
+![img_3617](https://user-images.githubusercontent.com/14052885/46045158-2cf3da80-c160-11e8-9c4d-04ee170b3cbd.PNG)
 ![img_3596](https://user-images.githubusercontent.com/14052885/45955622-c1244b80-c053-11e8-8f1c-fcb306cc0af7.PNG)
 ![img_3598](https://user-images.githubusercontent.com/14052885/45955624-c1bce200-c053-11e8-8ad5-e4271cae6ee8.PNG)
 ![img_3599](https://user-images.githubusercontent.com/14052885/45955625-c1bce200-c053-11e8-90a7-56bde725150c.PNG)
