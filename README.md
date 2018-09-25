@@ -1,7 +1,6 @@
 # BarsAppAmplify
 
-React Native, AWS Amplify, AWS AppSync, AWS Cognito, GraphQL, DynamoDB.
-Please note: this is a work still in progress, and many features are not fully developed yet.
+React Native, AWS Amplify, AWS AppSync, AWS Cognito, Google Places, Mapbox. Please note: this is a work still in progress, and many features are not fully developed yet.
 
 ## ToDo
 
