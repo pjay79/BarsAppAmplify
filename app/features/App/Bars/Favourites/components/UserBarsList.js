@@ -73,7 +73,12 @@ class UserBarsList extends PureComponent {
     try {
       this.setState({ deleting: true });
 
-      const { userId, refetchBarMember, deleteBarMember } = this.props;
+      const {
+        userId,
+        refetchBarMember,
+        deleteBarMember,
+        bars,
+      } = this.props;
 
       console.log(`userId: ${userId}, barId: ${barId}`);
 
@@ -81,13 +86,12 @@ class UserBarsList extends PureComponent {
       console.log(barMemberAdded);
       console.log(`id: ${barMemberAdded.data.getBarMember.id}`);
 
-      if (barMemberAdded.data.getBarMember !== null) {
+      if (barMemberAdded.data.getBarMember !== null && bars.length > 1) {
         await deleteBarMember(barMemberAdded.data.getBarMember.id);
         console.log('Deleted!');
       }
       this.setState({ deleting: false });
     } catch (error) {
-      console.log(error);
       this.setState({ deleting: false });
       Alert.alert('Error', 'There was an error, please try again.', [{ text: 'OK' }], {
         cancelable: false,
