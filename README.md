@@ -164,6 +164,14 @@ type User @model {
 }
 ```
 
+## Important Step
+
+`amplify push`
+
+This command will update your cloud resources and add an **_aws-exports.js_** file to your **_project root directory_**. In your App.js file make sure this file is imported from the correct location.
+
+## Other directives
+
 Note: AWS Amplify has has the following directives that can be used with AppSync:
 
 > **_@model_**: Used for storing types in Amazon DynamoDB.
@@ -174,11 +182,11 @@ Note: AWS Amplify has has the following directives that can be used with AppSync
 
 > **_@searchable_**: Used for streaming the data of an @model object type to Amazon ElasticSearch Service.
 
-## Important Step
+## AWS AppSync Codegen
 
-`amplify push`
+AWS Amplify can generate types, as well as query, mutation, and subscription files based on your schema. In this project you will not need to do this as the relevant files have already been created in this repository. See the video below for an example:
 
-This command will update your cloud resources and add an **_aws-exports.js_** file to your **_project root directory_**. In your App.js file make sure this file is imported from the correct location.
+https://www.youtube.com/watch?v=r0PbwDoNMcY
 
 ## AWS AppSync Schema
 
@@ -666,3 +674,17 @@ Run on ios:
 `react-native run-ios`  
 Run on android:
 `react-native run-android`
+
+# Final thoughts
+
+## React Apollo
+
+In this project I have chosen to primarily use React Apollo's graphql **_higher order component_** to connect queries, mutations, and subscriptions to the app. With React Apollo 2.1 you can use the new **_Query, Mutation, and Subscription_** components instead.
+
+## AWS Amplify API
+
+In the Auth section of this app I have used AWS Amplify's API and **_graphqlOperation_** helper. This API is effectively an alternative GraphQL client for working with queries, mutations, and subscriptions. It is great to use when you do not need offline support and the more advanced features of React Apollo.
+
+## AWS Appsync
+
+Jsut to confuse your life even more, with AWS AppSync you can combine React Apollo's graphql higher order component with the **_graphqlMutation_** (offline support) and **_buildSubscription_** helpers. These take away some of the boilerplate code normally required.
