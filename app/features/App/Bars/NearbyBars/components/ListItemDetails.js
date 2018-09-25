@@ -341,14 +341,19 @@ export default compose(
     }),
   }),
   graphql(gql(CreateBarMember), {
-    options: {
+    options: ownProps => ({
+      refetchQueries: [
+        {
+          query: gql(GetUserBars),
+          variables: {
+            id: ownProps.userId,
+          },
+        },
+      ],
       fetchPolicy: 'cache-and-network',
-    },
+    }),
     props: ({ mutate }) => ({
-      createBarMember: member => mutate({
-        variables: member,
-        refetchQueries: [{ query: gql(GetUserBars), variables: { id: member.userId } }],
-      }),
+      createBarMember: member => mutate({ variables: member }),
     }),
   }),
   graphql(gql(CreateBar), {

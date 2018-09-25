@@ -1,12 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
-  View,
-  Alert,
-  FlatList,
-  Linking,
-  SegmentedControlIOS,
-  StyleSheet,
+  View, Alert, FlatList, Linking, SegmentedControlIOS, StyleSheet,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -136,9 +131,7 @@ class AllBarsList extends PureComponent {
   renderSeparator = () => <View style={styles.separator} />;
 
   render() {
-    const {
-      refetch, networkStatus, bars,
-    } = this.props;
+    const { refetch, networkStatus, bars } = this.props;
     const {
       property, direction, options, selectedIndex,
     } = this.state;
@@ -232,14 +225,19 @@ export default compose(
     }),
   }),
   graphql(gql(CreateBarMember), {
-    options: {
+    options: ownProps => ({
+      refetchQueries: [
+        {
+          query: gql(GetUserBars),
+          variables: {
+            id: ownProps.userId,
+          },
+        },
+      ],
       fetchPolicy: 'cache-and-network',
-    },
+    }),
     props: ({ mutate }) => ({
-      createBarMember: member => mutate({
-        variables: member,
-        refetchQueries: [{ query: gql(GetUserBars), variables: { id: member.userId } }],
-      }),
+      createBarMember: member => mutate({ variables: member }),
     }),
   }),
 )(AllBarsList);

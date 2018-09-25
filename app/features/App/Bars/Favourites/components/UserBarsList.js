@@ -248,7 +248,7 @@ export default compose(
           },
         },
       ],
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     }),
     props: ({ mutate }) => ({
       deleteBarMember: memberId => mutate({ variables: { id: memberId } }),
