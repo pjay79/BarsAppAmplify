@@ -484,6 +484,7 @@ type UserBarsConnection {
 
 ```
 ## Request
+## Please remember to replace the hyphenated table name below with the one that was created for your app
 
 #set($ids = [])
 #foreach($user in ${ctx.source.items})
@@ -506,6 +507,7 @@ type UserBarsConnection {
 
 ```
 ## Response
+## Please remember to replace the hyphenated table name below with the one that was created for your app
 
 #if( ! ${ctx.result.data} )
   $util.toJson([])
@@ -549,6 +551,8 @@ type UserBarsConnection {
 
 ```
 ## Request
+## Please remember to replace the hyphenated table name below with the one that was created for your app
+
 
 #set($ids = [])
 #foreach($bar in ${ctx.source.items})
@@ -571,6 +575,7 @@ type UserBarsConnection {
 
 ```
 ## Response
+## Please remember to replace the hyphenated table name below with the one that was created for your app
 
 #if( ! ${ctx.result.data} )
   $util.toJson([])
@@ -687,4 +692,4 @@ In the Auth section of this app I have used AWS Amplify's API and **_graphqlOper
 
 ## AWS Appsync
 
-Jsut to confuse your life even more, with AWS AppSync you can combine React Apollo's graphql higher order component with the **_graphqlMutation_** (offline support) and **_buildSubscription_** helpers. These take away some of the boilerplate code normally required.
+Just to confuse your life even more, with AWS AppSync you can combine React Apollo's graphql higher order component with the **_graphqlMutation_** (offline support) and **_buildSubscription_** helpers. These take away some of the boilerplate code normally required to implement mutations and subscriptions.
