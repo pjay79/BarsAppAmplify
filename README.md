@@ -13,8 +13,19 @@ React Native, AWS Amplify, AWS AppSync, AWS Cognito, Google Places, Mapbox. Plea
 ## Issues
 
 - on adding a bar as a favourite, the refetchQuery does not work when UserBarsList is initially empty, the UserBarsList requires an initial refetch to load first items, but seems to work thereafter
-- when deleting bars, if only 1 bar is left in the UserBarsList, and error is thrown with a yellow screen warning on deleting this last item
-- subscription for AllBarsList works intermittently, sometimes a refetch +/- reload is required when AllBarsList is empty, disabling remote debugging seems to help, and occasionally getting metro bundler error that may be associated with this ('Error: not opened at WebSocket.send')
+
+- when deleting bars, if only 1 bar is left in the UserBarsList, and error is thrown with a yellow screen warning on deleting this last item:
+
+```
+Possible Unhandled Promise Rejection: (id: 0): Error: GraphQL error: RequestItem keys '$[tables][bar-rndmxxybyjfv5lvzou3767zbte]' can't be empty'
+```
+
+- subscription for AllBarsList works intermittently, sometimes a refetch +/- reload is required when AllBarsList is empty, disabling remote debugging seems to help, and occasionally getting metro bundler error that may be associated with this
+
+```
+'Error: not opened at WebSocket.send'
+```
+
 - MapboxGL not working on android
 
 ## Folder structure:
