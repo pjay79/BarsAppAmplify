@@ -133,21 +133,14 @@ export default class ListScreen extends PureComponent {
     );
   };
 
-  renderSeparator = () => (
-    <View style={styles.separator} />
-  );
+  renderSeparator = () => <View style={styles.separator} />;
 
   renderItem = ({ item }) => {
     const { navigation } = this.props;
     const { latitude, longitude } = this.state;
 
     return (
-      <ListItem
-        item={item}
-        navigation={navigation}
-        latitude={latitude}
-        longitude={longitude}
-      />
+      <ListItem item={item} navigation={navigation} latitude={latitude} longitude={longitude} />
     );
   };
 
