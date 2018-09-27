@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity,
+  View, Text, StyleSheet, TouchableOpacity, Animated, Easing,
 } from 'react-native';
 
 // Util
@@ -11,36 +11,59 @@ import calculateDistance from '../../../../../util/calculateDistance';
 // Config
 import * as COLORS from '../../../../../config/colors';
 
-const ListItem = ({
-  item, navigation, latitude, longitude,
-}) => (
-  <View style={styles.card}>
-    <TouchableOpacity onPress={() => navigation.navigate('Details', { bar: item })}>
-      <View style={styles.cardUpper}>
-        <Text style={styles.header}>{item.name}</Text>
-        <Text
-          style={
-            item.opening_hours && item.opening_hours.open_now ? styles.openText : styles.closeText
-          }
-        >
-          {item.opening_hours && item.opening_hours.open_now ? 'OPEN' : 'CLOSED'}
-        </Text>
-      </View>
-      <View style={styles.cardLower}>
-        {displayPriceRating(item.price_level)}
-        <Text style={styles.distance}>
-          {calculateDistance(
-            latitude,
-            longitude,
-            item.geometry.location.lat,
-            item.geometry.location.lng,
-          )}
-          m
-        </Text>
-      </View>
-    </TouchableOpacity>
-  </View>
-);
+export default class ListItem extends PureComponent {
+  animatedOpacityValue = new Animated.Value(0);
+
+  componentDidMount() {
+    this.animateListItem();
+  }
+
+  animateListItem = () => {
+    const { index } = this.props;
+    Animated.timing(this.animatedOpacityValue, {
+      toValue: 1,
+      duration: 150,
+      delay: index * 100,
+      easing: Easing.ease,
+    }).start();
+  };
+
+  render() {
+    const {
+      item, navigation, latitude, longitude,
+    } = this.props;
+    return (
+      <Animated.View style={[styles.card, { opacity: this.animatedOpacityValue }]}>
+        <TouchableOpacity onPress={() => navigation.navigate('Details', { bar: item })}>
+          <View style={styles.cardUpper}>
+            <Text style={styles.header}>{item.name}</Text>
+            <Text
+              style={
+                item.opening_hours && item.opening_hours.open_now
+                  ? styles.openText
+                  : styles.closeText
+              }
+            >
+              {item.opening_hours && item.opening_hours.open_now ? 'OPEN' : 'CLOSED'}
+            </Text>
+          </View>
+          <View style={styles.cardLower}>
+            {displayPriceRating(item.price_level)}
+            <Text style={styles.distance}>
+              {calculateDistance(
+                latitude,
+                longitude,
+                item.geometry.location.lat,
+                item.geometry.location.lng,
+              )}
+              m
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </Animated.View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   card: {
@@ -80,8 +103,7 @@ ListItem.propTypes = {
     navigate: PropTypes.func.isRequired,
   }).isRequired,
   item: PropTypes.shape().isRequired,
+  index: PropTypes.number.isRequired,
   latitude: PropTypes.number.isRequired,
   longitude: PropTypes.number.isRequired,
 };
-
-export default ListItem;
