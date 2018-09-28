@@ -6,7 +6,7 @@ import {
 import { Auth } from 'aws-amplify';
 
 // Components
-import ListItemDetails from './components/ListItemDetails';
+import ListItemDetails from './containers/ListItemDetails';
 import MapLinks from '../../../../components/MapLinks';
 import Button from '../../../../components/Button';
 

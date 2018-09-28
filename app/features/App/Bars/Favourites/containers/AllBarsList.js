@@ -1,19 +1,22 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
-  View, FlatList, Linking, StyleSheet, SegmentedControlIOS, Alert,
+  View, Alert, FlatList, Linking, SegmentedControlIOS, StyleSheet,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
+import { buildSubscription } from 'aws-appsync';
 import _ from 'lodash';
 
 // GraphQL
+import ListBars from '../../../../../graphql/queries/ListBars';
 import GetUserBars from '../../../../../graphql/queries/GetUserBars';
 import GetBarMember from '../../../../../graphql/queries/GetBarMember';
-import DeleteBarMember from '../../../../../graphql/mutations/DeleteBarMember';
+import CreateBarMember from '../../../../../graphql/mutations/CreateBarMember';
+import CreateBarSubscription from '../../../../../graphql/subscriptions/CreateBarSubscription';
 
 // Components
-import UserBarsListItem from './UserBarsListItem';
+import AllBarsListItem from '../components/AllBarsListItem';
 
 // Util
 import orderData from '../../../../../util/orderData';
@@ -21,13 +24,13 @@ import orderData from '../../../../../util/orderData';
 // Config
 import * as COLORS from '../../../../../config/colors';
 
-class UserBarsList extends PureComponent {
+class AllBarsList extends PureComponent {
   static propTypes = {
+    data: PropTypes.shape().isRequired,
     userId: PropTypes.string.isRequired,
     bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     refetch: PropTypes.func.isRequired,
     networkStatus: PropTypes.number.isRequired,
-    deleteBarMember: PropTypes.func.isRequired,
   };
 
   static navigationOptions = {
@@ -36,12 +39,17 @@ class UserBarsList extends PureComponent {
 
   state = {
     isVisible: false,
-    deleting: false,
+    adding: false,
     options: ['Name', 'Created At'],
     selectedIndex: 0,
     property: 'name',
     direction: 'asc',
   };
+
+  componentDidMount() {
+    const { data } = this.props;
+    data.subscribeToMore(buildSubscription(gql(CreateBarSubscription), gql(ListBars)));
+  }
 
   openWebsiteLink = (website) => {
     try {
@@ -73,34 +81,39 @@ class UserBarsList extends PureComponent {
 
   toggleBarSortOrder = (event) => {
     const { options } = this.state;
-    this.setState({ property: _.camelCase(options[event.nativeEvent.selectedSegmentIndex]) });
+    this.setState({
+      property: _.camelCase(options[event.nativeEvent.selectedSegmentIndex]),
+    });
     console.log(event.nativeEvent);
   };
 
-  deleteFavourite = async (barId) => {
+  addToUserFavourites = async (barId) => {
     try {
-      this.setState({ deleting: true });
+      this.setState({ adding: true });
 
-      const {
+      const { userId, createBarMember, refetchBarMember } = this.props;
+
+      const barMember = {
         userId,
-        refetchBarMember,
-        deleteBarMember,
-        bars,
-      } = this.props;
+        barId,
+      };
 
       console.log(`userId: ${userId}, barId: ${barId}`);
 
       const barMemberAdded = await refetchBarMember({ userId, barId });
       console.log(barMemberAdded);
-      console.log(`id: ${barMemberAdded.data.getBarMember.id}`);
 
-      if (barMemberAdded.data.getBarMember !== null && bars.length > 1) {
-        await deleteBarMember(barMemberAdded.data.getBarMember.id);
-        console.log('Deleted!');
+      if (barMemberAdded.data.getBarMember === null) {
+        await createBarMember({ ...barMember });
+        console.log('Added!');
+      } else if (barMemberAdded.data.getBarMember !== null) {
+        console.log('Already added.');
       }
-      this.setState({ deleting: false });
+
+      this.setState({ adding: false });
     } catch (error) {
-      this.setState({ deleting: false });
+      console.log(error);
+      this.setState({ adding: false });
       Alert.alert('Error', 'There was an error, please try again.', [{ text: 'OK' }], {
         cancelable: false,
       });
@@ -108,29 +121,22 @@ class UserBarsList extends PureComponent {
   };
 
   renderItem = ({ item }) => {
-    const { isVisible, deleting } = this.state;
+    const { isVisible, adding } = this.state;
 
     return (
-      <UserBarsListItem
+      <AllBarsListItem
         item={item}
-        deleteFavourite={this.deleteFavourite}
+        addToUserFavourites={this.addToUserFavourites}
         openWebsiteLink={this.openWebsiteLink}
         toggleMapLinks={this.toggleMapLinks}
         openPhone={this.openPhone}
         isVisible={isVisible}
-        deleting={deleting}
+        adding={adding}
       />
     );
   };
 
-  renderSeparator = () => (
-    <View
-      style={{
-        backgroundColor: COLORS.DIVIDER_COLOR,
-        height: StyleSheet.hairlineWidth,
-      }}
-    />
-  );
+  renderSeparator = () => <View style={styles.separator} />;
 
   render() {
     const { refetch, networkStatus, bars } = this.props;
@@ -168,34 +174,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
-  card: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+  loading: {
+    paddingTop: 20,
   },
-  details: {
-    width: '90%',
-  },
-  header: {
-    fontSize: 18,
-    fontWeight: '500',
-  },
-  location: {
-    fontSize: 14,
-  },
-  phone: {
-    fontSize: 12,
-  },
-  date: {
-    fontSize: 12,
-    color: COLORS.SECONDARY_TEXT_COLOR,
-  },
-  iconWrapper: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  separator: {
+    backgroundColor: COLORS.DIVIDER_COLOR,
+    height: StyleSheet.hairlineWidth,
   },
   flatListWrapper: {
     flex: 1,
@@ -213,17 +197,15 @@ const styles = StyleSheet.create({
 });
 
 export default compose(
-  graphql(gql(GetUserBars), {
-    options: ownProps => ({
-      variables: {
-        id: ownProps.userId,
-      },
+  graphql(gql(ListBars), {
+    options: {
       fetchPolicy: 'cache-and-network',
       notifyOnNetworkStatusChange: true,
-    }),
+    },
     props: ({ data }) => ({
+      data,
       loading: data.loading,
-      bars: data.getUser ? data.getUser.bars.items : [],
+      bars: data.listBars ? data.listBars.items : [],
       refetch: data.refetch,
       networkStatus: data.networkStatus,
     }),
@@ -242,7 +224,7 @@ export default compose(
       getBarMember: data.getBarMember ? data.getBarMember : null,
     }),
   }),
-  graphql(gql(DeleteBarMember), {
+  graphql(gql(CreateBarMember), {
     options: ownProps => ({
       refetchQueries: [
         {
@@ -255,7 +237,7 @@ export default compose(
       fetchPolicy: 'cache-and-network',
     }),
     props: ({ mutate }) => ({
-      deleteBarMember: memberId => mutate({ variables: { id: memberId } }),
+      createBarMember: member => mutate({ variables: member }),
     }),
   }),
-)(UserBarsList);
+)(AllBarsList);
