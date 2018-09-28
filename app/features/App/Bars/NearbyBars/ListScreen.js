@@ -177,6 +177,7 @@ export default class ListScreen extends PureComponent {
           ItemSeparatorComponent={this.renderSeparator}
           ListFooterComponent={this.renderFooter}
           initialNumToRender={20}
+          removeClippedSubviews
         />
       </View>
     );
