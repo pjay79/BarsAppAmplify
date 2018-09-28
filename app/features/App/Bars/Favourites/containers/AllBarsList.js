@@ -138,8 +138,15 @@ class AllBarsList extends PureComponent {
 
   renderSeparator = () => <View style={styles.separator} />;
 
+  keyExtractor = item => item.id;
+
+  refreshData = () => {
+    const { refetch } = this.props;
+    refetch();
+  }
+
   render() {
-    const { refetch, networkStatus, bars } = this.props;
+    const { networkStatus, bars } = this.props;
     const {
       property, direction, options, selectedIndex,
     } = this.state;
@@ -150,8 +157,8 @@ class AllBarsList extends PureComponent {
           <FlatList
             data={orderData(bars, property, direction)}
             renderItem={this.renderItem}
-            keyExtractor={item => item.id}
-            onRefresh={() => refetch()}
+            keyExtractor={this.keyExtractor}
+            onRefresh={this.refreshData}
             refreshing={networkStatus === 4}
             ItemSeparatorComponent={this.renderSeparator}
           />

@@ -160,6 +160,8 @@ export default class ListScreen extends PureComponent {
     { length: 60, offset: 60 * index, index }
   );
 
+  keyExtractor = item => item.id;
+
   render() {
     const { bars, refreshing } = this.state;
 
@@ -169,7 +171,7 @@ export default class ListScreen extends PureComponent {
           data={bars}
           getItemLayout={this.getItemLayout}
           renderItem={this.renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={this.keyExtractor}
           onRefresh={this.handleRefresh}
           refreshing={refreshing}
           onEndReached={this.handleLoadMore}
