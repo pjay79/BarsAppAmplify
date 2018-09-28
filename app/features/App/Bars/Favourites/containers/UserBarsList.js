@@ -155,6 +155,9 @@ class UserBarsList extends PureComponent {
             onRefresh={this.refreshData}
             refreshing={networkStatus === 4}
             ItemSeparatorComponent={this.renderSeparator}
+            initialNumToRender={20}
+            windowSize={3}
+            removeClippedSubviews
           />
         </View>
         <View style={styles.segmentedControlWrapper}>
