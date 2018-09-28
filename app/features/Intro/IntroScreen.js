@@ -28,6 +28,12 @@ const slides = [
 ];
 
 export default class IntroScreen extends PureComponent {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   static navigationOptions = {
     header: null,
   };
@@ -91,9 +97,3 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
 });
-
-IntroScreen.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
-};

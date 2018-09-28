@@ -9,6 +9,12 @@ import { Auth } from 'aws-amplify';
 import * as COLORS from '../../config/colors';
 
 export default class LoadingScreen extends PureComponent {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   static navigationOptions = {
     header: null,
   };
@@ -61,9 +67,3 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
   },
 });
-
-LoadingScreen.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
-};

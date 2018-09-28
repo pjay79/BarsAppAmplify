@@ -17,6 +17,12 @@ import Input from '../../components/Input';
 import * as COLORS from '../../config/colors';
 
 export default class SignInScreen extends PureComponent {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   static navigationOptions = {
     title: 'Sign In',
     headerStyle: {
@@ -127,9 +133,3 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
 });
-
-SignInScreen.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
-};

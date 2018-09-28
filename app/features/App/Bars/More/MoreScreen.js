@@ -14,6 +14,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as COLORS from '../../../../config/colors';
 
 export default class MoreScreen extends PureComponent {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   static navigationOptions = {
     title: 'More',
     headerStyle: {
@@ -132,9 +138,3 @@ const styles = StyleSheet.create({
     color: COLORS.DEFAULT_PRIMARY_COLOR,
   },
 });
-
-MoreScreen.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
-};

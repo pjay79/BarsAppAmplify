@@ -18,6 +18,12 @@ import Button from '../../components/Button';
 import * as COLORS from '../../config/colors';
 
 export default class HomeScreen extends PureComponent {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   static navigationOptions = {
     header: null,
   };
@@ -114,9 +120,3 @@ const styles = StyleSheet.create({
     color: COLORS.TEXT_PRIMARY_COLOR,
   },
 });
-
-HomeScreen.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
-};

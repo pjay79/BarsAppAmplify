@@ -17,6 +17,13 @@ import nearbyPlaceDetailsSearch from '../../../../services/nearbyPlaceDetailsSea
 import * as COLORS from '../../../../config/colors';
 
 export default class ListItemDetailsScreen extends PureComponent {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+      getParam: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   static navigationOptions = {
     headerStyle: {
       backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
@@ -154,10 +161,3 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
 });
-
-ListItemDetailsScreen.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-    getParam: PropTypes.func.isRequired,
-  }).isRequired,
-};

@@ -28,6 +28,19 @@ import CreateBar from '../../../../../graphql/mutations/CreateBar';
 import * as COLORS from '../../../../../config/colors';
 
 class ListItemDetails extends PureComponent {
+  static propTypes = {
+    details: PropTypes.shape().isRequired,
+    openWebsiteLink: PropTypes.func.isRequired,
+    openPhone: PropTypes.func.isRequired,
+    toggleMapLinks: PropTypes.func.isRequired,
+    bar: PropTypes.shape(),
+    loading: PropTypes.bool.isRequired,
+  };
+
+  static defaultProps = {
+    bar: null,
+  };
+
   state = {
     adding: false,
     added: false,
@@ -300,19 +313,6 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
   },
 });
-
-ListItemDetails.propTypes = {
-  details: PropTypes.shape().isRequired,
-  openWebsiteLink: PropTypes.func.isRequired,
-  openPhone: PropTypes.func.isRequired,
-  toggleMapLinks: PropTypes.func.isRequired,
-  bar: PropTypes.shape(),
-  loading: PropTypes.bool.isRequired,
-};
-
-ListItemDetails.defaultProps = {
-  bar: null,
-};
 
 export default compose(
   graphql(gql(GetBar), {

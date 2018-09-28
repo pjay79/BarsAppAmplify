@@ -22,6 +22,12 @@ import nearbyPlacesSearch from '../../../../services/nearbyPlacesSearch';
 import * as COLORS from '../../../../config/colors';
 
 export default class ListScreen extends PureComponent {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   static navigationOptions = {
     header: null,
   };
@@ -150,6 +156,10 @@ export default class ListScreen extends PureComponent {
     );
   };
 
+  getItemLayout = (data, index) => (
+    { length: 60, offset: 60 * index, index }
+  );
+
   render() {
     const { bars, refreshing } = this.state;
 
@@ -157,6 +167,7 @@ export default class ListScreen extends PureComponent {
       <View style={styles.container}>
         <FlatList
           data={bars}
+          getItemLayout={this.getItemLayout}
           renderItem={this.renderItem}
           keyExtractor={item => item.id}
           onRefresh={this.handleRefresh}
@@ -165,6 +176,7 @@ export default class ListScreen extends PureComponent {
           onEndReachedThreshold={10}
           ItemSeparatorComponent={this.renderSeparator}
           ListFooterComponent={this.renderFooter}
+          initialNumToRender={20}
         />
       </View>
     );
@@ -184,9 +196,3 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
 });
-
-ListScreen.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
-};

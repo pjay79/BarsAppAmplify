@@ -12,7 +12,17 @@ import calculateDistance from '../../../../../util/calculateDistance';
 import * as COLORS from '../../../../../config/colors';
 
 export default class ListItem extends PureComponent {
-  animatedOpacityValue = new Animated.Value(0);
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+    item: PropTypes.shape().isRequired,
+    index: PropTypes.number.isRequired,
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
+  };
+
+  animatedValue = new Animated.Value(0);
 
   componentDidMount() {
     this.animateListItem();
@@ -20,11 +30,12 @@ export default class ListItem extends PureComponent {
 
   animateListItem = () => {
     const { index } = this.props;
-    Animated.timing(this.animatedOpacityValue, {
+    Animated.timing(this.animatedValue, {
       toValue: 1,
       duration: 150,
-      delay: index * 100,
-      easing: Easing.ease,
+      delay: index * 20,
+      easing: Easing.linear,
+      useNativeDriver: true,
     }).start();
   };
 
@@ -32,8 +43,9 @@ export default class ListItem extends PureComponent {
     const {
       item, navigation, latitude, longitude,
     } = this.props;
+
     return (
-      <Animated.View style={[styles.card, { opacity: this.animatedOpacityValue }]}>
+      <Animated.View style={[styles.card, { opacity: this.animatedValue }]}>
         <TouchableOpacity onPress={() => navigation.navigate('Details', { bar: item })}>
           <View style={styles.cardUpper}>
             <Text style={styles.header}>{item.name}</Text>
@@ -67,6 +79,8 @@ export default class ListItem extends PureComponent {
 
 const styles = StyleSheet.create({
   card: {
+    justifyContent: 'center',
+    height: 60,
     marginVertical: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -97,13 +111,3 @@ const styles = StyleSheet.create({
     color: COLORS.DARK_PRIMARY_COLOR,
   },
 });
-
-ListItem.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
-  item: PropTypes.shape().isRequired,
-  index: PropTypes.number.isRequired,
-  latitude: PropTypes.number.isRequired,
-  longitude: PropTypes.number.isRequired,
-};

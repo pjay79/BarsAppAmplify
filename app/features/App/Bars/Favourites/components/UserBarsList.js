@@ -22,6 +22,14 @@ import orderData from '../../../../../util/orderData';
 import * as COLORS from '../../../../../config/colors';
 
 class UserBarsList extends PureComponent {
+  static propTypes = {
+    userId: PropTypes.string.isRequired,
+    bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    refetch: PropTypes.func.isRequired,
+    networkStatus: PropTypes.number.isRequired,
+    deleteBarMember: PropTypes.func.isRequired,
+  };
+
   static navigationOptions = {
     header: null,
   };
@@ -203,14 +211,6 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
-
-UserBarsList.propTypes = {
-  userId: PropTypes.string.isRequired,
-  bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  refetch: PropTypes.func.isRequired,
-  networkStatus: PropTypes.number.isRequired,
-  deleteBarMember: PropTypes.func.isRequired,
-};
 
 export default compose(
   graphql(gql(GetUserBars), {
