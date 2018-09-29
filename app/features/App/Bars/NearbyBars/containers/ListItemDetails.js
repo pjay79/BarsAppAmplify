@@ -123,7 +123,7 @@ class ListItemDetails extends PureComponent {
     }
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { opacity: this.animatedValue }]}>
         <View style={styles.top}>
           <Text style={styles.header}>{details.name}</Text>
           <Text style={styles.location}>{details.formatted_phone_number}</Text>

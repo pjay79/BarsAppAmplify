@@ -32,7 +32,7 @@ export default class ListItem extends PureComponent {
     const { index } = this.props;
     Animated.timing(this.animatedValue, {
       toValue: 1,
-      duration: 150,
+      duration: 100,
       delay: index * 20,
       easing: Easing.linear,
       useNativeDriver: true,
