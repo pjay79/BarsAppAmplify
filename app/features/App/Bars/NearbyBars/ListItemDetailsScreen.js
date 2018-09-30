@@ -61,7 +61,7 @@ export default class ListItemDetailsScreen extends PureComponent {
   animateButton = () => {
     Animated.timing(this.animatedValue, {
       toValue: 1,
-      duration: 200,
+      duration: 300,
       easing: Easing.ease,
       useNativeDriver: true,
     }).start();

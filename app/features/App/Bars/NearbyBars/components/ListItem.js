@@ -29,7 +29,7 @@ export default class ListItem extends PureComponent {
       {
         translateY: this.animatedValue.interpolate({
           inputRange: [0, 1],
-          outputRange: [50, 0],
+          outputRange: [100, 0],
         }),
       },
     ],
@@ -42,8 +42,8 @@ export default class ListItem extends PureComponent {
   animateListItem = () => {
     Animated.timing(this.animatedValue, {
       toValue: 1,
-      duration: 100,
-      easing: Easing.ease,
+      duration: 125,
+      easing: Easing.linear,
       useNativeDriver: true,
     }).start();
   };

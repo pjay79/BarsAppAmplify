@@ -172,11 +172,12 @@ export default class ListScreen extends PureComponent {
           onRefresh={this.handleRefresh}
           refreshing={refreshing}
           onEndReached={this.handleLoadMore}
-          onEndReachedThreshold={10}
+          onEndReachedThreshold={0.5}
           ItemSeparatorComponent={this.renderSeparator}
           ListFooterComponent={this.renderFooter}
-          initialNumToRender={20}
-          windowSize={3}
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
+          windowSize={21}
         />
       </View>
     );
