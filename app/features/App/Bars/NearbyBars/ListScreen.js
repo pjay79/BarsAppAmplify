@@ -177,7 +177,7 @@ export default class ListScreen extends PureComponent {
           ListFooterComponent={this.renderFooter}
           initialNumToRender={10}
           maxToRenderPerBatch={10}
-          windowSize={21}
+          windowSize={3}
         />
       </View>
     );

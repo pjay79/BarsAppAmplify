@@ -158,17 +158,6 @@ export default class ListItemDetailsScreen extends PureComponent {
             barId={barId}
           />
         </ScrollView>
-        {/* <Button
-          title="Go Back"
-          onPress={() => navigation.goBack()}
-          style={{
-            backgroundColor: COLORS.ACCENT_COLOR,
-            marginBottom: 0,
-            borderRadius: 0,
-            width: Dimensions.get('window').width,
-          }}
-          textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
-        /> */}
         <Animated.View style={[styles.buttonContainer, this.animatedButtonStyle]}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Text style={styles.buttonText}>
