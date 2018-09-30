@@ -10,7 +10,7 @@ import MainNavigator from './app/features/MainNavigator';
 
 // Amplify Configuration
 Amplify.configure(awsConfig);
-// Amplify.Logger.LOG_LEVEL = 'DEBUG';
+Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
 const client = new AWSAppSyncClient({
   url: awsConfig.aws_appsync_graphqlEndpoint,

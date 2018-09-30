@@ -9,6 +9,8 @@ import {
   Platform,
   Alert,
   ActivityIndicator,
+  Animated,
+  Easing,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -34,16 +36,44 @@ class ListItemDetails extends PureComponent {
     openPhone: PropTypes.func.isRequired,
     toggleMapLinks: PropTypes.func.isRequired,
     bar: PropTypes.shape(),
-    loading: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     bar: null,
   };
 
+  animatedValue1 = new Animated.Value(0);
+
+  animatedValue2 = new Animated.Value(0);
+
+  animatedValue3 = new Animated.Value(0);
+
+  animatedValue4 = new Animated.Value(0);
+
   state = {
     adding: false,
     added: false,
+  };
+
+  componentDidMount() {
+    this.animateSections();
+  }
+
+  fadeInAnimation = value => Animated.timing(value, {
+    toValue: 1,
+    duration: 150,
+    easing: Easing.ease,
+    useNativeDriver: true,
+  });
+
+
+  animateSections = () => {
+    Animated.sequence([
+      this.fadeInAnimation(this.animatedValue1),
+      this.fadeInAnimation(this.animatedValue2),
+      this.fadeInAnimation(this.animatedValue3),
+      this.fadeInAnimation(this.animatedValue4),
+    ]).start();
   };
 
   addToFavourites = async () => {
@@ -109,22 +139,14 @@ class ListItemDetails extends PureComponent {
 
   render() {
     const {
-      details, openWebsiteLink, openPhone, toggleMapLinks, loading,
+      details, openWebsiteLink, openPhone, toggleMapLinks,
     } = this.props;
 
     const { adding } = this.state;
 
-    if (loading) {
-      return (
-        <View style={styles.loading}>
-          <ActivityIndicator color={COLORS.PRIMARY_TEXT_COLOR} />
-        </View>
-      );
-    }
-
     return (
-      <View style={[styles.container, { opacity: this.animatedValue }]}>
-        <View style={styles.top}>
+      <View style={styles.container}>
+        <Animated.View style={[styles.top, { opacity: this.animatedValue1 }]}>
           <Text style={styles.header}>{details.name}</Text>
           <Text style={styles.location}>{details.formatted_phone_number}</Text>
           <Text style={styles.phone}>{details.vicinity}</Text>
@@ -141,8 +163,8 @@ class ListItemDetails extends PureComponent {
               />
             </TouchableOpacity>
           )}
-        </View>
-        <View style={styles.iconGroup}>
+        </Animated.View>
+        <Animated.View style={[styles.iconGroup, { opacity: this.animatedValue2 }]}>
           <View style={styles.iconLeft}>
             <TouchableOpacity onPress={openWebsiteLink}>
               <MaterialCommunityIcons name="web" size={18} color={COLORS.TEXT_PRIMARY_COLOR} />
@@ -162,8 +184,8 @@ class ListItemDetails extends PureComponent {
               <Foundation name="telephone" size={18} color={COLORS.TEXT_PRIMARY_COLOR} />
             </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.content}>
+        </Animated.View>
+        <Animated.View style={[styles.content, { opacity: this.animatedValue3 }]}>
           <Text style={styles.subHeader}>OPENING HOURS:</Text>
           {details.opening_hours
             && details.opening_hours.weekday_text.map(data => (
@@ -172,8 +194,8 @@ class ListItemDetails extends PureComponent {
               </View>
             ))}
           {!details.opening_hours && <Text>UNAVAILABLE</Text>}
-        </View>
-        <View style={[styles.content, { marginBottom: 10 }]}>
+        </Animated.View>
+        <Animated.View style={[styles.content, { marginBottom: 10, opacity: this.animatedValue4 }]}>
           <Text style={styles.subHeader}>REVIEWS:</Text>
           {details.reviews
             && details.reviews.map(data => (
@@ -196,7 +218,7 @@ class ListItemDetails extends PureComponent {
               </View>
             ))}
           {!details.reviews && <Text>NONE</Text>}
-        </View>
+        </Animated.View>
       </View>
     );
   }
