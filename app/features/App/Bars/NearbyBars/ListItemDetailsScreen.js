@@ -1,14 +1,23 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
-  ScrollView, Dimensions, View, StyleSheet, Linking, ActivityIndicator,
+  ScrollView,
+  Dimensions,
+  TouchableOpacity,
+  View,
+  Text,
+  StyleSheet,
+  Linking,
+  ActivityIndicator,
+  Animated,
+  Easing,
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 
 // Components
 import ListItemDetails from './containers/ListItemDetails';
 import MapLinks from '../../../../components/MapLinks';
-import Button from '../../../../components/Button';
+// import Button from '../../../../components/Button';
 
 // Util
 import nearbyPlaceDetailsSearch from '../../../../services/nearbyPlaceDetailsSearch';
@@ -31,6 +40,13 @@ export default class ListItemDetailsScreen extends PureComponent {
     headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
   };
 
+  animatedValue = new Animated.Value(0);
+
+  animatedButtonStyle = {
+    opacity: this.animatedValue,
+    transform: [{ scale: this.animatedValue }],
+  };
+
   state = {
     details: {},
     userId: '',
@@ -42,6 +58,15 @@ export default class ListItemDetailsScreen extends PureComponent {
     this.getAllDetails();
   }
 
+  animateButton = () => {
+    Animated.timing(this.animatedValue, {
+      toValue: 1,
+      duration: 200,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start();
+  };
+
   getAllDetails = async () => {
     try {
       this.setState({ loading: true });
@@ -51,6 +76,7 @@ export default class ListItemDetailsScreen extends PureComponent {
       const currentUser = await Auth.currentAuthenticatedUser();
       const userId = await currentUser.signInUserSession.accessToken.payload.sub;
       this.setState({ details: response.data.result, userId, loading: false });
+      this.animateButton();
       console.log(response);
       console.log(userId);
     } catch (error) {
@@ -132,7 +158,7 @@ export default class ListItemDetailsScreen extends PureComponent {
             barId={barId}
           />
         </ScrollView>
-        <Button
+        {/* <Button
           title="Go Back"
           onPress={() => navigation.goBack()}
           style={{
@@ -142,7 +168,14 @@ export default class ListItemDetailsScreen extends PureComponent {
             width: Dimensions.get('window').width,
           }}
           textStyle={{ color: COLORS.TEXT_PRIMARY_COLOR }}
-        />
+        /> */}
+        <Animated.View style={[styles.buttonContainer, this.animatedButtonStyle]}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={styles.buttonText}>
+              Go Back
+            </Text>
+          </TouchableOpacity>
+        </Animated.View>
       </View>
     );
   }
@@ -159,5 +192,20 @@ const styles = StyleSheet.create({
   },
   loading: {
     paddingTop: 20,
+  },
+  buttonContainer: {
+    backgroundColor: COLORS.ACCENT_COLOR,
+    paddingLeft: 40,
+    paddingRight: 40,
+    paddingTop: 10,
+    paddingBottom: 10,
+    width: Dimensions.get('window').width,
+  },
+  buttonText: {
+    color: COLORS.TEXT_PRIMARY_COLOR,
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: '900',
+    letterSpacing: 2,
   },
 });
