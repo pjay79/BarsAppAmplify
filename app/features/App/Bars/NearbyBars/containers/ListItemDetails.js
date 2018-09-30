@@ -66,7 +66,6 @@ class ListItemDetails extends PureComponent {
     useNativeDriver: true,
   });
 
-
   animateSections = () => {
     Animated.sequence([
       this.fadeInAnimation(this.animatedValue1),
@@ -345,7 +344,6 @@ export default compose(
       fetchPolicy: 'cache-and-network',
     }),
     props: ({ data }) => ({
-      loading: data.loading,
       bar: data.getBar ? data.getBar : null,
     }),
   }),
@@ -358,7 +356,6 @@ export default compose(
       fetchPolicy: 'cache-and-network',
     }),
     props: ({ data }) => ({
-      loading: data.loading,
       getBarMember: data.getBarMember ? data.getBarMember : null,
     }),
   }),
