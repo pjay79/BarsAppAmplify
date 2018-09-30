@@ -141,14 +141,13 @@ export default class ListScreen extends PureComponent {
 
   renderSeparator = () => <View style={styles.separator} />;
 
-  renderItem = ({ item, index }) => {
+  renderItem = ({ item }) => {
     const { navigation } = this.props;
     const { latitude, longitude } = this.state;
 
     return (
       <ListItem
         item={item}
-        index={index}
         navigation={navigation}
         latitude={latitude}
         longitude={longitude}
@@ -156,9 +155,7 @@ export default class ListScreen extends PureComponent {
     );
   };
 
-  getItemLayout = (data, index) => (
-    { length: 60, offset: 60 * index, index }
-  );
+  getItemLayout = (data, index) => ({ length: 60, offset: 60 * index, index });
 
   keyExtractor = item => item.id;
 
@@ -179,7 +176,7 @@ export default class ListScreen extends PureComponent {
           ItemSeparatorComponent={this.renderSeparator}
           ListFooterComponent={this.renderFooter}
           initialNumToRender={20}
-          windowSize={2}
+          windowSize={3}
         />
       </View>
     );

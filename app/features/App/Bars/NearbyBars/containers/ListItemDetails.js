@@ -50,6 +50,18 @@ class ListItemDetails extends PureComponent {
 
   animatedValue4 = new Animated.Value(0);
 
+  animatedHeaderStyle = {
+    opacity: this.animatedValue1,
+    transform: [
+      {
+        translateY: this.animatedValue1.interpolate({
+          inputRange: [0, 1],
+          outputRange: [50, 0],
+        }),
+      },
+    ],
+  }
+
   state = {
     adding: false,
     added: false,
@@ -59,16 +71,16 @@ class ListItemDetails extends PureComponent {
     this.animateSections();
   }
 
-  fadeInAnimation = value => Animated.timing(value, {
+  fadeInAnimation = (value, duration = 100) => Animated.timing(value, {
     toValue: 1,
-    duration: 150,
-    easing: Easing.ease,
+    duration,
+    easing: Easing.easein,
     useNativeDriver: true,
   });
 
   animateSections = () => {
     Animated.sequence([
-      this.fadeInAnimation(this.animatedValue1),
+      this.fadeInAnimation(this.animatedValue1, 300),
       this.fadeInAnimation(this.animatedValue2),
       this.fadeInAnimation(this.animatedValue3),
       this.fadeInAnimation(this.animatedValue4),
@@ -145,7 +157,7 @@ class ListItemDetails extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <Animated.View style={[styles.top, { opacity: this.animatedValue1 }]}>
+        <Animated.View style={[styles.top, this.animatedHeaderStyle]}>
           <Text style={styles.header}>{details.name}</Text>
           <Text style={styles.location}>{details.formatted_phone_number}</Text>
           <Text style={styles.phone}>{details.vicinity}</Text>

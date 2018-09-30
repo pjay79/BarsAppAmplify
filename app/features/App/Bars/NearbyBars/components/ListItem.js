@@ -17,24 +17,33 @@ export default class ListItem extends PureComponent {
       navigate: PropTypes.func.isRequired,
     }).isRequired,
     item: PropTypes.shape().isRequired,
-    index: PropTypes.number.isRequired,
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
   };
 
   animatedValue = new Animated.Value(0);
 
+  animatedItemStyle = {
+    opacity: this.animatedValue,
+    transform: [
+      {
+        translateY: this.animatedValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: [50, 0],
+        }),
+      },
+    ],
+  };
+
   componentDidMount() {
     this.animateListItem();
   }
 
   animateListItem = () => {
-    const { index } = this.props;
     Animated.timing(this.animatedValue, {
       toValue: 1,
       duration: 100,
-      delay: index * 20,
-      easing: Easing.linear,
+      easing: Easing.ease,
       useNativeDriver: true,
     }).start();
   };
@@ -45,7 +54,7 @@ export default class ListItem extends PureComponent {
     } = this.props;
 
     return (
-      <Animated.View style={[styles.card, { opacity: this.animatedValue }]}>
+      <Animated.View style={[styles.card, this.animatedItemStyle]}>
         <TouchableOpacity onPress={() => navigation.navigate('Details', { bar: item })}>
           <View style={styles.cardUpper}>
             <Text style={styles.header}>{item.name}</Text>
