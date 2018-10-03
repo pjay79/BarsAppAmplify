@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   AsyncStorage,
   Animated,
-  Easing,
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
@@ -17,6 +16,7 @@ import Button from '../../components/Button';
 
 // Config
 import * as COLORS from '../../config/colors';
+import { fadeInAnimation } from '../../config/animations';
 
 export default class HomeScreen extends PureComponent {
   static propTypes = {
@@ -78,19 +78,12 @@ export default class HomeScreen extends PureComponent {
     this.animateSections();
   }
 
-  fadeInAnimation = (value, duration = 100) => Animated.timing(value, {
-    toValue: 1,
-    duration,
-    easing: Easing.easein,
-    useNativeDriver: true,
-  });
-
   animateSections = () => {
     Animated.sequence([
-      this.fadeInAnimation(this.animatedValue1, 300),
-      this.fadeInAnimation(this.animatedValue2),
-      this.fadeInAnimation(this.animatedValue3),
-      this.fadeInAnimation(this.animatedValue4),
+      fadeInAnimation(this.animatedValue1, 300),
+      fadeInAnimation(this.animatedValue2),
+      fadeInAnimation(this.animatedValue3),
+      fadeInAnimation(this.animatedValue4),
     ]).start();
   };
 

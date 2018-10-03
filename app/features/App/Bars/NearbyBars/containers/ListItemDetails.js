@@ -10,7 +10,6 @@ import {
   Alert,
   ActivityIndicator,
   Animated,
-  Easing,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -28,6 +27,7 @@ import CreateBar from '../../../../../graphql/mutations/CreateBar';
 
 // Config
 import * as COLORS from '../../../../../config/colors';
+import { fadeInAnimation } from '../../../../../config/animations';
 
 class ListItemDetails extends PureComponent {
   static propTypes = {
@@ -71,19 +71,12 @@ class ListItemDetails extends PureComponent {
     this.animateSections();
   }
 
-  fadeInAnimation = (value, duration = 100) => Animated.timing(value, {
-    toValue: 1,
-    duration,
-    easing: Easing.easein,
-    useNativeDriver: true,
-  });
-
   animateSections = () => {
     Animated.sequence([
-      this.fadeInAnimation(this.animatedValue1, 300),
-      this.fadeInAnimation(this.animatedValue2),
-      this.fadeInAnimation(this.animatedValue3),
-      this.fadeInAnimation(this.animatedValue4),
+      fadeInAnimation(this.animatedValue1, 300),
+      fadeInAnimation(this.animatedValue2),
+      fadeInAnimation(this.animatedValue3),
+      fadeInAnimation(this.animatedValue4),
     ]).start();
   };
 
