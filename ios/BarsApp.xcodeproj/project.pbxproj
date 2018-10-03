@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -59,6 +58,7 @@
 		B7F770A484D24596996909DA /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6CE043CC88624788AB5C6D3A /* Octicons.ttf */; };
 		C4854042E1C34C3CA4ABB7A7 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CA064162369406AB07821C6 /* Feather.ttf */; };
 		DAE6C017C326420AA97C6899 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6C72771B25EC4D47846E5D5D /* EvilIcons.ttf */; };
+		79A43E322A354529BEBD489C /* Quantify Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 57FFBD3AE07A4C4F98CF3B30 /* Quantify Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -447,6 +447,7 @@
 		D1E3CAEA71CC4999881E92F5 /* libRNAWSCognito.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNAWSCognito.a; sourceTree = "<group>"; };
 		E45DC65E2B9F4144A03DF01D /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		EB1C60D8B2A442D5B305AFF6 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		57FFBD3AE07A4C4F98CF3B30 /* Quantify Bold.ttf */ = {isa = PBXFileReference; name = "Quantify Bold.ttf"; path = "../app/assets/fonts/Quantify Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -650,6 +651,7 @@
 				6CE043CC88624788AB5C6D3A /* Octicons.ttf */,
 				7AD8B88301C041E0AE398CC8 /* SimpleLineIcons.ttf */,
 				9A8F334868104137AF140C2A /* Zocial.ttf */,
+				57FFBD3AE07A4C4F98CF3B30 /* Quantify Bold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -895,7 +897,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 940;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -1332,6 +1334,7 @@
 				B7F770A484D24596996909DA /* Octicons.ttf in Resources */,
 				AEEB07AA2D0641BEBE970723 /* SimpleLineIcons.ttf in Resources */,
 				08BFF8C612A54B1C9A9FCA90 /* Zocial.ttf in Resources */,
+				79A43E322A354529BEBD489C /* Quantify Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

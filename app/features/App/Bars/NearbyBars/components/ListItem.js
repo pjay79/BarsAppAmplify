@@ -43,7 +43,7 @@ export default class ListItem extends PureComponent {
     Animated.timing(this.animatedValue, {
       toValue: 1,
       duration: 100,
-      easing: Easing.ease,
+      easing: Easing.linear,
       useNativeDriver: true,
     }).start();
   };

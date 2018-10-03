@@ -139,6 +139,7 @@ android {
 }
 
 dependencies {
+    compile project(':@mapbox_react-native-mapbox-gl')
     compile project(':react-native-vector-icons')
     compile project(':react-native-geolocation-service')
     compile project(':react-native-splash-screen')
