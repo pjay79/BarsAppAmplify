@@ -72,6 +72,10 @@ export default class HomeScreen extends PureComponent {
     ],
   };
 
+  animatedButtonGroupStyle = {
+    opacity: this.animatedValue4,
+  }
+
   componentDidMount() {
     SplashScreen.hide();
     AsyncStorage.setItem('@SKIP_INTRO', 'true');
@@ -113,7 +117,7 @@ export default class HomeScreen extends PureComponent {
 started with a salad.
           </Animated.Text>
         </View>
-        <Animated.View style={{ opacity: this.animatedValue4 }}>
+        <Animated.View style={this.animatedButtonGroupStyle}>
           <Button
             title="SIGN IN"
             onPress={() => navigation.navigate('Sign In')}

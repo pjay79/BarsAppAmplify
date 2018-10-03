@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, Animated, Easing,
+  View, Text, StyleSheet, TouchableOpacity, Animated,
 } from 'react-native';
 
 // Util
@@ -10,6 +10,7 @@ import calculateDistance from '../../../../../util/calculateDistance';
 
 // Config
 import * as COLORS from '../../../../../config/colors';
+import { itemAnimation } from '../../../../../config/animations';
 
 export default class ListItem extends PureComponent {
   static propTypes = {
@@ -40,12 +41,7 @@ export default class ListItem extends PureComponent {
   }
 
   animateListItem = () => {
-    Animated.timing(this.animatedValue, {
-      toValue: 1,
-      duration: 100,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    }).start();
+    itemAnimation(this.animatedValue).start();
   };
 
   render() {

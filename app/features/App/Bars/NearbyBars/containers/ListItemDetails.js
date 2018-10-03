@@ -62,6 +62,18 @@ class ListItemDetails extends PureComponent {
     ],
   }
 
+  animatedIconGroupStyle = {
+    opacity: this.animatedValue2,
+  }
+
+  animatedContentHoursStyle = {
+    opacity: this.animatedValue3,
+  }
+
+  animatedContentReviewsStyle = {
+    opacity: this.animatedValue4,
+  }
+
   state = {
     adding: false,
     added: false,
@@ -168,7 +180,7 @@ class ListItemDetails extends PureComponent {
             </TouchableOpacity>
           )}
         </Animated.View>
-        <Animated.View style={[styles.iconGroup, { opacity: this.animatedValue2 }]}>
+        <Animated.View style={[styles.iconGroup, this.animatedIconGroupStyle]}>
           <View style={styles.iconLeft}>
             <TouchableOpacity onPress={openWebsiteLink}>
               <MaterialCommunityIcons name="web" size={18} color={COLORS.TEXT_PRIMARY_COLOR} />
@@ -189,7 +201,7 @@ class ListItemDetails extends PureComponent {
             </TouchableOpacity>
           </View>
         </Animated.View>
-        <Animated.View style={[styles.content, { opacity: this.animatedValue3 }]}>
+        <Animated.View style={[styles.content, this.animatedContentHoursStyle]}>
           <Text style={styles.subHeader}>OPENING HOURS:</Text>
           {details.opening_hours
             && details.opening_hours.weekday_text.map(data => (
@@ -199,7 +211,14 @@ class ListItemDetails extends PureComponent {
             ))}
           {!details.opening_hours && <Text>UNAVAILABLE</Text>}
         </Animated.View>
-        <Animated.View style={[styles.content, { marginBottom: 10, opacity: this.animatedValue4 }]}>
+        <Animated.View style={
+            [
+              styles.content,
+              this.animatedContentReviewsStyle,
+              { marginBottom: 10 },
+            ]
+          }
+        >
           <Text style={styles.subHeader}>REVIEWS:</Text>
           {details.reviews
             && details.reviews.map(data => (
