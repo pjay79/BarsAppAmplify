@@ -20,6 +20,7 @@ import Button from '../../components/Button';
 import * as COLORS from '../../config/colors';
 import { fadeInAnimation } from '../../config/animations';
 
+// Types
 type Props = {
   navigation: NavigationScreenProp<NavigationRoute>,
 };

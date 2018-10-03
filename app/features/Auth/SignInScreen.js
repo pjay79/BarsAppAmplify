@@ -1,8 +1,10 @@
+// @flow
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, ActivityIndicator,
 } from 'react-native';
+import type { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 
 // GraphQL
@@ -16,7 +18,19 @@ import Input from '../../components/Input';
 // Config
 import * as COLORS from '../../config/colors';
 
-export default class SignInScreen extends PureComponent {
+// Types
+type Props = {
+  navigation: NavigationScreenProp<NavigationRoute>,
+};
+
+type State = {
+  username: string,
+  password: string,
+  loading: boolean,
+  error: string,
+};
+
+export default class SignInScreen extends PureComponent<Props, State> {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
@@ -41,7 +55,7 @@ export default class SignInScreen extends PureComponent {
     error: '',
   };
 
-  onChangeText = (key, value) => {
+  onChangeText = (key: string, value: string) => {
     this.setState({ [key]: value });
   };
 

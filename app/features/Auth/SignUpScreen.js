@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, ActivityIndicator,
@@ -11,7 +12,19 @@ import Input from '../../components/Input';
 // Config
 import * as COLORS from '../../config/colors';
 
-export default class SignUpScreen extends PureComponent {
+// Types
+type State = {
+  username: string,
+  email: string,
+  phoneNumber: string,
+  password: string,
+  authCode: string,
+  loading: boolean,
+  error: string,
+  status: string,
+};
+
+export default class SignUpScreen extends PureComponent<void, State> {
   static navigationOptions = {
     title: 'Sign Up',
     headerStyle: {
@@ -34,7 +47,7 @@ export default class SignUpScreen extends PureComponent {
     status: '',
   };
 
-  onChangeText = (key, value) => {
+  onChangeText = (key: string, value: string) => {
     this.setState({ [key]: value });
   };
 
@@ -95,33 +108,25 @@ export default class SignUpScreen extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.label}>
-          USERNAME:
-        </Text>
+        <Text style={styles.label}>USERNAME:</Text>
         <Input
           placeholder="Bob"
           onChangeText={text => this.onChangeText('username', text)}
           value={username}
         />
-        <Text style={styles.label}>
-          EMAIL:
-        </Text>
+        <Text style={styles.label}>EMAIL:</Text>
         <Input
           placeholder="bob@gmail.com"
           onChangeText={text => this.onChangeText('email', text)}
           value={email}
         />
-        <Text style={styles.label}>
-          PHONE NUMBER:
-        </Text>
+        <Text style={styles.label}>PHONE NUMBER:</Text>
         <Input
           placeholder="+61XXXXXXXX"
           onChangeText={text => this.onChangeText('phoneNumber', text)}
           value={phoneNumber}
         />
-        <Text style={styles.label}>
-          PASSWORD:
-        </Text>
+        <Text style={styles.label}>PASSWORD:</Text>
         <Input
           placeholder="********"
           onChangeText={text => this.onChangeText('password', text)}
@@ -134,9 +139,7 @@ export default class SignUpScreen extends PureComponent {
           style={{ backgroundColor: COLORS.LIGHT_PRIMARY_COLOR }}
         />
         <View style={styles.verification}>
-          <Text style={styles.label}>
-            ENTER VERIFICATION CODE HERE:
-          </Text>
+          <Text style={styles.label}>ENTER VERIFICATION CODE HERE:</Text>
           <Input
             placeholder="******"
             onChangeText={text => this.onChangeText('authCode', text)}

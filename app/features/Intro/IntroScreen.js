@@ -1,12 +1,19 @@
+// @flow
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
+import type { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import SplashScreen from 'react-native-splash-screen';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Config
 import * as COLORS from '../../config/colors';
+
+// Types
+type Props = {
+  navigation: NavigationScreenProp<NavigationRoute>,
+};
 
 const slides = [
   {
@@ -27,7 +34,7 @@ const slides = [
   },
 ];
 
-export default class IntroScreen extends PureComponent {
+export default class IntroScreen extends PureComponent<Props> {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
