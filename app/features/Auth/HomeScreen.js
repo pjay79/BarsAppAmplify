@@ -10,6 +10,7 @@ import {
   AsyncStorage,
   Animated,
 } from 'react-native';
+import type { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import SplashScreen from 'react-native-splash-screen';
 
 // Components
@@ -19,7 +20,11 @@ import Button from '../../components/Button';
 import * as COLORS from '../../config/colors';
 import { fadeInAnimation } from '../../config/animations';
 
-export default class HomeScreen extends PureComponent {
+type Props = {
+  navigation: NavigationScreenProp<NavigationRoute>,
+};
+
+export default class HomeScreen extends PureComponent<Props> {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
