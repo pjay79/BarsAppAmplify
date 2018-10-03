@@ -1,3 +1,4 @@
+// @flow
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
@@ -9,11 +10,21 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
+import type { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Auth } from 'aws-amplify';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as COLORS from '../../../../config/colors';
 
-export default class MoreScreen extends PureComponent {
+// Types
+type Props = {
+  navigation: NavigationScreenProp<NavigationRoute>,
+};
+
+type State = {
+  loading: boolean,
+};
+
+export default class MoreScreen extends PureComponent<Props, State> {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,

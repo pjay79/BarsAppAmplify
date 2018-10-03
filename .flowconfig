@@ -19,6 +19,9 @@
 ; Ignore metro
 .*/node_modules/metro/.*
 
+; Ignore graphql
+.*/node_modules/graphql/.*
+
 [include]
 
 [libs]

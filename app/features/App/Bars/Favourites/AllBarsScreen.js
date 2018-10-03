@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Auth } from 'aws-amplify';
@@ -8,7 +9,13 @@ import AllBarsList from './containers/AllBarsList';
 // Config
 import * as COLORS from '../../../../config/colors';
 
-export default class AllBarsScreen extends PureComponent {
+// Types
+type State = {
+  userId: string,
+  loading: boolean,
+};
+
+export default class AllBarsScreen extends PureComponent<void, State> {
   static navigationOptions = {
     header: null,
   };
