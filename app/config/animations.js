@@ -1,7 +1,5 @@
 import { Animated, Easing } from 'react-native';
 
-// HomeScreen
-// ListItemDetails
 export const fadeInAnimation = (value, duration = 100) => Animated.timing(value, {
   toValue: 1,
   duration,
@@ -9,7 +7,6 @@ export const fadeInAnimation = (value, duration = 100) => Animated.timing(value,
   useNativeDriver: true,
 });
 
-// ListItem
 export const itemAnimation = value => Animated.timing(value, {
   toValue: 1,
   duration: 100,

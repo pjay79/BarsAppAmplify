@@ -1,3 +1,4 @@
+// @flow
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
@@ -74,7 +75,7 @@ export default class HomeScreen extends PureComponent {
 
   animatedButtonGroupStyle = {
     opacity: this.animatedValue4,
-  }
+  };
 
   componentDidMount() {
     SplashScreen.hide();
