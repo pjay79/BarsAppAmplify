@@ -7,8 +7,7 @@
     "test": "jest",
     "flow start": "flow start",
     "flow stop": "flow stop",
-    "flow status": "flow status",
-    "flow coverage": "flow coverage"
+    "flow status": "flow status"
   },
   "dependencies": {
     "@mapbox/react-native-mapbox-gl": "^6.1.3",
