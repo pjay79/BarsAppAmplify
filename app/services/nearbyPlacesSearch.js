@@ -1,7 +1,8 @@
+// @flow
 import axios from 'axios';
 import Config from 'react-native-config';
 
-export default async (latitude, longitude, pageToken) => {
+export default async (latitude: string, longitude: string, pageToken: string) => {
   try {
     const urlFirst = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&rankBy=distance&type=bar&key=${
       Config.GOOGLE_PLACES_API_KEY

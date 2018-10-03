@@ -1,4 +1,10 @@
-export default (bar) => {
+// @flow
+
+export default (bar: {
+  place_id: string,
+  name: string,
+  geometry: { location: { lng: number, lat: number } },
+}) => {
   const shape = {
     type: 'Feature',
     properties: {
