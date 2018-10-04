@@ -24,6 +24,7 @@ import orderData from '../../../../../util/orderData';
 // Config
 import * as COLORS from '../../../../../config/colors';
 
+// Types
 type Props = {
   data: { subscribeToMore : Function},
   userId: string,
