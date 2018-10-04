@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  accessible={true}
+  isTVSelectable={true}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "backgroundColor": "grey",
+          "borderRadius": 8,
+          "marginBottom": 5,
+          "paddingBottom": 10,
+          "paddingLeft": 40,
+          "paddingRight": 40,
+          "paddingTop": 10,
+          "width": 600,
+        },
+        Object {},
+      ]
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "white",
+            "fontSize": 16,
+            "fontWeight": "900",
+            "letterSpacing": 2,
+            "textAlign": "center",
+          },
+          Object {},
+        ]
+      }
+    >
+      Submit
+    </Text>
+  </View>
+</View>
+`;
