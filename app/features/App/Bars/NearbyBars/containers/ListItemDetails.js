@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// @flow
 import React, { PureComponent } from 'react';
 import {
   View,
@@ -29,15 +29,41 @@ import CreateBar from '../../../../../graphql/mutations/CreateBar';
 import * as COLORS from '../../../../../config/colors';
 import { fadeInAnimation } from '../../../../../config/animations';
 
-class ListItemDetails extends PureComponent {
-  static propTypes = {
-    details: PropTypes.shape().isRequired,
-    openWebsiteLink: PropTypes.func.isRequired,
-    openPhone: PropTypes.func.isRequired,
-    toggleMapLinks: PropTypes.func.isRequired,
-    bar: PropTypes.shape(),
-  };
+// Types
+type Props = {
+  details: {
+    name: string,
+    formatted_phone_number: string,
+    vicinity: string,
+    website: string,
+    url: string,
+    opening_hours: { weekday_text: Array<string> },
+    reviews: Array<{
+      author_name: string,
+      relative_time_description: string,
+      rating: number,
+      text: string,
+    }>,
+  },
+  bar?: {},
+  barId: string,
+  lat: string,
+  lng: string,
+  userId: string,
+  openWebsiteLink: Function,
+  openPhone: Function,
+  toggleMapLinks: Function,
+  getBarMember: Function,
+  createBarMember: Function,
+  createBar: Function,
+};
 
+type State = {
+  adding: boolean,
+  added: boolean,
+}
+
+class ListItemDetails extends PureComponent<Props, State> {
   static defaultProps = {
     bar: null,
   };

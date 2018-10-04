@@ -1,5 +1,4 @@
 // @flow
-import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
   StyleSheet,
@@ -25,12 +24,6 @@ type State = {
 };
 
 export default class MoreScreen extends PureComponent<Props, State> {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
-    }).isRequired,
-  };
-
   static navigationOptions = {
     title: 'More',
     headerStyle: {

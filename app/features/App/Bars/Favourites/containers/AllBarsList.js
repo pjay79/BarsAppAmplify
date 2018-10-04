@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// @flow
 import React, { PureComponent } from 'react';
 import {
   View, Alert, FlatList, Linking, SegmentedControlIOS, StyleSheet,
@@ -24,15 +24,26 @@ import orderData from '../../../../../util/orderData';
 // Config
 import * as COLORS from '../../../../../config/colors';
 
-class AllBarsList extends PureComponent {
-  static propTypes = {
-    data: PropTypes.shape().isRequired,
-    userId: PropTypes.string.isRequired,
-    bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    refetch: PropTypes.func.isRequired,
-    networkStatus: PropTypes.number.isRequired,
-  };
+type Props = {
+  data: { subscribeToMore : Function},
+  userId: string,
+  bars: Array<{}>,
+  refetch: Function,
+  networkStatus: number,
+  createBarMember: Function,
+  refetchBarMember: Function,
+};
 
+type State = {
+  isVisible: boolean,
+  adding: boolean,
+  options: Array<string>,
+  selectedIndex: number,
+  property: string,
+  direction: string,
+};
+
+class AllBarsList extends PureComponent<Props, State> {
   static navigationOptions = {
     header: null,
   };
@@ -143,7 +154,7 @@ class AllBarsList extends PureComponent {
   refreshData = () => {
     const { refetch } = this.props;
     refetch();
-  }
+  };
 
   render() {
     const { networkStatus, bars } = this.props;

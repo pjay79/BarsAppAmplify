@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// @flow
 import React, { PureComponent } from 'react';
 import {
   View, FlatList, Linking, StyleSheet, SegmentedControlIOS, Alert,
@@ -21,15 +21,27 @@ import orderData from '../../../../../util/orderData';
 // Config
 import * as COLORS from '../../../../../config/colors';
 
-class UserBarsList extends PureComponent {
-  static propTypes = {
-    userId: PropTypes.string.isRequired,
-    bars: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    refetch: PropTypes.func.isRequired,
-    networkStatus: PropTypes.number.isRequired,
-    deleteBarMember: PropTypes.func.isRequired,
-  };
+// Types
+type Props = {
+  userId: string,
+  bars: Array<{}>,
+  networkStatus: number,
+  data: { subscribeToMore: Function },
+  refetch: Function,
+  refetchBarMember: Function,
+  deleteBarMember: Function,
+};
 
+type State = {
+  isVisible: boolean,
+  deleting: boolean,
+  options: Array<string>,
+  selectedIndex: number,
+  property: string,
+  direction: string,
+};
+
+class UserBarsList extends PureComponent<Props, State> {
   static navigationOptions = {
     header: null,
   };
@@ -82,10 +94,7 @@ class UserBarsList extends PureComponent {
       this.setState({ deleting: true });
 
       const {
-        userId,
-        refetchBarMember,
-        deleteBarMember,
-        bars,
+        userId, refetchBarMember, deleteBarMember, bars,
       } = this.props;
 
       console.log(`userId: ${userId}, barId: ${barId}`);
@@ -137,7 +146,7 @@ class UserBarsList extends PureComponent {
   refreshData = () => {
     const { refetch } = this.props;
     refetch();
-  }
+  };
 
   render() {
     const { networkStatus, bars } = this.props;

@@ -1,5 +1,4 @@
 // @flow
-import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, ActivityIndicator,
@@ -31,12 +30,6 @@ type State = {
 };
 
 export default class SignInScreen extends PureComponent<Props, State> {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
-    }).isRequired,
-  };
-
   static navigationOptions = {
     title: 'Sign In',
     headerStyle: {

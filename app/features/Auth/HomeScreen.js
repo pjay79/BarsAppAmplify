@@ -1,5 +1,4 @@
 // @flow
-import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
   View,
@@ -26,12 +25,6 @@ type Props = {
 };
 
 export default class HomeScreen extends PureComponent<Props> {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
-    }).isRequired,
-  };
-
   static navigationOptions = {
     header: null,
   };

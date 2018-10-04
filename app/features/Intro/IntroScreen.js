@@ -1,5 +1,4 @@
 // @flow
-import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import type { NavigationScreenProp, NavigationRoute } from 'react-navigation';
@@ -35,12 +34,6 @@ const slides = [
 ];
 
 export default class IntroScreen extends PureComponent<Props> {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
-    }).isRequired,
-  };
-
   static navigationOptions = {
     header: null,
   };
