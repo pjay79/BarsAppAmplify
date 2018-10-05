@@ -7,7 +7,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Linking,
   ActivityIndicator,
   Animated,
   Easing,
@@ -20,6 +19,10 @@ import MapLinks from '../../../../components/MapLinks';
 
 // Services
 import nearbyPlaceDetailsSearch from '../../../../services/nearbyPlaceDetailsSearch';
+
+// Utils
+import linkingPhone from '../../../../utils/linkingPhone';
+import linkingWebsite from '../../../../utils/linkingWebsite';
 
 // Config
 import * as COLORS from '../../../../config/colors';
@@ -89,14 +92,7 @@ export default class ListItemDetailsScreen extends PureComponent {
       const {
         details: { website },
       } = this.state;
-      const supported = Linking.canOpenURL(website);
-      if (supported) {
-        Linking.openURL(website);
-        console.log(website);
-      } else {
-        console.log('Website url not valid.');
-        return;
-      }
+      linkingWebsite(website);
     } catch (error) {
       console.log(error);
     }
@@ -106,8 +102,7 @@ export default class ListItemDetailsScreen extends PureComponent {
     try {
       const { details } = this.state;
       const phone = details.formatted_phone_number;
-      Linking.openURL(`tel://${phone}`);
-      console.log(phone);
+      linkingPhone(phone);
     } catch (error) {
       console.log(error);
     }
@@ -159,9 +154,7 @@ export default class ListItemDetailsScreen extends PureComponent {
         </ScrollView>
         <Animated.View style={[styles.buttonContainer, this.animatedButtonStyle]}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.buttonText}>
-              Go Back
-            </Text>
+            <Text style={styles.buttonText}>Go Back</Text>
           </TouchableOpacity>
         </Animated.View>
       </View>

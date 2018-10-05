@@ -1,7 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 import {
-  View, FlatList, Linking, StyleSheet, SegmentedControlIOS, Alert,
+  View, FlatList, StyleSheet, SegmentedControlIOS, Alert,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -17,6 +17,8 @@ import UserBarsListItem from '../components/UserBarsListItem';
 
 // Utils
 import orderData from '../../../../../utils/orderData';
+import linkingPhone from '../../../../../utils/linkingPhone';
+import linkingWebsite from '../../../../../utils/linkingWebsite';
 
 // Config
 import * as COLORS from '../../../../../config/colors';
@@ -56,27 +58,11 @@ class UserBarsList extends PureComponent<Props, State> {
   };
 
   openWebsiteLink = (website) => {
-    try {
-      const supported = Linking.canOpenURL(website);
-      if (supported) {
-        Linking.openURL(website);
-        console.log(website);
-      } else {
-        console.log('Website url not valid.');
-        return;
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    linkingWebsite(website);
   };
 
   openPhone = (phone) => {
-    try {
-      Linking.openURL(`tel://${phone}`);
-      console.log(phone);
-    } catch (error) {
-      console.log(error);
-    }
+    linkingPhone(phone);
   };
 
   toggleMapLinks = () => {
