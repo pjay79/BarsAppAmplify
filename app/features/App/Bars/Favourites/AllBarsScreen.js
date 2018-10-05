@@ -1,6 +1,8 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import {
+  View, Text, StyleSheet, ActivityIndicator,
+} from 'react-native';
 import { Auth } from 'aws-amplify';
 
 // Components
@@ -55,6 +57,9 @@ export default class AllBarsScreen extends PureComponent<void, State> {
 
     return (
       <View style={styles.container}>
+        <View style={styles.refreshWrapper}>
+          <Text style={styles.refreshLabel}>PULL TO REFRESH</Text>
+        </View>
         <AllBarsList userId={userId} barId="" />
       </View>
     );
@@ -72,5 +77,15 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingTop: 20,
+  },
+  refreshWrapper: {
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  refreshLabel: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: COLORS.SECONDARY_TEXT_COLOR,
   },
 });
