@@ -691,7 +691,20 @@ Run on ios:
 Run on android:
 `react-native run-android`
 
-# Final thoughts
+## Flow
+
+I am in the process of migrating from PropTypes to using Flow. To check for Flow errors:
+
+`yarn run flow start`  
+`yarn run flow status`
+
+## Testing with Jest and Enzyme
+
+I have started adding tests using Jest and Enzyme. To check the current tests are working:
+
+`yarn run test`
+
+# Additional information
 
 ## React Apollo
 
