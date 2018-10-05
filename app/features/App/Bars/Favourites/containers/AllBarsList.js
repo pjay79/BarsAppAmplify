@@ -18,19 +18,19 @@ import CreateBarSubscription from '../../../../../graphql/subscriptions/CreateBa
 // Components
 import AllBarsListItem from '../components/AllBarsListItem';
 
-// Util
-import orderData from '../../../../../util/orderData';
+// Utils
+import orderData from '../../../../../utils/orderData';
 
 // Config
 import * as COLORS from '../../../../../config/colors';
 
 // Types
 type Props = {
-  data: { subscribeToMore : Function},
   userId: string,
   bars: Array<{}>,
-  refetch: Function,
   networkStatus: number,
+  data: { subscribeToMore: Function },
+  refetch: Function,
   createBarMember: Function,
   refetchBarMember: Function,
 };

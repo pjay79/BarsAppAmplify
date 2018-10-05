@@ -73,8 +73,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 20,
   },
-  card: {
-    marginVertical: 10,
-    paddingHorizontal: 20,
-  },
 });

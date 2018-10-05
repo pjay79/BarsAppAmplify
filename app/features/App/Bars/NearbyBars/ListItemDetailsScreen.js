@@ -18,7 +18,7 @@ import { Auth } from 'aws-amplify';
 import ListItemDetails from './containers/ListItemDetails';
 import MapLinks from '../../../../components/MapLinks';
 
-// Util
+// Services
 import nearbyPlaceDetailsSearch from '../../../../services/nearbyPlaceDetailsSearch';
 
 // Config

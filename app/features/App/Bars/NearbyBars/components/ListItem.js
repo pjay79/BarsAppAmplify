@@ -4,9 +4,9 @@ import {
   View, Text, StyleSheet, TouchableOpacity, Animated,
 } from 'react-native';
 
-// Util
-import displayPriceRating from '../../../../../util/displayPriceRating';
-import calculateDistance from '../../../../../util/calculateDistance';
+// Utils
+import displayPriceRating from '../../../../../utils/displayPriceRating';
+import calculateDistance from '../../../../../utils/calculateDistance';
 
 // Config
 import * as COLORS from '../../../../../config/colors';

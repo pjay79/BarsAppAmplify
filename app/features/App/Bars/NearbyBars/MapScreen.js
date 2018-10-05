@@ -19,10 +19,10 @@ import Button from '../../../../components/Button';
 // Services
 import nearbyPlacesSearch from '../../../../services/nearbyPlacesSearch';
 
-// Util
-import displayPriceRating from '../../../../util/displayPriceRating';
-import calculateDistance from '../../../../util/calculateDistance';
-import geoJSON from '../../../../util/geoJSON';
+// Utils
+import displayPriceRating from '../../../../utils/displayPriceRating';
+import calculateDistance from '../../../../utils/calculateDistance';
+import geoJSON from '../../../../utils/geoJSON';
 
 // Config
 import * as COLORS from '../../../../config/colors';

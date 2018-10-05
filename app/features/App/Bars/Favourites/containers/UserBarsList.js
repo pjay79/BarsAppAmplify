@@ -15,8 +15,8 @@ import DeleteBarMember from '../../../../../graphql/mutations/DeleteBarMember';
 // Components
 import UserBarsListItem from '../components/UserBarsListItem';
 
-// Util
-import orderData from '../../../../../util/orderData';
+// Utils
+import orderData from '../../../../../utils/orderData';
 
 // Config
 import * as COLORS from '../../../../../config/colors';
