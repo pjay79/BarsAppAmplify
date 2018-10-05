@@ -3,13 +3,16 @@ import renderer from 'react-test-renderer';
 import MapLinks from '../MapLinks';
 
 test('MapLinks renders correctly', () => {
+  const onCancelPressed = jest.fn();
+  const onAppPressed = jest.fn();
+  const onBackButtonPressed = jest.fn();
   const tree = renderer
     .create(
       <MapLinks
         isVisible
-        onCancelPressed={() => console.log('Cancel pressed.')}
-        onAppPressed={() => console.log('App pressed.')}
-        onBackButtonPressed={() => console.log('Back button pressed.')}
+        onCancelPressed={onCancelPressed}
+        onAppPressed={onAppPressed}
+        onBackButtonPressed={onBackButtonPressed}
         name="Credo"
         lat={123123123}
         lng={444444444}

@@ -173,8 +173,6 @@ class AllBarsList extends PureComponent<Props, State> {
             onRefresh={this.refreshData}
             refreshing={networkStatus === 4}
             ItemSeparatorComponent={this.renderSeparator}
-            // initialNumToRender={20}
-            // windowSize={3}
           />
         </View>
         <View style={styles.segmentedControlWrapper}>

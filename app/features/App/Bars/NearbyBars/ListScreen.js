@@ -177,7 +177,6 @@ export default class ListScreen extends PureComponent {
           ListFooterComponent={this.renderFooter}
           initialNumToRender={20}
           windowSize={21}
-          // removeClippedSubviews
         />
       </View>
     );

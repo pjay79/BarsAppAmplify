@@ -3,8 +3,7 @@ import renderer from 'react-test-renderer';
 import Button from '../Button';
 
 test('Button renders correctly', () => {
-  const tree = renderer
-    .create(<Button title="Submit" onPress={() => console.log('Button pressed.')} />)
-    .toJSON();
+  const onPress = jest.fn();
+  const tree = renderer.create(<Button title="Submit" onPress={onPress} />).toJSON();
   expect(tree).toMatchSnapshot();
 });
