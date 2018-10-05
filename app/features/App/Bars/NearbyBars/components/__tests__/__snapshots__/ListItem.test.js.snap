@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserBarsListItem Renders correctly 1`] = `
+<AnimatedComponent
+  style={
+    Array [
+      Object {
+        "height": 60,
+        "justifyContent": "center",
+        "marginVertical": 10,
+        "paddingHorizontal": 20,
+        "paddingVertical": 10,
+      },
+      Object {
+        "opacity": 0,
+        "transform": Array [
+          Object {
+            "translateY": 100,
+          },
+        ],
+      },
+    ]
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <Component
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+        }
+      }
+    >
+      <Component
+        style={
+          Object {
+            "fontSize": 18,
+            "fontWeight": "500",
+          }
+        }
+      />
+      <Component
+        style={
+          Object {
+            "color": "#757575",
+            "fontWeight": "600",
+          }
+        }
+      >
+        CLOSED
+      </Component>
+    </Component>
+    <Component
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "letterSpacing": 2,
+        }
+      }
+    >
+      <Component
+        style={
+          Object {
+            "fontSize": 12,
+          }
+        }
+      >
+        NO PRICE INFO
+      </Component>
+      <Component
+        style={
+          Object {
+            "color": "#0288D1",
+          }
+        }
+      >
+        4769627
+        m
+      </Component>
+    </Component>
+  </TouchableOpacity>
+</AnimatedComponent>
+`;

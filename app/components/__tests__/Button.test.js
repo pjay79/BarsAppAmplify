@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import Button from '../Button';
 
-test('renders correctly', () => {
+test('Button renders correctly', () => {
   const tree = renderer
     .create(<Button title="Submit" onPress={() => console.log('Button pressed.')} />)
     .toJSON();

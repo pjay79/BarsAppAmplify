@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AllBarsListItem Renders correctly 1`] = `
+<Swipeout
+  backgroundColor="#FFFFFF"
+  disabled={false}
+  right={
+    Array [
+      Object {
+        "backgroundColor": "#FF4081",
+        "onPress": [Function],
+        "text": "LIKE",
+      },
+    ]
+  }
+  rowID={-1}
+  sectionID={-1}
+  sensitivity={50}
+>
+  <Component
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginVertical": 10,
+        "paddingHorizontal": 20,
+        "paddingVertical": 10,
+      }
+    }
+  >
+    <Component
+      style={
+        Object {
+          "width": "90%",
+        }
+      }
+    >
+      <Component
+        style={
+          Object {
+            "fontSize": 18,
+            "fontWeight": "500",
+          }
+        }
+      />
+      <Component
+        style={
+          Object {
+            "fontSize": 14,
+          }
+        }
+      />
+      <Component
+        style={
+          Object {
+            "fontSize": 10,
+          }
+        }
+      />
+      <Component
+        style={
+          Object {
+            "color": "#757575",
+            "fontSize": 10,
+          }
+        }
+      >
+        Added on August 9th 2017, 8:00:00 am
+      </Component>
+    </Component>
+    <Component
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "space-between",
+        }
+      }
+    >
+      <TouchableOpacity
+        activeOpacity={0.2}
+        onPress={[Function]}
+      >
+        <Icon
+          allowFontScaling={false}
+          color="#FF4081"
+          name="web"
+          size={18}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.2}
+        onPress={[Function]}
+      >
+        <Icon
+          allowFontScaling={false}
+          color="#0288D1"
+          name="directions"
+          size={18}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.2}
+        onPress={[Function]}
+      >
+        <Icon
+          allowFontScaling={false}
+          color="#212121"
+          name="telephone"
+          size={18}
+        />
+      </TouchableOpacity>
+    </Component>
+    <MapLinks
+      barId="123"
+      isVisible={true}
+      lat={NaN}
+      lng={NaN}
+      name=""
+      onAppPressed={[Function]}
+      onBackButtonPressed={[Function]}
+      onCancelPressed={[Function]}
+    />
+  </Component>
+</Swipeout>
+`;

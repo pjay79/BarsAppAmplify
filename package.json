@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
+    "test watch": "jest --watch",
     "flow start": "flow start",
     "flow stop": "flow stop",
     "flow status": "flow status"
@@ -40,6 +41,9 @@
     "babel-eslint": "^8.2.6",
     "babel-jest": "23.4.0",
     "babel-preset-react-native": "^5",
+    "enzyme": "^3.6.0",
+    "enzyme-adapter-react-16": "^1.5.0",
+    "enzyme-to-json": "^3.3.4",
     "eslint": "^5.2.0",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-plugin-import": "^2.13.0",
@@ -47,13 +51,20 @@
     "eslint-plugin-react": "^7.10.0",
     "flow-bin": "0.75.0",
     "jest": "23.4.1",
+    "react-dom": "^16.5.2",
     "react-test-renderer": "16.4.1"
   },
   "jest": {
     "preset": "react-native",
     "transform": {
       "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
-    }
+    },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "setupFiles": [
+      "<rootDir>/app/config/setupJestEnzyme.js"
+    ]
   },
   "rnpm": {
     "assets": [

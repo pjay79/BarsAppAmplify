@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import Input from '../Input';
 
-test('renders correctly', () => {
+test('Input renders correctly', () => {
   const tree = renderer
     .create(<Input placeholder="test@test.com" onChangeText={() => console.log('Text changed.')} />)
     .toJSON();

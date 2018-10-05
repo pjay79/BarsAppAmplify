@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import MapLinks from '../MapLinks';
 
-test('renders correctly', () => {
+test('MapLinks renders correctly', () => {
   const tree = renderer
     .create(
       <MapLinks
@@ -14,7 +14,6 @@ test('renders correctly', () => {
         lat={123123123}
         lng={444444444}
         barId="123456789"
-        useNativeDriver={false}
       />,
     )
     .toJSON();

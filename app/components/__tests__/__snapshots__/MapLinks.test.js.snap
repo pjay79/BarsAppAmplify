@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`MapLinks renders correctly 1`] = `
 <Modal
   animationType="none"
   hardwareAccelerated={false}
