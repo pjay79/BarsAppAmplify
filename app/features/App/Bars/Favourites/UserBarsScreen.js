@@ -67,9 +67,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
   },
   loading: {
-    paddingTop: 20,
-    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    paddingTop: 20,
   },
   card: {
     marginVertical: 10,
