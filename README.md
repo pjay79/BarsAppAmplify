@@ -677,7 +677,7 @@ Run on android:
 If you are getting build errors try the following:
 
 - delete app from simulator or device and rebuild
-- erase all content and settings from simulator device and rebuild
+- erase all content and settings from simulator and rebuild
 - clean build folder in xcode and rebuild
 
 ## Flow
