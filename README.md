@@ -674,6 +674,12 @@ Run on ios:
 Run on android:
 `react-native run-android`
 
+If you are getting build errors try the following:
+
+- delete app from simulator or device and rebuild
+- erase all content and settings from simulator device and rebuild
+- clean build folder in xcode and rebuild
+
 ## Flow
 
 I am in the process of migrating from PropTypes to using Flow. To check for Flow errors:
