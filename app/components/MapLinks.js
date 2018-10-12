@@ -1,6 +1,18 @@
-import PropTypes from 'prop-types';
+// @flow
 import React from 'react';
 import { Popup } from 'react-native-map-link';
+
+// Types
+type Props = {
+  isVisible: boolean,
+  onCancelPressed: Function,
+  onAppPressed: Function,
+  onBackButtonPressed: Function,
+  name: string,
+  lat: number,
+  lng: number,
+  barId: string,
+};
 
 const MapLinks = ({
   isVisible,
@@ -11,7 +23,7 @@ const MapLinks = ({
   lat,
   lng,
   barId,
-}) => (
+}: Props) => (
   <Popup
     isVisible={isVisible}
     onCancelPressed={onCancelPressed}
@@ -49,20 +61,5 @@ const MapLinks = ({
     }
   />
 );
-
-MapLinks.propTypes = {
-  isVisible: PropTypes.bool.isRequired,
-  onCancelPressed: PropTypes.func.isRequired,
-  onAppPressed: PropTypes.func.isRequired,
-  onBackButtonPressed: PropTypes.func.isRequired,
-  name: PropTypes.string,
-  lat: PropTypes.number.isRequired,
-  lng: PropTypes.number.isRequired,
-  barId: PropTypes.string.isRequired,
-};
-
-MapLinks.defaultProps = {
-  name: '',
-};
 
 export default MapLinks;

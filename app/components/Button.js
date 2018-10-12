@@ -1,17 +1,23 @@
-import PropTypes from 'prop-types';
-import * as React from 'react';
+// @flow
+import React from 'react';
 import {
   TouchableOpacity, View, Text, Dimensions, StyleSheet,
 } from 'react-native';
 
+// Types
+type Props = {
+  title: string,
+  onPress: Function,
+  style: {},
+  textStyle?: {},
+};
+
 const Button = ({
   title, onPress, style, textStyle,
-}) => (
+}: Props) => (
   <TouchableOpacity onPress={onPress}>
     <View style={[styles.buttonContainer, style]}>
-      <Text style={[styles.buttonText, textStyle]}>
-        {title}
-      </Text>
+      <Text style={[styles.buttonText, textStyle]}>{title}</Text>
     </View>
   </TouchableOpacity>
 );
@@ -38,15 +44,7 @@ const styles = StyleSheet.create({
   },
 });
 
-Button.propTypes = {
-  title: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired,
-  style: PropTypes.shape(),
-  textStyle: PropTypes.shape(),
-};
-
 Button.defaultProps = {
-  style: {},
   textStyle: {},
 };
 

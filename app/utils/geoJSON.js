@@ -1,5 +1,3 @@
-// @flow
-
 export default (bar: {
   place_id: string,
   name: string,

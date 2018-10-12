@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// @flow
 import React from 'react';
 import {
   View, Text, TouchableOpacity, StyleSheet, ActivityIndicator,
@@ -12,6 +12,26 @@ import MapLinks from '../../../../../components/MapLinks';
 // Config
 import * as COLORS from '../../../../../config/colors';
 
+// Types
+type Props = {
+  item: {
+    id: string,
+    name: string,
+    phone: string,
+    location: string,
+    website: string,
+    lat: string,
+    lng: string,
+    createdAt: string,
+  },
+  addToUserFavourites: Function,
+  openWebsiteLink: Function,
+  toggleMapLinks: Function,
+  openPhone: Function,
+  isVisible: boolean,
+  adding: boolean,
+};
+
 const AllBarsListItem = ({
   item,
   addToUserFavourites,
@@ -20,7 +40,7 @@ const AllBarsListItem = ({
   openPhone,
   isVisible,
   adding,
-}) => {
+}: Props) => {
   const swipeoutBtns = [
     {
       backgroundColor: adding ? COLORS.DEFAULT_PRIMARY_COLOR : COLORS.ACCENT_COLOR,
@@ -95,15 +115,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-AllBarsListItem.propTypes = {
-  item: PropTypes.shape().isRequired,
-  addToUserFavourites: PropTypes.func.isRequired,
-  openWebsiteLink: PropTypes.func.isRequired,
-  toggleMapLinks: PropTypes.func.isRequired,
-  openPhone: PropTypes.func.isRequired,
-  isVisible: PropTypes.bool.isRequired,
-  adding: PropTypes.bool.isRequired,
-};
 
 export default AllBarsListItem;

@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from 'react';
 import {
   View,
@@ -27,9 +28,26 @@ import geoJSON from '../../../../utils/geoJSON';
 // Config
 import * as COLORS from '../../../../config/colors';
 
+// Types
+type State = {
+  bars: Array<{
+    id: string,
+    place_id: string,
+    name: string,
+    price_level: number,
+    vicinity: string,
+    opening_hours: { open_now: boolean },
+    geometry: { location: { lat: string, lng: string } },
+  }>,
+  latitude: string,
+  longitude: string,
+  pageToken: string,
+  activeModal: null | number,
+};
+
 MapboxGL.setAccessToken(Config.MAPBOX_ACCESS_TOKEN);
 
-export default class MapScreen extends PureComponent {
+export default class MapScreen extends PureComponent<void, State> {
   static navigationOptions = {
     header: null,
   };
@@ -81,6 +99,7 @@ export default class MapScreen extends PureComponent {
     }
   };
 
+  // $FlowFixMe
   openModal = (e) => {
     const feature = e.nativeEvent.payload;
     console.log('You pressed a layer here is your feature', feature);

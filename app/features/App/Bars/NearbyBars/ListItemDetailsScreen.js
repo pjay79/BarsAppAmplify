@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// @flow
 import React, { PureComponent } from 'react';
 import {
   ScrollView,
@@ -11,6 +11,7 @@ import {
   Animated,
   Easing,
 } from 'react-native';
+import type { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Auth } from 'aws-amplify';
 
 // Components
@@ -27,14 +28,19 @@ import linkingWebsite from '../../../../utils/linkingWebsite';
 // Config
 import * as COLORS from '../../../../config/colors';
 
-export default class ListItemDetailsScreen extends PureComponent {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
-      getParam: PropTypes.func.isRequired,
-    }).isRequired,
-  };
+// Types
+type Props = {
+  navigation: NavigationScreenProp<NavigationRoute>,
+};
 
+type State = {
+  details: { name: string, website: string, formatted_phone_number: string },
+  userId: string,
+  isVisible: boolean,
+  loading: boolean,
+};
+
+export default class ListItemDetailsScreen extends PureComponent<Props, State> {
   static navigationOptions = {
     headerStyle: {
       backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
@@ -50,7 +56,7 @@ export default class ListItemDetailsScreen extends PureComponent {
   };
 
   state = {
-    details: {},
+    details: { name: '', website: '', formatted_phone_number: '' },
     userId: '',
     isVisible: false,
     loading: false,

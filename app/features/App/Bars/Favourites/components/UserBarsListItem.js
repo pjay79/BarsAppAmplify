@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// @flow
 import React from 'react';
 import {
   View, Text, TouchableOpacity, StyleSheet, ActivityIndicator,
@@ -12,6 +12,26 @@ import MapLinks from '../../../../../components/MapLinks';
 // Config
 import * as COLORS from '../../../../../config/colors';
 
+// Types
+type Props = {
+  item: {
+    id: string,
+    name: string,
+    phone: string,
+    location: string,
+    website: string,
+    lat: string,
+    lng: string,
+    createdAt: string,
+  },
+  deleteFavourite: Function,
+  openWebsiteLink: Function,
+  toggleMapLinks: Function,
+  openPhone: Function,
+  isVisible: boolean,
+  deleting: boolean,
+};
+
 const UserBarsListItem = ({
   item,
   deleteFavourite,
@@ -20,7 +40,7 @@ const UserBarsListItem = ({
   openPhone,
   isVisible,
   deleting,
-}) => {
+}: Props) => {
   const swipeoutBtns = [
     {
       backgroundColor: deleting ? COLORS.DEFAULT_PRIMARY_COLOR : COLORS.ACCENT_COLOR,
@@ -95,15 +115,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-UserBarsListItem.propTypes = {
-  item: PropTypes.shape().isRequired,
-  deleteFavourite: PropTypes.func.isRequired,
-  openWebsiteLink: PropTypes.func.isRequired,
-  toggleMapLinks: PropTypes.func.isRequired,
-  openPhone: PropTypes.func.isRequired,
-  isVisible: PropTypes.bool.isRequired,
-  deleting: PropTypes.bool.isRequired,
-};
 
 export default UserBarsListItem;

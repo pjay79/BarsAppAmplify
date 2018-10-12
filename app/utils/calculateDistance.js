@@ -1,4 +1,3 @@
-// @flow
 import geolib from 'geolib';
 
 export default (userLat: number, userLng: number, barLat: number, barLng: number) => {

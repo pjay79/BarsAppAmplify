@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
+// @flow
 import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, Animated,
 } from 'react-native';
+import type { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 
 // Utils
 import displayPriceRating from '../../../../../utils/displayPriceRating';
@@ -12,16 +13,20 @@ import calculateDistance from '../../../../../utils/calculateDistance';
 import * as COLORS from '../../../../../config/colors';
 import { itemAnimation } from '../../../../../config/animations';
 
-export default class ListItem extends PureComponent {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
-    }).isRequired,
-    item: PropTypes.shape().isRequired,
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired,
-  };
+// Types
+type Props = {
+  item: {
+    name: string,
+    price_level: number,
+    opening_hours: { open_now: boolean },
+    geometry: { location: { lat: string, lng: string } },
+  },
+  latitude: string,
+  longitude: string,
+  navigation: NavigationScreenProp<NavigationRoute>,
+};
 
+export default class ListItem extends PureComponent<Props, void> {
   animatedValue = new Animated.Value(0);
 
   animatedItemStyle = {

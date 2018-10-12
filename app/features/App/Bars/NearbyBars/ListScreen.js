@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// @flow
 import React, { PureComponent } from 'react';
 import {
   View,
@@ -8,6 +8,7 @@ import {
   Platform,
   ActivityIndicator,
 } from 'react-native';
+import type { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Auth } from 'aws-amplify';
 import Geolocation from 'react-native-geolocation-service';
 import SplashScreen from 'react-native-splash-screen';
@@ -21,13 +22,26 @@ import nearbyPlacesSearch from '../../../../services/nearbyPlacesSearch';
 // Config
 import * as COLORS from '../../../../config/colors';
 
-export default class ListScreen extends PureComponent {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
-    }).isRequired,
-  };
+// Types
+type Props = {
+  navigation: NavigationScreenProp<NavigationRoute>,
+};
 
+type State = {
+  bars: Array<{
+    id: string,
+    name: string,
+    price_level: number,
+    opening_hours: { open_now: boolean },
+    geometry: { location: { lat: string, lng: string } },
+  }>,
+  latitude: string,
+  longitude: string,
+  pageToken: string,
+  refreshing: boolean,
+};
+
+export default class ListScreen extends PureComponent<Props, State> {
   static navigationOptions = {
     header: null,
   };
@@ -141,23 +155,32 @@ export default class ListScreen extends PureComponent {
 
   renderSeparator = () => <View style={styles.separator} />;
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item } : { item: {
+    id: string,
+    name: string,
+    price_level: number,
+    opening_hours: { open_now: boolean },
+    geometry: { location: { lat: string, lng: string } },
+  }}) => {
     const { navigation } = this.props;
     const { latitude, longitude } = this.state;
 
     return (
-      <ListItem
-        item={item}
-        navigation={navigation}
-        latitude={latitude}
-        longitude={longitude}
-      />
+      <ListItem item={item} navigation={navigation} latitude={latitude} longitude={longitude} />
     );
   };
 
-  getItemLayout = (data, index) => ({ length: 60, offset: 60 * index, index });
+  getItemLayout = (
+    data: ?Array<{
+      id: string,
+      name: string,
+      price_level: number,
+      opening_hours: { open_now: boolean },
+      geometry: { location: { lat: string, lng: string } },
+    }>, index: number,
+  ) => ({ length: 60, offset: 60 * index, index });
 
-  keyExtractor = item => item.id;
+  keyExtractor = (item: { id: string }) => item.id;
 
   render() {
     const { bars, refreshing } = this.state;

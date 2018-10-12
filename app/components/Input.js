@@ -1,12 +1,21 @@
-import PropTypes from 'prop-types';
+// @flow
 import React from 'react';
 import {
   View, TextInput, StyleSheet, Dimensions,
 } from 'react-native';
 
+// Types
+type Props = {
+  onChangeText: Function,
+  value: string,
+  placeholder: string,
+  secureTextEntry?: boolean,
+  style?: {},
+};
+
 const Input = ({
   onChangeText, value, placeholder, secureTextEntry, style,
-}) => (
+}: Props) => (
   <View>
     <TextInput
       placeholder={placeholder}
@@ -36,16 +45,7 @@ const styles = StyleSheet.create({
   },
 });
 
-Input.propTypes = {
-  onChangeText: PropTypes.func.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  placeholder: PropTypes.string.isRequired,
-  secureTextEntry: PropTypes.bool,
-  style: PropTypes.shape(),
-};
-
 Input.defaultProps = {
-  value: null,
   secureTextEntry: false,
   style: {},
 };
