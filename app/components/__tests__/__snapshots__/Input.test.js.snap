@@ -25,7 +25,6 @@ exports[`Input renders correctly 1`] = `
       ]
     }
     underlineColorAndroid="transparent"
-    value={null}
   />
 </View>
 `;

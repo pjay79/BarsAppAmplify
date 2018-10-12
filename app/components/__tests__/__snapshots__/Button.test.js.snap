@@ -29,7 +29,7 @@ exports[`Button renders correctly 1`] = `
           "paddingTop": 10,
           "width": 600,
         },
-        Object {},
+        undefined,
       ]
     }
   >

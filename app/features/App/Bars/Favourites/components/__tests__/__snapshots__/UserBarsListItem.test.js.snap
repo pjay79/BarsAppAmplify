@@ -116,7 +116,6 @@ exports[`UserBarsListItem Renders correctly 1`] = `
       isVisible={true}
       lat={NaN}
       lng={NaN}
-      name=""
       onAppPressed={[MockFunction]}
       onBackButtonPressed={[MockFunction]}
       onCancelPressed={[MockFunction]}
