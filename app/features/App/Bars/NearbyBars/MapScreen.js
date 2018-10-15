@@ -147,12 +147,8 @@ export default class MapScreen extends PureComponent<void, State> {
               >
                 <View style={styles.modalContainer}>
                   <View style={styles.upper}>
-                    <Text style={styles.modalHeader}>
-                      {bar.name}
-                    </Text>
-                    <Text style={styles.modalSubHeader}>
-                      {bar.vicinity}
-                    </Text>
+                    <Text style={styles.modalHeader}>{bar.name}</Text>
+                    <Text style={styles.modalSubHeader}>{bar.vicinity}</Text>
                   </View>
                   <View style={styles.lower}>
                     <Text style={styles.distance}>

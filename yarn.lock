@@ -5556,6 +5556,12 @@ react-native-app-intro-slider@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-native-app-intro-slider/-/react-native-app-intro-slider-1.0.1.tgz#712bf3dc1d66b3432bf4092971db4dfc01b916bd"
 
+react-native-collapsible@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-collapsible/-/react-native-collapsible-1.2.0.tgz#217340f650e9158f0a3f42398fbbe3e60259cf72"
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-config@^0.11.5:
   version "0.11.5"
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.11.5.tgz#516cb7b6ec437c7739236ca075971db3aabdcb95"

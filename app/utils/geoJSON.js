@@ -1,7 +1,8 @@
+// @flow
 export default (bar: {
   place_id: string,
   name: string,
-  geometry: { location: { lng: number, lat: number } },
+  geometry: { location: { lng: string, lat: string } },
 }) => {
   const shape = {
     type: 'Feature',

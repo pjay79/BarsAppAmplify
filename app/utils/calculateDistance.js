@@ -1,6 +1,7 @@
+// @flow
 import geolib from 'geolib';
 
-export default (userLat: number, userLng: number, barLat: number, barLng: number) => {
+export default (userLat: string, userLng: string, barLat: string, barLng: string) => {
   const startCoords = {
     latitude: userLat,
     longitude: userLng,
