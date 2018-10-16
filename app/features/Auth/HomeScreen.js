@@ -129,7 +129,7 @@ started with a salad.
             onPress={() => navigation.navigate('Sign Up')}
             style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 10 }}
           />
-          <TouchableOpacity onPress={() => console.log('Go to ForgotPasswordScreen')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Forgot Password')}>
             <Text style={styles.forgotPassword}>Forgot Password?</Text>
           </TouchableOpacity>
         </Animated.View>

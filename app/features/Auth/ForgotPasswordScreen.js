@@ -1,4 +1,3 @@
-// @flow
 import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, ActivityIndicator,
@@ -15,8 +14,6 @@ import * as COLORS from '../../config/colors';
 // Types
 type State = {
   username: string,
-  email: string,
-  phoneNumber: string,
   password: string,
   authCode: string,
   loading: boolean,
@@ -24,9 +21,9 @@ type State = {
   status: string,
 };
 
-export default class SignUpScreen extends PureComponent<void, State> {
+export default class ForgotPasswordScreen extends PureComponent<void, State> {
   static navigationOptions = {
-    title: 'Sign Up',
+    title: 'Forgot Password',
     headerStyle: {
       backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
       elevation: 0,
@@ -38,8 +35,6 @@ export default class SignUpScreen extends PureComponent<void, State> {
 
   state = {
     username: '',
-    email: '',
-    phoneNumber: '',
     password: '',
     authCode: '',
     loading: false,
@@ -51,23 +46,14 @@ export default class SignUpScreen extends PureComponent<void, State> {
     this.setState({ [key]: value });
   };
 
-  signUp = async () => {
+  resetPassword = async () => {
     try {
       this.setState({ loading: true, error: '' });
-      const {
-        username, password, email, phoneNumber,
-      } = this.state;
-      if (username && password && email && phoneNumber) {
-        const user = await Auth.signUp({
-          username,
-          password,
-          attributes: {
-            phone_number: phoneNumber,
-            email,
-          },
-        });
-        this.setState({ loading: false, status: 'User confirmation pending...' });
-        console.log(user);
+      const { username } = this.state;
+      if (username) {
+        const password = await Auth.forgotPassword(username);
+        this.setState({ loading: false, status: 'Reset confirmation pending...' });
+        console.log(password);
       } else {
         this.setState({ loading: false, error: 'Complete missing fields.' });
       }
@@ -77,18 +63,16 @@ export default class SignUpScreen extends PureComponent<void, State> {
     }
   };
 
-  confirmSignUp = async () => {
+  updatePassword = async () => {
     try {
       this.setState({ loading: true, error: '', status: '' });
-      const { username, authCode } = this.state;
-      if (authCode) {
-        await Auth.confirmSignUp(username, authCode);
+      const { username, authCode, password } = this.state;
+      if (username && authCode && password) {
+        await Auth.forgotPasswordSubmit(username, authCode, password);
         this.setState({
           loading: false,
-          status: 'Sign up successful!',
+          status: 'Reset successful!',
           username: '',
-          email: '',
-          phoneNumber: '',
           password: '',
           authCode: '',
         });
@@ -103,39 +87,20 @@ export default class SignUpScreen extends PureComponent<void, State> {
 
   render() {
     const {
-      username, email, phoneNumber, password, authCode, loading, error, status,
+      username, password, authCode, loading, error, status,
     } = this.state;
 
     return (
       <View style={styles.container}>
         <Text style={styles.label}>USERNAME:</Text>
         <Input
-          placeholder="Bob"
+          placeholder="bsmith"
           onChangeText={text => this.onChangeText('username', text)}
           value={username}
         />
-        <Text style={styles.label}>EMAIL:</Text>
-        <Input
-          placeholder="bob@gmail.com"
-          onChangeText={text => this.onChangeText('email', text)}
-          value={email}
-        />
-        <Text style={styles.label}>PHONE NUMBER:</Text>
-        <Input
-          placeholder="+61XXXXXXXX"
-          onChangeText={text => this.onChangeText('phoneNumber', text)}
-          value={phoneNumber}
-        />
-        <Text style={styles.label}>PASSWORD:</Text>
-        <Input
-          placeholder="********"
-          onChangeText={text => this.onChangeText('password', text)}
-          value={password}
-          secureTextEntry
-        />
         <Button
-          title="SIGN UP"
-          onPress={this.signUp}
+          title="Reset Password"
+          onPress={this.resetPassword}
           style={{ backgroundColor: COLORS.LIGHT_PRIMARY_COLOR }}
         />
         <View style={styles.verification}>
@@ -145,9 +110,16 @@ export default class SignUpScreen extends PureComponent<void, State> {
             onChangeText={text => this.onChangeText('authCode', text)}
             value={authCode}
           />
+          <Text style={[styles.label, { paddingLeft: 0 }]}>NEW PASSWORD:</Text>
+          <Input
+            placeholder="********"
+            onChangeText={text => this.onChangeText('password', text)}
+            value={password}
+            secureTextEntry
+          />
           <Button
-            title="CONFIRM SIGN UP"
-            onPress={this.confirmSignUp}
+            title="Submit"
+            onPress={this.updatePassword}
             style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 20 }}
           />
         </View>
