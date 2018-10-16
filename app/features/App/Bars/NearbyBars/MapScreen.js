@@ -48,10 +48,6 @@ type State = {
 MapboxGL.setAccessToken(Config.MAPBOX_ACCESS_TOKEN);
 
 export default class MapScreen extends PureComponent<void, State> {
-  static navigationOptions = {
-    header: null,
-  };
-
   state = {
     bars: [],
     latitude: '',

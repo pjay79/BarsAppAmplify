@@ -41,13 +41,6 @@ type State = {
 };
 
 export default class ListItemDetailsScreen extends PureComponent<Props, State> {
-  static navigationOptions = {
-    headerStyle: {
-      backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
-    },
-    headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
-  };
-
   animatedValue = new Animated.Value(0);
 
   animatedButtonStyle = {

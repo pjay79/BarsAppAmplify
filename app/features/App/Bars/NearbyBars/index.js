@@ -14,9 +14,18 @@ const ListStack = createStackNavigator(
   {
     List: {
       screen: ListScreen,
+      navigationOptions: () => ({
+        header: null,
+      }),
     },
     Details: {
       screen: ListItemDetailsScreen,
+      navigationOptions: () => ({
+        headerStyle: {
+          backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
+        },
+        headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
+      }),
     },
   },
   {
@@ -29,6 +38,9 @@ const MapStack = createStackNavigator(
   {
     Maps: {
       screen: MapScreen,
+      navigationOptions: () => ({
+        header: null,
+      }),
     },
   },
   {

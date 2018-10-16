@@ -34,10 +34,6 @@ const slides = [
 ];
 
 export default class IntroScreen extends PureComponent<Props> {
-  static navigationOptions = {
-    header: null,
-  };
-
   componentDidMount() {
     SplashScreen.hide();
   }

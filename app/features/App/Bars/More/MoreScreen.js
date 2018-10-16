@@ -29,14 +29,6 @@ type State = {
 };
 
 export default class MoreScreen extends PureComponent<Props, State> {
-  static navigationOptions = {
-    title: 'More',
-    headerStyle: {
-      backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
-    },
-    headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
-  };
-
   state = {
     loading: false,
   };
@@ -78,6 +70,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     paddingHorizontal: 10,
     paddingVertical: 15,
+    marginBottom: 10,
     borderTopColor: COLORS.DIVIDER_COLOR,
     borderBottomColor: COLORS.DIVIDER_COLOR,
     borderTopWidth: StyleSheet.hairlineWidth,

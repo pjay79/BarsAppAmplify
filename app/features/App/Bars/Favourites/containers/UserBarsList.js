@@ -44,10 +44,6 @@ type State = {
 };
 
 class UserBarsList extends PureComponent<Props, State> {
-  static navigationOptions = {
-    header: null,
-  };
-
   state = {
     isVisible: false,
     deleting: false,

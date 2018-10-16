@@ -3,12 +3,23 @@ import { Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+// Screens
 import MoreScreen from './MoreScreen';
+
+// Config
+import * as COLORS from '../../../../config/colors';
 
 // eslint-disable-next-line import/prefer-default-export
 export const MoreStack = createStackNavigator({
   More: {
     screen: MoreScreen,
+    navigationOptions: () => ({
+      title: 'More',
+      headerStyle: {
+        backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
+      },
+      headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
+    }),
   },
 });
 

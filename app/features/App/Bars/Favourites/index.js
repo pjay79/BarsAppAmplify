@@ -13,6 +13,9 @@ const UserBarsStack = createStackNavigator(
   {
     User: {
       screen: UserBarsScreen,
+      navigationOptions: () => ({
+        header: null,
+      }),
     },
   },
   {
@@ -24,6 +27,9 @@ const AllBarsStack = createStackNavigator(
   {
     All: {
       screen: AllBarsScreen,
+      navigationOptions: () => ({
+        header: null,
+      }),
     },
   },
   {

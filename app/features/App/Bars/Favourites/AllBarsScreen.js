@@ -18,10 +18,6 @@ type State = {
 };
 
 export default class AllBarsScreen extends PureComponent<void, State> {
-  static navigationOptions = {
-    header: null,
-  };
-
   state = {
     userId: '',
     loading: true,

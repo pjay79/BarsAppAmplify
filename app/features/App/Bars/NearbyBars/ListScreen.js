@@ -42,10 +42,6 @@ type State = {
 };
 
 export default class ListScreen extends PureComponent<Props, State> {
-  static navigationOptions = {
-    header: null,
-  };
-
   mounted = false;
 
   state = {

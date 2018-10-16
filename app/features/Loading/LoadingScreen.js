@@ -15,10 +15,6 @@ type Props = {
 };
 
 export default class LoadingScreen extends PureComponent<Props> {
-  static navigationOptions = {
-    header: null,
-  };
-
   componentDidMount() {
     this.checkIntro();
   }
