@@ -97,7 +97,7 @@ export default class HomeScreen extends PureComponent<Props> {
     return (
       <SafeAreaView style={styles.container}>
         <Animated.View style={[styles.header, this.animatedHeaderStyle]}>
-          <Text style={styles.title}>Bar Finder</Text>
+          <Text style={styles.title}>Bar Search</Text>
           <Text style={styles.subtitle}>
             Powered by
             {'\n'}

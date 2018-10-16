@@ -19,6 +19,7 @@
     "aws-appsync-react": "^1.1.4",
     "aws-sdk": "^2.325.0",
     "axios": "^0.18.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "geolib": "^2.0.24",
     "graphql-tag": "^2.9.2",
     "lodash": "^4.17.10",
