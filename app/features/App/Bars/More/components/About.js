@@ -47,7 +47,7 @@ export default class About extends PureComponent {
   render() {
     const { activeSections } = this.state;
     return (
-      <View>
+      <View style={styles.container}>
         <View style={styles.section}>
           <Text style={styles.sectionText}>ABOUT</Text>
         </View>
@@ -64,6 +64,9 @@ export default class About extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 20,
+  },
   section: {
     backgroundColor: COLORS.ACCENT_COLOR,
     width: Dimensions.get('window').width,

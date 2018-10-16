@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import {
   StyleSheet,
+  ScrollView,
   View,
   Text,
   ActivityIndicator,
@@ -54,7 +55,7 @@ export default class MoreScreen extends PureComponent<Props, State> {
   render() {
     const { loading } = this.state;
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <About />
         <Guidelines />
         <TouchableOpacity onPress={this.signOut}>
@@ -63,24 +64,20 @@ export default class MoreScreen extends PureComponent<Props, State> {
           </View>
         </TouchableOpacity>
         {loading && <ActivityIndicator color={COLORS.PRIMARY_TEXT_COLOR} />}
-      </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: COLORS.BACKGROUND_COLOR,
+    paddingVertical: 20,
   },
   itemSignOut: {
     backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
     width: Dimensions.get('window').width,
     paddingHorizontal: 10,
     paddingVertical: 15,
-    marginVertical: 15,
     borderTopColor: COLORS.DIVIDER_COLOR,
     borderBottomColor: COLORS.DIVIDER_COLOR,
     borderTopWidth: StyleSheet.hairlineWidth,
