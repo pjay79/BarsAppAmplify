@@ -30,17 +30,6 @@ type State = {
 };
 
 export default class SignInScreen extends PureComponent<Props, State> {
-  static navigationOptions = {
-    title: 'Sign In',
-    headerStyle: {
-      backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
-      elevation: 0,
-      shadowOpacity: 0,
-      borderBottomWidth: 0,
-    },
-    headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
-  };
-
   state = {
     username: '',
     password: '',

@@ -25,17 +25,6 @@ type State = {
 };
 
 export default class SignUpScreen extends PureComponent<void, State> {
-  static navigationOptions = {
-    title: 'Sign Up',
-    headerStyle: {
-      backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
-      elevation: 0,
-      shadowOpacity: 0,
-      borderBottomWidth: 0,
-    },
-    headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
-  };
-
   state = {
     username: '',
     email: '',

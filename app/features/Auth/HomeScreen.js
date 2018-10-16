@@ -25,10 +25,6 @@ type Props = {
 };
 
 export default class HomeScreen extends PureComponent<Props> {
-  static navigationOptions = {
-    header: null,
-  };
-
   animatedValue1 = new Animated.Value(0);
 
   animatedValue2 = new Animated.Value(0);
