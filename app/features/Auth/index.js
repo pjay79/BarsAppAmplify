@@ -46,5 +46,6 @@ export default createStackNavigator(
       },
       headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
     },
+    cardStyle: { backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR },
   },
 );

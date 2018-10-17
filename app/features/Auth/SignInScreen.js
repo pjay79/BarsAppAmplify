@@ -79,13 +79,13 @@ export default class SignInScreen extends PureComponent<Props, State> {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.label}>USERNAME:</Text>
+        <Text style={styles.label}>Username:</Text>
         <Input
-          placeholder="Bob"
+          placeholder="Enter username"
           onChangeText={text => this.onChangeText('username', text)}
           value={username}
         />
-        <Text style={styles.label}>PASSWORD:</Text>
+        <Text style={styles.label}>Password:</Text>
         <Input
           placeholder="********"
           onChangeText={text => this.onChangeText('password', text)}
@@ -95,7 +95,7 @@ export default class SignInScreen extends PureComponent<Props, State> {
         <Button
           title="SIGN IN"
           onPress={this.signIn}
-          style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 20 }}
+          style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 20, marginTop: 10 }}
         />
         {loading && <ActivityIndicator color={COLORS.TEXT_PRIMARY_COLOR} />}
         <Text style={styles.error}>{error}</Text>
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     paddingLeft: '10%',
     fontWeight: 'bold',
-    letterSpacing: 2,
-    fontSize: 10,
+    fontSize: 12,
+    letterSpacing: 1,
     color: COLORS.TEXT_PRIMARY_COLOR,
   },
   error: {

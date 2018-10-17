@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, ActivityIndicator,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Auth } from 'aws-amplify';
 
 // Components
@@ -80,26 +81,26 @@ export default class ForgotPasswordScreen extends PureComponent<void, State> {
     } = this.state;
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.label}>USERNAME:</Text>
+      <KeyboardAwareScrollView contentContainerStyle={styles.container} extraScrollHeight={20}>
+        <Text style={styles.label}>Username:</Text>
         <Input
-          placeholder="bsmith"
+          placeholder="Enter username"
           onChangeText={text => this.onChangeText('username', text)}
           value={username}
         />
         <Button
-          title="Reset Password"
+          title="RESET"
           onPress={this.resetPassword}
-          style={{ backgroundColor: COLORS.LIGHT_PRIMARY_COLOR }}
+          style={{ backgroundColor: COLORS.LIGHT_PRIMARY_COLOR, marginTop: 10 }}
         />
         <View style={styles.verification}>
-          <Text style={[styles.label, { paddingLeft: 0 }]}>ENTER VERIFICATION CODE HERE:</Text>
+          <Text style={[styles.label, { paddingLeft: 0 }]}>Enter verification code:</Text>
           <Input
             placeholder="******"
             onChangeText={text => this.onChangeText('authCode', text)}
             value={authCode}
           />
-          <Text style={[styles.label, { paddingLeft: 0 }]}>NEW PASSWORD:</Text>
+          <Text style={[styles.label, { paddingLeft: 0 }]}>New password:</Text>
           <Input
             placeholder="********"
             onChangeText={text => this.onChangeText('password', text)}
@@ -107,9 +108,9 @@ export default class ForgotPasswordScreen extends PureComponent<void, State> {
             secureTextEntry
           />
           <Button
-            title="Submit"
+            title="SUBMIT"
             onPress={this.updatePassword}
-            style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 20 }}
+            style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 20, marginTop: 10 }}
           />
         </View>
         {loading && <ActivityIndicator color={COLORS.TEXT_PRIMARY_COLOR} />}
@@ -117,7 +118,7 @@ export default class ForgotPasswordScreen extends PureComponent<void, State> {
           {error}
           {status}
         </Text>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -137,8 +138,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     paddingLeft: '10%',
     fontWeight: 'bold',
-    letterSpacing: 2,
-    fontSize: 10,
+    fontSize: 12,
+    letterSpacing: 1,
     color: COLORS.TEXT_PRIMARY_COLOR,
   },
   error: {

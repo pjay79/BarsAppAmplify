@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, ActivityIndicator,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Auth } from 'aws-amplify';
 
 // Components
@@ -96,26 +97,26 @@ export default class SignUpScreen extends PureComponent<void, State> {
     } = this.state;
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.label}>USERNAME:</Text>
+      <KeyboardAwareScrollView contentContainerStyle={styles.container} extraScrollHeight={20}>
+        <Text style={styles.label}>Username:</Text>
         <Input
-          placeholder="Bob"
+          placeholder="Enter username"
           onChangeText={text => this.onChangeText('username', text)}
           value={username}
         />
-        <Text style={styles.label}>EMAIL:</Text>
+        <Text style={styles.label}>Email:</Text>
         <Input
-          placeholder="bob@gmail.com"
+          placeholder="Enter email"
           onChangeText={text => this.onChangeText('email', text)}
           value={email}
         />
-        <Text style={styles.label}>PHONE NUMBER:</Text>
+        <Text style={styles.label}>Phone:</Text>
         <Input
           placeholder="+61XXXXXXXX"
           onChangeText={text => this.onChangeText('phoneNumber', text)}
           value={phoneNumber}
         />
-        <Text style={styles.label}>PASSWORD:</Text>
+        <Text style={styles.label}>Password:</Text>
         <Input
           placeholder="********"
           onChangeText={text => this.onChangeText('password', text)}
@@ -125,10 +126,10 @@ export default class SignUpScreen extends PureComponent<void, State> {
         <Button
           title="SIGN UP"
           onPress={this.signUp}
-          style={{ backgroundColor: COLORS.LIGHT_PRIMARY_COLOR }}
+          style={{ backgroundColor: COLORS.LIGHT_PRIMARY_COLOR, marginTop: 10 }}
         />
         <View style={styles.verification}>
-          <Text style={[styles.label, { paddingLeft: 0 }]}>ENTER VERIFICATION CODE HERE:</Text>
+          <Text style={[styles.label, { paddingLeft: 0 }]}>Enter verification code:</Text>
           <Input
             placeholder="******"
             onChangeText={text => this.onChangeText('authCode', text)}
@@ -137,7 +138,7 @@ export default class SignUpScreen extends PureComponent<void, State> {
           <Button
             title="CONFIRM SIGN UP"
             onPress={this.confirmSignUp}
-            style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 20 }}
+            style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 20, marginTop: 10 }}
           />
         </View>
         {loading && <ActivityIndicator color={COLORS.TEXT_PRIMARY_COLOR} />}
@@ -145,7 +146,7 @@ export default class SignUpScreen extends PureComponent<void, State> {
           {error}
           {status}
         </Text>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -165,8 +166,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     paddingLeft: '10%',
     fontWeight: 'bold',
-    letterSpacing: 2,
-    fontSize: 10,
+    fontSize: 12,
+    letterSpacing: 1,
     color: COLORS.TEXT_PRIMARY_COLOR,
   },
   error: {
