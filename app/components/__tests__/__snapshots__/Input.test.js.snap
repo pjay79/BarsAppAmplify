@@ -14,6 +14,7 @@ exports[`Input renders correctly 1`] = `
       Array [
         Object {
           "backgroundColor": "white",
+          "borderRadius": 8,
           "marginVertical": 10,
           "paddingBottom": 10,
           "paddingLeft": 10,

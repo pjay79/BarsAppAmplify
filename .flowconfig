@@ -23,6 +23,9 @@
 .*/node_modules/graphql/.*
 .*/node_modules/graphql-tag/.*
 
+; Ignore react-native-keyboard-aware-scroll-view
+.*/node_modules/react-native-keyboard-aware-scroll-view/.*
+
 [include]
 
 [libs]
