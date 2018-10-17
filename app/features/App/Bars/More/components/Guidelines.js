@@ -18,9 +18,9 @@ const SECTION = [
       'You should drink no more than 4 standard drinks on any one occasion. The more alcohol you drink in a single session, the greater the risk of you being injured. Drinking 4 standard drinks more than doubles your risk of injury in the following 6 hours. For every drink you have after that, you put yourself in more danger. Generally, women will become more intoxicated on less alcohol than men. However, men often behave more dangerously when drinking. Every drinking session you have adds up over your life (see guideline 1).',
   },
   {
-    title: 'Young people under 18 years of age',
+    title: 'Young people under age',
     content:
-      'For young people under 18 years of age, abstaining from alcohol is the safest option. This is because young people are more likely to behave dangerously while drinking, they often drink more and take more risks. Young people’s brains are still developing during their teenage years. Drinking alcohol may impact its development and lead to health issues later in life. The earlier a young person is introduced to alcohol, the more likely they are to develop these complications. Young people are also more likely to develop alcohol dependence later in life if they’re introduced to alcohol too early. Young people should therefore delay their first drink for as long as possible.',
+      'For young people under 18 years of age (or 21 in some countries), abstaining from alcohol is the safest option. This is because young people are more likely to behave dangerously while drinking, they often drink more and take more risks. Young people’s brains are still developing during their teenage years. Drinking alcohol may impact its development and lead to health issues later in life. The earlier a young person is introduced to alcohol, the more likely they are to develop these complications. Young people are also more likely to develop alcohol dependence later in life if they’re introduced to alcohol too early. Young people should therefore delay their first drink for as long as possible.',
   },
   {
     title: 'Pregnancy and breastfeeding',
@@ -81,7 +81,7 @@ export default class Guidelines extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
+    marginBottom: 40,
   },
   section: {
     backgroundColor: COLORS.ACCENT_COLOR,

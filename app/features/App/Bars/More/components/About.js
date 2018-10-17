@@ -4,17 +4,26 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Accordion from 'react-native-collapsible/Accordion';
+
+// Config
 import * as COLORS from '../../../../../config/colors';
 
 const SECTION = [
   {
-    title: 'Tech',
-    content:
-      'This is a React Native app built using AWS Amplify, AWS AppSync, and the Google Places API.',
+    title: 'Contact',
+    content: 'info@barsearch.com',
   },
   {
-    title: 'Contact',
-    content: 'https://www.github.com/pjay79',
+    title: 'Terms of Service',
+    content: 'Terms of Service',
+  },
+  {
+    title: 'Privacy Policy',
+    content: 'Privacy Policy',
+  },
+  {
+    title: 'Licenses',
+    content: 'This app is powered by the Google Places API',
   },
 ];
 
@@ -65,7 +74,7 @@ export default class About extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
+    marginBottom: 40,
   },
   section: {
     backgroundColor: COLORS.ACCENT_COLOR,

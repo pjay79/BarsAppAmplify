@@ -63,7 +63,8 @@ export default class MoreScreen extends PureComponent<Props, State> {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 20,
+    paddingTop: 40,
+    paddingBottom: 30,
   },
   itemSignOut: {
     backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
