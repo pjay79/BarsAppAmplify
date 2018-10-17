@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import {
   View,
+  Text,
   FlatList,
   StyleSheet,
   PermissionsAndroid,
@@ -183,6 +184,9 @@ export default class ListScreen extends PureComponent<Props, State> {
 
     return (
       <View style={styles.container}>
+        <View style={styles.refreshWrapper}>
+          <Text style={styles.refreshLabel}>PULL TO REFRESH</Text>
+        </View>
         <FlatList
           data={bars}
           getItemLayout={this.getItemLayout}
@@ -206,6 +210,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
+  },
+  refreshWrapper: {
+    marginVertical: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  refreshLabel: {
+    fontSize: 8,
+    color: COLORS.SECONDARY_TEXT_COLOR,
   },
   separator: {
     backgroundColor: COLORS.DIVIDER_COLOR,

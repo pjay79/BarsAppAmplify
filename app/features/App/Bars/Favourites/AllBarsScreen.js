@@ -75,13 +75,12 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   refreshWrapper: {
-    marginTop: 10,
+    marginVertical: 5,
     justifyContent: 'center',
     alignItems: 'center',
   },
   refreshLabel: {
-    fontSize: 10,
-    fontWeight: 'bold',
+    fontSize: 8,
     color: COLORS.SECONDARY_TEXT_COLOR,
   },
 });

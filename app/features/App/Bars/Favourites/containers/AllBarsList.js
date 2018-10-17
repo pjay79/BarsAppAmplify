@@ -6,6 +6,7 @@ import {
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { buildSubscription } from 'aws-appsync';
+import { SearchBar } from 'react-native-elements';
 import _ from 'lodash';
 
 // GraphQL
@@ -130,6 +131,19 @@ class AllBarsList extends PureComponent<Props, State> {
     );
   };
 
+  renderHeader = () => (
+    <SearchBar
+      lightTheme
+      clearIcon
+      onChangeText={() => {}}
+      onClearText={() => {}}
+      icon={{ type: 'font-awesome', name: 'search' }}
+      placeholder="Search bars..."
+      containerStyle={{ backgroundColor: 'transparent' }}
+      inputStyle={{ backgroundColor: COLORS.BACKGROUND_COLOR }}
+    />
+  );
+
   renderSeparator = () => <View style={styles.separator} />;
 
   keyExtractor = item => item.id;
@@ -154,6 +168,7 @@ class AllBarsList extends PureComponent<Props, State> {
             keyExtractor={this.keyExtractor}
             onRefresh={this.refreshData}
             refreshing={networkStatus === 4}
+            ListHeaderComponent={this.renderHeader}
             ItemSeparatorComponent={this.renderSeparator}
           />
         </View>
