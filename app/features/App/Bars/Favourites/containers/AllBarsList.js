@@ -190,7 +190,10 @@ class AllBarsList extends PureComponent<Props, State> {
   keyExtractor = item => item.id;
 
   refreshData = () => {
-    const { refetch } = this.props;
+    const { refetch, bars } = this.props;
+    this.setState({
+      barsData: bars,
+    });
     refetch();
   };
 
