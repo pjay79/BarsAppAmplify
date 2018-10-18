@@ -205,13 +205,10 @@ class AllBarsList extends PureComponent<Props, State> {
         <View style={styles.flatListWrapper}>
           <FlatList
             data={
-            query === '' || null
+            !query
               ? orderData(bars, property, direction)
               : orderData(barsData, property, direction)
             }
-            // data={
-            //   orderData(barsData, property, direction)
-            // }
             renderItem={this.renderItem}
             keyExtractor={this.keyExtractor}
             onRefresh={this.refreshData}
