@@ -41,6 +41,7 @@ type Props = {
 type State = {
   isVisible: boolean,
   adding: boolean,
+  loading: boolean,
   options: Array<string>,
   selectedIndex: number,
   property: string,
@@ -51,6 +52,10 @@ class AllBarsList extends PureComponent<Props, State> {
   state = {
     isVisible: false,
     adding: false,
+    loading: false,
+    barsData: [],
+    barsFilter: [],
+    query: '',
     options: ['Name', 'Created At'],
     selectedIndex: 0,
     property: 'name',
@@ -115,6 +120,36 @@ class AllBarsList extends PureComponent<Props, State> {
     }
   };
 
+  addQuery = (search) => {
+    const { bars } = this.props;
+    if (!search) {
+      this.setState({
+        loading: false,
+        barsData: bars,
+      });
+    } else {
+      this.setState({
+        loading: true,
+        query: search,
+        barsFilter: bars,
+      }, () => {
+        const { barsFilter, query } = this.state;
+        const results = barsFilter.filter(
+          bar => bar.name.toLowerCase().includes(query.toLowerCase()),
+        );
+        this.setState({ barsData: results });
+      });
+    }
+  };
+
+  clearQuery = () => {
+    const { bars } = this.props;
+    this.setState({
+      barsData: bars,
+      loading: false,
+    });
+  };
+
   renderItem = ({ item }) => {
     const { isVisible, adding } = this.state;
 
@@ -131,18 +166,24 @@ class AllBarsList extends PureComponent<Props, State> {
     );
   };
 
-  renderHeader = () => (
-    <SearchBar
-      lightTheme
-      clearIcon
-      onChangeText={() => {}}
-      onClearText={() => {}}
-      icon={{ type: 'font-awesome', name: 'search' }}
-      placeholder="Search bars..."
-      containerStyle={{ backgroundColor: 'transparent' }}
-      inputStyle={{ backgroundColor: COLORS.BACKGROUND_COLOR }}
-    />
-  );
+  renderHeader = () => {
+    const { loading, query } = this.state;
+    return (
+      <SearchBar
+        lightTheme
+        icon={{ type: 'font-awesome', name: 'search' }}
+        clearIcon
+        showLoadingIcon={loading}
+        value={query}
+        onChangeText={this.addQuery}
+        onClearText={this.clearQuery}
+        autoCorrect={false}
+        placeholder="Search bars..."
+        containerStyle={styles.searchContainer}
+        inputStyle={styles.searchInput}
+      />
+    );
+  }
 
   renderSeparator = () => <View style={styles.separator} />;
 
@@ -156,14 +197,21 @@ class AllBarsList extends PureComponent<Props, State> {
   render() {
     const { networkStatus, bars } = this.props;
     const {
-      property, direction, options, selectedIndex,
+      property, direction, options, selectedIndex, barsData, query,
     } = this.state;
 
     return (
       <View style={styles.container}>
         <View style={styles.flatListWrapper}>
           <FlatList
-            data={orderData(bars, property, direction)}
+            data={
+            query === '' || null
+              ? orderData(bars, property, direction)
+              : orderData(barsData, property, direction)
+            }
+            // data={
+            //   orderData(barsData, property, direction)
+            // }
             renderItem={this.renderItem}
             keyExtractor={this.keyExtractor}
             onRefresh={this.refreshData}
@@ -209,6 +257,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+  },
+  searchContainer: {
+    backgroundColor: COLORS.TEXT_PRIMARY_COLOR,
+  },
+  searchInput: {
+    backgroundColor: COLORS.BACKGROUND_COLOR,
   },
 });
 
