@@ -42,6 +42,9 @@ type State = {
   isVisible: boolean,
   adding: boolean,
   loading: boolean,
+  query: string,
+  barsData: Array<{}>,
+  barsFilter: Array<{}>,
   options: Array<string>,
   selectedIndex: number,
   property: string,
@@ -128,17 +131,18 @@ class AllBarsList extends PureComponent<Props, State> {
         barsData: bars,
       });
     } else {
-      this.setState({
-        loading: true,
-        query: search,
-        barsFilter: bars,
-      }, () => {
-        const { barsFilter, query } = this.state;
-        const results = barsFilter.filter(
-          bar => bar.name.toLowerCase().includes(query.toLowerCase()),
-        );
-        this.setState({ barsData: results });
-      });
+      this.setState(
+        {
+          loading: true,
+          query: search,
+          barsFilter: bars,
+        },
+        () => {
+          const { barsFilter, query } = this.state;
+          const results = barsFilter.filter(bar => bar.name.toLowerCase().includes(query.toLowerCase()));
+          this.setState({ barsData: results });
+        },
+      );
     }
   };
 
@@ -183,7 +187,7 @@ class AllBarsList extends PureComponent<Props, State> {
         inputStyle={styles.searchInput}
       />
     );
-  }
+  };
 
   renderSeparator = () => <View style={styles.separator} />;
 
@@ -208,9 +212,9 @@ class AllBarsList extends PureComponent<Props, State> {
         <View style={styles.flatListWrapper}>
           <FlatList
             data={
-            !query
-              ? orderData(bars, property, direction)
-              : orderData(barsData, property, direction)
+              !query
+                ? orderData(bars, property, direction)
+                : orderData(barsData, property, direction)
             }
             renderItem={this.renderItem}
             keyExtractor={this.keyExtractor}

@@ -2,6 +2,10 @@
 
 React Native, AWS Amplify, AWS AppSync, AWS Cognito, Google Places, Mapbox. Please note: this is a work still in progress, and many features are not fully developed yet.
 
+## Update 19 Oct 2018
+
+- please note subscription and refetchQuery for AllBarsList and UserBarsList respectively are not working as expected since adding SearchBar, use pull to refresh to update instead.
+
 ## ToDo
 
 - enable offline support
@@ -9,7 +13,8 @@ React Native, AWS Amplify, AWS AppSync, AWS Cognito, Google Places, Mapbox. Plea
 - add pagination
 - add Geolocation.watchPosition to Nearyby Bars (ListScreen and MapScreen)
 - add alternative to SegmentControlIOS for android
-- fix MapScreen and MapBox on android
+- fix MapScreen and MapBox on android,
+- fix Geolocation 'Location request timed out' error on android
 
 ## Folder structure:
 
