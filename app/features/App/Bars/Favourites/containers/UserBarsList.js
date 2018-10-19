@@ -27,7 +27,7 @@ import * as COLORS from '../../../../../config/colors';
 // Types
 type Props = {
   userId: string,
-  bars: Array<{}>,
+  bars: Array<{ name: string }>,
   networkStatus: number,
   data: { subscribeToMore: Function },
   refetch: Function,
@@ -40,8 +40,8 @@ type State = {
   deleting: boolean,
   loading: boolean,
   query: string,
-  barsData: Array<{}>,
-  barsFilter: Array<{}>,
+  barsData: Array<{ name: string }>,
+  barsFilter: Array<{ name: string }>,
   options: Array<string>,
   selectedIndex: number,
   property: string,
