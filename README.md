@@ -106,7 +106,7 @@ This command will direct you to create a new **IAM** user, when prompted enter t
 
 ![amplify-init-cropped](https://user-images.githubusercontent.com/14052885/45936167-c3a48800-bff6-11e8-85c1-aaf17281f20d.jpg)
 
-`amplify add auth`
+`amplify add auth` (update: I have now set MFA to optional to get the password reset functionality working)
 
 ![amplify-auth](https://user-images.githubusercontent.com/14052885/45937057-5eee2b00-c000-11e8-9672-6e24d689d88b.jpeg)
 
@@ -681,6 +681,8 @@ If you are getting build errors try the following:
 - delete app from simulator or device and rebuild
 - erase all content and settings from simulator and rebuild
 - clean build folder in xcode and rebuild
+
+If you are getting any yellow box warnings when entering text into the SearchBar, disable remote debugging.
 
 ## Flow
 
