@@ -4,12 +4,11 @@ React Native, AWS Amplify, AWS AppSync, AWS Cognito, Google Places, Mapbox. Plea
 
 ## Update 19 Oct 2018
 
-- please note subscription and refetchQuery for AllBarsList and UserBarsList respectively are not working as expected since adding SearchBar, use pull to refresh to update instead
+Please note subscription and refetchQuery for AllBarsList and UserBarsList respectively are not working as expected since adding SearchBar, use pull to refresh to update instead, I am working through this now.
 
 ## ToDo
 
 - enable offline support
-- add search
 - add pagination
 - add Geolocation.watchPosition to Nearyby Bars (ListScreen and MapScreen)
 - add alternative to SegmentControlIOS for android
