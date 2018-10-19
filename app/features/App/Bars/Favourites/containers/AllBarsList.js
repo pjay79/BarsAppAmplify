@@ -128,6 +128,7 @@ class AllBarsList extends PureComponent<Props, State> {
     if (search === '') {
       this.setState({
         loading: false,
+        query: '',
         barsData: bars,
       });
     } else {
@@ -196,22 +197,19 @@ class AllBarsList extends PureComponent<Props, State> {
   keyExtractor = item => item.id;
 
   refreshData = () => {
-    const { refetch, bars } = this.props;
-    this.setState({
-      barsData: bars,
-    });
+    const { refetch } = this.props;
     refetch();
   };
 
   render() {
     const { networkStatus, bars } = this.props;
     const {
-      property, direction, options, selectedIndex, barsData, query,
+      property, direction, options, selectedIndex, query, barsData,
     } = this.state;
 
-    const data = query === ''
-      ? orderData(bars, property, direction)
-      : orderData(barsData, property, direction);
+    const data = query
+      ? orderData(barsData, property, direction)
+      : orderData(bars, property, direction);
 
     return (
       <View style={styles.container}>

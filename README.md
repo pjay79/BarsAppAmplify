@@ -2,10 +2,6 @@
 
 React Native, AWS Amplify, AWS AppSync, AWS Cognito, Google Places, Mapbox. Please note: this is a work still in progress, and many features are not fully developed yet.
 
-## Update 19 Oct 2018
-
-Please note subscription and refetchQuery for AllBarsList and UserBarsList respectively are not working as expected since adding SearchBar, use pull to refresh to update instead, I am working through this now.
-
 ## ToDo
 
 - enable offline support
@@ -74,7 +70,7 @@ Please note subscription and refetchQuery for AllBarsList and UserBarsList respe
 
 ## React Native setup:
 
-Install Node.js:
+Install Node.js:  
 https://nodejs.org/en/download/
 
 `brew install watchman`  
