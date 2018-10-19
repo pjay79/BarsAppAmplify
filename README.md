@@ -48,16 +48,18 @@ React Native, AWS Amplify, AWS AppSync, AWS Cognito, Google Places, Mapbox. Plea
 - aws-appsync-react
 - aws-sdk
 - axios
+- babel-plugin-transform-remove-console
 - geolib
 - graphql-tag
 - lodash
 - moment
-- prop-types
 - react-apollo
 - react-native-app-intro-slider
+- react-native-collapsible
 - react-native-config
 - react-native-elements
 - react-native-geolocation-service
+- react-native-keyboard-aware-scroll-view"
 - react-native-map-link
 - react-native-modal
 - react-native-splash-screen
@@ -678,9 +680,12 @@ Run on android:
 
 If you are getting build errors try the following:
 
+- rebuild
 - delete app from simulator or device and rebuild
 - erase all content and settings from simulator and rebuild
 - clean build folder in xcode and rebuild
+- `rm -rf ~/.rncache`
+- `rm -rf node_modules && rm -rf ~/.rncache && yarn`
 
 If you are getting any yellow box warnings when entering text into the SearchBar, disable remote debugging.
 
