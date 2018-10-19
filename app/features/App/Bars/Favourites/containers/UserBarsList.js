@@ -123,7 +123,9 @@ class UserBarsList extends PureComponent<Props, State> {
         },
         () => {
           const { barsFilter, query } = this.state;
-          const results = barsFilter.filter(bar => bar.name.toLowerCase().includes(query.toLowerCase()));
+          const results = barsFilter.filter(
+            bar => bar.name.toLowerCase().includes(query.toLowerCase()),
+          );
           this.setState({ barsData: results });
         },
       );
