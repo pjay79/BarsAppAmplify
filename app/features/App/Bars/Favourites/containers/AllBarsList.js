@@ -65,10 +65,44 @@ class AllBarsList extends PureComponent<Props, State> {
     direction: 'asc',
   };
 
+  addQuery = _.debounce((search) => {
+    const { bars } = this.props;
+    if (search === '') {
+      this.setState({
+        loading: false,
+        query: '',
+        barsData: bars,
+      });
+    } else {
+      this.setState(
+        {
+          loading: true,
+          query: search,
+          barsFilter: bars,
+        },
+        () => {
+          const { barsFilter, query } = this.state;
+          const results = barsFilter.filter(
+            bar => bar.name.toLowerCase().includes(query.toLowerCase()),
+          );
+          this.setState({ barsData: results });
+        },
+      );
+    }
+  }, 250);
+
   componentDidMount() {
     const { data } = this.props;
     data.subscribeToMore(buildSubscription(gql(CreateBarSubscription), gql(ListBars)));
   }
+
+  clearQuery = () => {
+    const { bars } = this.props;
+    this.setState({
+      barsData: bars,
+      loading: false,
+    });
+  };
 
   openWebsiteLink = (website) => {
     linkingWebsite(website);
@@ -123,39 +157,7 @@ class AllBarsList extends PureComponent<Props, State> {
     }
   };
 
-  addQuery = (search) => {
-    const { bars } = this.props;
-    if (search === '') {
-      this.setState({
-        loading: false,
-        query: '',
-        barsData: bars,
-      });
-    } else {
-      this.setState(
-        {
-          loading: true,
-          query: search,
-          barsFilter: bars,
-        },
-        () => {
-          const { barsFilter, query } = this.state;
-          const results = barsFilter.filter(
-            bar => bar.name.toLowerCase().includes(query.toLowerCase()),
-          );
-          this.setState({ barsData: results });
-        },
-      );
-    }
-  };
-
-  clearQuery = () => {
-    const { bars } = this.props;
-    this.setState({
-      barsData: bars,
-      loading: false,
-    });
-  };
+  keyExtractor = item => item.id;
 
   renderItem = ({ item }) => {
     const { isVisible, adding } = this.state;
@@ -193,8 +195,6 @@ class AllBarsList extends PureComponent<Props, State> {
   };
 
   renderSeparator = () => <View style={styles.separator} />;
-
-  keyExtractor = item => item.id;
 
   refreshData = () => {
     const { refetch } = this.props;
