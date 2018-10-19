@@ -74,7 +74,9 @@ Please note subscription and refetchQuery for AllBarsList and UserBarsList respe
 
 ## React Native setup:
 
-`brew install node`  
+Install Node.js:
+https://nodejs.org/en/download/
+
 `brew install watchman`  
 `npm install -g react-native-cli`
 
