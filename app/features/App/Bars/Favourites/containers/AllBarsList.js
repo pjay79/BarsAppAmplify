@@ -125,7 +125,7 @@ class AllBarsList extends PureComponent<Props, State> {
 
   addQuery = (search) => {
     const { bars } = this.props;
-    if (!search) {
+    if (search === '') {
       this.setState({
         loading: false,
         barsData: bars,
@@ -209,15 +209,15 @@ class AllBarsList extends PureComponent<Props, State> {
       property, direction, options, selectedIndex, barsData, query,
     } = this.state;
 
+    const data = query === ''
+      ? orderData(bars, property, direction)
+      : orderData(barsData, property, direction);
+
     return (
       <View style={styles.container}>
         <View style={styles.flatListWrapper}>
           <FlatList
-            data={
-              !query
-                ? orderData(bars, property, direction)
-                : orderData(barsData, property, direction)
-            }
+            data={data}
             renderItem={this.renderItem}
             keyExtractor={this.keyExtractor}
             onRefresh={this.refreshData}
