@@ -102,7 +102,7 @@ export default class HomeScreen extends PureComponent<Props> {
         </Animated.View>
         <View style={styles.imageWrapper}>
           <Animated.Image
-            source={require('../../assets/images/bars-logo.png')}
+            source={require('../../assets/images/barsappamplify.png')}
             style={[styles.image, this.animatedImageStyle]}
           />
           <Animated.Text style={[styles.imageSlogan, this.animatedImageSloganStyle]}>
@@ -162,8 +162,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    height: 200,
-    width: 200,
+    height: 225,
+    width: 225,
     marginBottom: 30,
   },
   imageSlogan: {

@@ -17,12 +17,12 @@ type Props = {
 const slides = [
   {
     key: '1',
-    title: 'Find nearby bars',
+    title: 'Find neary bars',
     text: 'Based on your current location',
-    image: require('../../assets/images/beer.png'),
+    image: require('../../assets/images/bar.png'),
     imageStyle: { resizeMode: 'contain', height: 180, width: 180 },
-    titleStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 36, fontWeight: '400' },
-    textStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 22 },
+    titleStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 30, fontWeight: '400' },
+    textStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 18 },
     backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
   },
   {
@@ -31,8 +31,8 @@ const slides = [
     text: 'Price level, ratings, and reviews',
     image: require('../../assets/images/rating.png'),
     imageStyle: { resizeMode: 'contain', height: 180, width: 180 },
-    titleStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 36, fontWeight: '400' },
-    textStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 22 },
+    titleStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 30, fontWeight: '400' },
+    textStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 18 },
     backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
   },
   {
@@ -41,8 +41,8 @@ const slides = [
     text: 'In Maps, Uber, Waze, and more...',
     image: require('../../assets/images/location.png'),
     imageStyle: { resizeMode: 'contain', height: 180, width: 180 },
-    titleStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 36, fontWeight: '400' },
-    textStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 22 },
+    titleStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 30, fontWeight: '400' },
+    textStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 18 },
     backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
   },
   {
@@ -51,8 +51,8 @@ const slides = [
     text: 'Save the best places',
     image: require('../../assets/images/favourite.png'),
     imageStyle: { resizeMode: 'contain', height: 180, width: 180 },
-    titleStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 36, fontWeight: '400' },
-    textStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 22 },
+    titleStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 30, fontWeight: '400' },
+    textStyle: { color: COLORS.TEXT_PRIMARY_COLOR, fontSize: 18 },
     backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
   },
 ];
