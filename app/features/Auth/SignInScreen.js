@@ -1,7 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, ActivityIndicator,
+  View, Text, StyleSheet, ActivityIndicator, Animated,
 } from 'react-native';
 import type { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
@@ -16,6 +16,7 @@ import Input from '../../components/Input';
 
 // Config
 import * as COLORS from '../../config/colors';
+import { itemAnimation } from '../../config/animations';
 
 // Types
 type Props = {
@@ -30,11 +31,29 @@ type State = {
 };
 
 export default class SignInScreen extends PureComponent<Props, State> {
+  animatedValue1 = new Animated.Value(0);
+
+  animatedValue2 = new Animated.Value(0);
+
+  animatedValue3 = new Animated.Value(0);
+
   state = {
     username: '',
     password: '',
     loading: false,
     error: '',
+  };
+
+  componentDidMount() {
+    this.animateSections();
+  }
+
+  animateSections = () => {
+    Animated.sequence([
+      itemAnimation(this.animatedValue1),
+      itemAnimation(this.animatedValue2),
+      itemAnimation(this.animatedValue3),
+    ]).start();
   };
 
   onChangeText = (key: string, value: string) => {
@@ -79,25 +98,31 @@ export default class SignInScreen extends PureComponent<Props, State> {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.label}>Username:</Text>
-        <Input
-          placeholder="Enter username"
-          onChangeText={text => this.onChangeText('username', text)}
-          value={username}
-        />
-        <Text style={styles.label}>Password:</Text>
-        <Input
-          placeholder="********"
-          onChangeText={text => this.onChangeText('password', text)}
-          value={password}
-          secureTextEntry
-        />
-        <Button
-          title="SIGN IN"
-          onPress={this.signIn}
-          style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 20, marginTop: 10 }}
-        />
-        {loading && <ActivityIndicator color={COLORS.TEXT_PRIMARY_COLOR} />}
+        <Animated.View style={{ opacity: this.animatedValue1 }}>
+          <Text style={styles.label}>Username:</Text>
+          <Input
+            placeholder="Enter username"
+            onChangeText={text => this.onChangeText('username', text)}
+            value={username}
+          />
+        </Animated.View>
+        <Animated.View style={{ opacity: this.animatedValue2 }}>
+          <Text style={styles.label}>Password:</Text>
+          <Input
+            placeholder="********"
+            onChangeText={text => this.onChangeText('password', text)}
+            value={password}
+            secureTextEntry
+          />
+        </Animated.View>
+        <Animated.View style={{ opacity: this.animatedValue3 }}>
+          <Button
+            title="SIGN IN"
+            onPress={this.signIn}
+            style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 20, marginTop: 10 }}
+          />
+          {loading && <ActivityIndicator color={COLORS.TEXT_PRIMARY_COLOR} />}
+        </Animated.View>
         <Text style={styles.error}>{error}</Text>
       </View>
     );
@@ -114,7 +139,6 @@ const styles = StyleSheet.create({
   },
   label: {
     alignSelf: 'flex-start',
-    paddingLeft: '10%',
     fontWeight: 'bold',
     fontSize: 12,
     letterSpacing: 1,
