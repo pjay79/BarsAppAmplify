@@ -7,9 +7,9 @@ export const fadeInAnimation = (value, duration = 100) => Animated.timing(value,
   useNativeDriver: true,
 });
 
-export const itemAnimation = value => Animated.timing(value, {
+export const itemAnimation = (value, duration = 125) => Animated.timing(value, {
   toValue: 1,
-  duration: 100,
+  duration,
   easing: Easing.linear,
   useNativeDriver: true,
 });
