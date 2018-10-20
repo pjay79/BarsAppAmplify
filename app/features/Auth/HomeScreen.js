@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
@@ -94,11 +95,9 @@ export default class HomeScreen extends PureComponent<Props> {
       <SafeAreaView style={styles.container}>
         <Animated.View style={[styles.header, this.animatedHeaderStyle]}>
           <Text style={styles.title}>Bar Search</Text>
-          <Text style={styles.subtitle}>
-            Powered by
-            {'\n'}
-            GOOGLE Places API
-          </Text>
+          <Image
+            source={require('../../assets/images/powered_by_google_on_non_white.png')}
+          />
         </Animated.View>
         <View style={styles.imageWrapper}>
           <Animated.Image
@@ -151,20 +150,13 @@ const styles = StyleSheet.create({
     fontSize: 64,
     marginBottom: 10,
   },
-  subtitle: {
-    color: COLORS.TEXT_PRIMARY_COLOR,
-    textAlign: 'center',
-    fontSize: 14,
-    letterSpacing: 3,
-    fontWeight: '900',
-  },
   imageWrapper: {
     alignItems: 'center',
   },
   image: {
     height: 225,
     width: 225,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   imageSlogan: {
     color: COLORS.TEXT_PRIMARY_COLOR,
