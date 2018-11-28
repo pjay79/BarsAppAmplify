@@ -1,7 +1,12 @@
 // @flow
 import React from 'react';
 import {
-  View, Text, TouchableOpacity, StyleSheet, ActivityIndicator,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import moment from 'moment';
 import Swipeout from 'react-native-swipeout';
@@ -31,6 +36,8 @@ type Props = {
   isVisible: boolean,
   adding: boolean,
 };
+
+const { width } = Dimensions.get('window');
 
 const AllBarsListItem = ({
   item,
@@ -92,6 +99,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
+    width,
   },
   details: {
     width: '90%',

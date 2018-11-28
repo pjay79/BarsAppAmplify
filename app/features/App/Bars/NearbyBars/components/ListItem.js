@@ -1,7 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, Animated,
+  View, Text, StyleSheet, TouchableOpacity, Animated, Dimensions,
 } from 'react-native';
 import type { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 
@@ -25,6 +25,8 @@ type Props = {
   longitude: string,
   navigation: NavigationScreenProp<NavigationRoute>,
 };
+
+const { width } = Dimensions.get('window');
 
 export default class ListItem extends PureComponent<Props, void> {
   animatedValue = new Animated.Value(0);
@@ -94,6 +96,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
+    width,
   },
   cardUpper: {
     flexDirection: 'row',
