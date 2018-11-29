@@ -55,6 +55,8 @@
 		AC75EB37213FFC2E007C7271 /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AC75EB0C213FFC2E007C7271 /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AC75EB3F213FFCAC007C7271 /* libRCTMGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC75EB3E213FFC7A007C7271 /* libRCTMGL.a */; };
 		AC75EB412140E64E007C7271 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		AC9FD4F621AE9BF700F4E19E /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = AC9FD4F521AE9BF600F4E19E /* main.jsbundle */; };
+		ACD3BA3321AEBFF0000A0F8C /* assets in Resources */ = {isa = PBXBuildFile; fileRef = ACD3BA0821AEBFEE000A0F8C /* assets */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		AEEB07AA2D0641BEBE970723 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7AD8B88301C041E0AE398CC8 /* SimpleLineIcons.ttf */; };
 		B7F770A484D24596996909DA /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6CE043CC88624788AB5C6D3A /* Octicons.ttf */; };
@@ -442,6 +444,8 @@
 		AC09C4DD210AE2CA00BDE1D7 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		AC75EB0C213FFC2E007C7271 /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mapbox.framework; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/Mapbox.framework"; sourceTree = "<group>"; };
 		AC75EB39213FFC7A007C7271 /* RCTMGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTMGL.xcodeproj; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/RCTMGL.xcodeproj"; sourceTree = "<group>"; };
+		AC9FD4F521AE9BF600F4E19E /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = BarsApp/main.jsbundle; sourceTree = "<group>"; };
+		ACD3BA0821AEBFEE000A0F8C /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		AE7968A78D7A401E89A53D8C /* RNAWSCognito.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNAWSCognito.xcodeproj; path = "../node_modules/amazon-cognito-identity-js/ios/RNAWSCognito.xcodeproj"; sourceTree = "<group>"; };
 		BA51C36255614CE195E5EE4F /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -711,6 +715,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				ACD3BA0821AEBFEE000A0F8C /* assets */,
+				AC9FD4F521AE9BF600F4E19E /* main.jsbundle */,
 				AC75EB0C213FFC2E007C7271 /* Mapbox.framework */,
 				AC09C4A1210AE14400BDE1D7 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* BarsApp */,
@@ -1323,6 +1329,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				2FB081F14E0A4CF8A9F20C46 /* Entypo.ttf in Resources */,
+				AC9FD4F621AE9BF700F4E19E /* main.jsbundle in Resources */,
 				DAE6C017C326420AA97C6899 /* EvilIcons.ttf in Resources */,
 				C4854042E1C34C3CA4ABB7A7 /* Feather.ttf in Resources */,
 				60F2796C1C4243C2AE808B7D /* FontAwesome.ttf in Resources */,
@@ -1330,6 +1337,7 @@
 				6E31B02BF991405FB23E63A2 /* FontAwesome5_Regular.ttf in Resources */,
 				27C42D1D7E7D4EEC8C142833 /* FontAwesome5_Solid.ttf in Resources */,
 				9D9DD357926A4C21BEA5F9AC /* Foundation.ttf in Resources */,
+				ACD3BA3321AEBFF0000A0F8C /* assets in Resources */,
 				6DA0ED4C8F17471099A07CAF /* Ionicons.ttf in Resources */,
 				874E6A95644A4D3F924B5F49 /* MaterialCommunityIcons.ttf in Resources */,
 				080DEF8B0E35426EAC2F51EB /* MaterialIcons.ttf in Resources */,
@@ -1543,7 +1551,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.reactnative.barsearch;
 				PRODUCT_NAME = BarsApp;
-				PROVISIONING_PROFILE_SPECIFIER = "Bar Search Dev";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.reactnative.barsearch";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1572,7 +1580,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.reactnative.barsearch;
 				PRODUCT_NAME = BarsApp;
-				PROVISIONING_PROFILE_SPECIFIER = "Bar Search";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.reactnative.barsearch";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

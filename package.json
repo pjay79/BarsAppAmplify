@@ -9,7 +9,8 @@
     "flow start": "flow start",
     "flow stop": "flow stop",
     "flow status": "flow status",
-    "flow coverage": "flow coverage"
+    "flow coverage": "flow coverage",
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/BarsApp/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
   },
   "dependencies": {
     "@mapbox/react-native-mapbox-gl": "^6.1.3",
