@@ -120,6 +120,7 @@ class ListItemDetails extends PureComponent<Props, State> {
 
   addToFavourites = async () => {
     const { added } = this.state;
+
     if (added) {
       console.log('Already added.');
       return;
@@ -133,8 +134,8 @@ class ListItemDetails extends PureComponent<Props, State> {
         lat,
         lng,
         details,
-        userId,
         bar,
+        userId,
         getBarMember,
         createBarMember,
         createBar,
@@ -179,9 +180,13 @@ class ListItemDetails extends PureComponent<Props, State> {
     }
   };
 
+  signinAlert = () => {
+    console.log('Signin to add to favourites');
+  }
+
   render() {
     const {
-      details, openWebsiteLink, openPhone, toggleMapLinks,
+      details, openWebsiteLink, openPhone, toggleMapLinks, userId,
     } = this.props;
 
     const { adding } = this.state;
@@ -197,7 +202,7 @@ class ListItemDetails extends PureComponent<Props, State> {
               <ActivityIndicator color={COLORS.TEXT_PRIMARY_COLOR} />
             </View>
           ) : (
-            <TouchableOpacity onPress={this.addToFavourites} style={styles.iconHeader}>
+            <TouchableOpacity onPress={userId === '8bc7c298-49dc-45be-a7db-a7ca595a8c81' ? this.signinAlert : this.addToFavourites} style={styles.iconHeader}>
               <Ionicons
                 name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'}
                 size={18}

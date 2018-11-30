@@ -128,7 +128,7 @@ class AllBarsList extends PureComponent<Props, State> {
     try {
       this.setState({ adding: true });
 
-      const { userId, createBarMember, refetchBarMember } = this.props;
+      const { createBarMember, refetchBarMember, userId } = this.props;
 
       const barMember = {
         userId,
