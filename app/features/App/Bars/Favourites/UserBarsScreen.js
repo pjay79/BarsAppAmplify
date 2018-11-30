@@ -42,6 +42,7 @@ export default class UserBarsScreen extends PureComponent<void, State> {
 
   render() {
     const { userId, loading } = this.state;
+    const { navigation } = this.props;
 
     if (loading) {
       return (
@@ -56,7 +57,7 @@ export default class UserBarsScreen extends PureComponent<void, State> {
         <View style={styles.refreshWrapper}>
           <Text style={styles.refreshLabel}>PULL TO REFRESH</Text>
         </View>
-        <UserBarsList userId={userId} barId="" />
+        <UserBarsList userId={userId} barId="" navigation={navigation} />
       </View>
     );
   }

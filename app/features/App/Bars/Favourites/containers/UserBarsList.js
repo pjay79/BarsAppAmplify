@@ -1,10 +1,18 @@
 // @flow
 import React, { PureComponent } from 'react';
 import {
-  View, FlatList, StyleSheet, SegmentedControlIOS, Alert,
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  SegmentedControlIOS,
+  Alert,
+  TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
+import { Auth } from 'aws-amplify';
 import { SearchBar } from 'react-native-elements';
 import _ from 'lodash';
 
@@ -114,6 +122,17 @@ class UserBarsList extends PureComponent<Props, State> {
     console.log(event.nativeEvent);
   };
 
+  signOut = async () => {
+    try {
+      this.setState({ loading: true });
+      const { navigation } = this.props;
+      await Auth.signOut();
+      navigation.navigate('Auth');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   deleteFavourite = async (barId) => {
     try {
       this.setState({ deleting: true });
@@ -193,14 +212,25 @@ class UserBarsList extends PureComponent<Props, State> {
   };
 
   render() {
-    const { networkStatus, bars } = this.props;
+    const { networkStatus, bars, userId } = this.props;
     const {
-      property, direction, options, selectedIndex, barsData, query,
+      property, direction, options, selectedIndex, barsData, query, loading,
     } = this.state;
 
     const data = query
       ? orderData(barsData, property, direction)
       : orderData(bars, property, direction);
+
+    if (userId === '8bc7c298-49dc-45be-a7db-a7ca595a8c81') {
+      return (
+        <View style={styles.emptyContainer}>
+          <TouchableOpacity onPress={this.signOut}>
+            <Text style={styles.textSignOut}>Signup to add favourites</Text>
+          </TouchableOpacity>
+          <View>{loading && <ActivityIndicator color={COLORS.PRIMARY_TEXT_COLOR} />}</View>
+        </View>
+      );
+    }
 
     return (
       <View style={styles.container}>
@@ -232,6 +262,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  guestText: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   card: {
     flexDirection: 'row',
@@ -280,6 +319,12 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     backgroundColor: COLORS.BACKGROUND_COLOR,
+  },
+  textSignOut: {
+    textAlign: 'center',
+    fontWeight: '800',
+    marginVertical: 20,
+    color: COLORS.DEFAULT_PRIMARY_COLOR,
   },
 });
 

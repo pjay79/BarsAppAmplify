@@ -137,6 +137,12 @@ class AllBarsList extends PureComponent<Props, State> {
 
       console.log(`userId: ${userId}, barId: ${barId}`);
 
+      if (userId === '8bc7c298-49dc-45be-a7db-a7ca595a8c81') {
+        console.log('Signin to add to favourites');
+        this.setState({ adding: false });
+        return;
+      }
+
       const barMemberAdded = await refetchBarMember({ userId, barId });
       console.log(barMemberAdded);
 

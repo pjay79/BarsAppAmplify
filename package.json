@@ -20,7 +20,6 @@
     "aws-appsync-react": "^1.1.4",
     "aws-sdk": "^2.325.0",
     "axios": "^0.18.0",
-    "babel-plugin-transform-remove-console": "^6.9.4",
     "geolib": "^2.0.24",
     "graphql-tag": "^2.9.2",
     "lodash": "^4.17.10",
@@ -45,6 +44,7 @@
   "devDependencies": {
     "babel-eslint": "^8.2.6",
     "babel-jest": "23.4.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-preset-react-native": "^5",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",
