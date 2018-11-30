@@ -9,7 +9,9 @@ import {
   TouchableOpacity,
   AsyncStorage,
   Animated,
+  ActivityIndicator,
 } from 'react-native';
+import { Auth } from 'aws-amplify';
 import type { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import SplashScreen from 'react-native-splash-screen';
 
@@ -73,6 +75,10 @@ export default class HomeScreen extends PureComponent<Props> {
     opacity: this.animatedValue4,
   };
 
+  state = {
+    loading: false,
+  }
+
   componentDidMount() {
     SplashScreen.hide();
     AsyncStorage.setItem('@SKIP_INTRO', 'true');
@@ -88,16 +94,30 @@ export default class HomeScreen extends PureComponent<Props> {
     ]).start();
   };
 
+  unauthenticatedAccess = async () => {
+    try {
+      this.setState({ loading: true });
+      const { navigation } = this.props;
+      await Auth.signIn('Guest', 'Password1!');
+      const credentials = await Auth.currentCredentials();
+      console.log(credentials);
+      this.setState({ loading: false });
+      navigation.navigate('App');
+    } catch (error) {
+      console.log(error.message);
+      this.setState({ loading: false });
+    }
+  }
+
   render() {
     const { navigation } = this.props;
+    const { loading } = this.state;
 
     return (
       <SafeAreaView style={styles.container}>
         <Animated.View style={[styles.header, this.animatedHeaderStyle]}>
           <Text style={styles.title}>Bar Search</Text>
-          <Image
-            source={require('../../assets/images/powered_by_google_on_non_white.png')}
-          />
+          <Image source={require('../../assets/images/powered_by_google_on_non_white.png')} />
         </Animated.View>
         <View style={styles.imageWrapper}>
           <Animated.Image
@@ -124,9 +144,17 @@ started with a salad.
             onPress={() => navigation.navigate('Sign Up')}
             style={{ backgroundColor: COLORS.ACCENT_COLOR, marginBottom: 10 }}
           />
-          <TouchableOpacity onPress={() => navigation.navigate('Forgot Password')}>
-            <Text style={styles.forgotPassword}>Forgot Password?</Text>
-          </TouchableOpacity>
+          <View style={styles.textLinksWrapper}>
+            <TouchableOpacity onPress={this.unauthenticatedAccess}>
+              <Text style={[styles.textLinks, { marginBottom: 5 }]}>Skip</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Forgot Password')}>
+              <Text style={styles.textLinks}>Forgot Password?</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.loadingWrapper}>
+            {loading && <ActivityIndicator color={COLORS.TEXT_PRIMARY_COLOR} />}
+          </View>
         </Animated.View>
       </SafeAreaView>
     );
@@ -164,8 +192,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
   },
-  forgotPassword: {
+  textLinksWrapper: {
+    // justifyContent: 'space-evenly',
+  },
+  textLinks: {
     textAlign: 'center',
     color: COLORS.TEXT_PRIMARY_COLOR,
+  },
+  loadingWrapper: {
+    marginTop: 10,
+    height: 20,
   },
 });

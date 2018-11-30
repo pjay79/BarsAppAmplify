@@ -76,7 +76,7 @@ export default class ListItemDetailsScreen extends PureComponent<Props, State> {
       const response = await nearbyPlaceDetailsSearch(placeId);
       const currentUser = await Auth.currentAuthenticatedUser();
       const userId = await currentUser.signInUserSession.accessToken.payload.sub;
-      this.setState({ details: response.data.result, userId, loading: false });
+      this.setState({ details: response.data.result, loading: false });
       this.animateButton();
       console.log(response);
       console.log(userId);

@@ -38,8 +38,8 @@ export default class SignInScreen extends PureComponent<Props, State> {
   animatedValue3 = new Animated.Value(0);
 
   state = {
-    username: '',
-    password: '',
+    username: 'Guest',
+    password: 'Password1!',
     loading: false,
     error: '',
   };
