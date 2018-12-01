@@ -1,97 +1,39 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import ListScreen from './ListScreen';
 import ListItemDetailsScreen from './ListItemDetailsScreen';
-import MapScreen from './MapScreen';
 
 // Config
 import * as COLORS from '../../../../config/colors';
 
-const ListStack = createStackNavigator(
-  {
-    List: {
-      screen: ListScreen,
-      navigationOptions: () => ({
-        header: null,
-      }),
-    },
-    Details: {
-      screen: ListItemDetailsScreen,
-      navigationOptions: () => ({
-        headerStyle: {
-          backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
-        },
-        headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
-      }),
-    },
-  },
-  {
-    inititalRouteName: 'List',
-    headerMode: 'none',
-  },
-);
-
-const MapStack = createStackNavigator(
-  {
-    Maps: {
-      screen: MapScreen,
-      navigationOptions: () => ({
-        header: null,
-      }),
-    },
-  },
-  {
-    inititalRouteName: 'Map',
-  },
-);
-
-const NearbyTabs = createMaterialTopTabNavigator(
-  {
-    List: {
-      screen: ListStack,
-    },
-    Map: {
-      screen: MapStack,
-    },
-  },
-  {
-    swipeEnabled: false,
-    tabBarOptions: {
-      activeTintColor: COLORS.TEXT_PRIMARY_COLOR,
-      inactiveTintColor: COLORS.LIGHT_PRIMARY_COLOR,
-      indicatorStyle: {
-        backgroundColor: COLORS.ACCENT_COLOR,
-      },
-      style: {
-        backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
-      },
-    },
-  },
-);
-
 // eslint-disable-next-line import/prefer-default-export
-export const NearbyTabStack = createStackNavigator(
-  {
-    NearybyTabs: {
-      screen: NearbyTabs,
-    },
-  },
-  {
-    navigationOptions: {
-      headerTitle: 'Nearby Bars',
+export const NearbyBarsStack = createStackNavigator({
+  List: {
+    screen: ListScreen,
+    navigationOptions: () => ({
+      title: 'NearbyBars',
       headerStyle: {
         backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
-        borderBottomColor: COLORS.LIGHT_PRIMARY_COLOR,
       },
       headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
-    },
+    }),
   },
-);
+  Details: {
+    screen: ListItemDetailsScreen,
+    navigationOptions: () => ({
+      title: 'Details',
+      headerStyle: {
+        backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR,
+      },
+      headerTintColor: COLORS.TEXT_PRIMARY_COLOR,
+    }),
+  },
+});
 
-NearbyTabStack.navigationOptions = {
+NearbyBarsStack.navigationOptions = {
   // eslint-disable-next-line react/prop-types
   tabBarIcon: ({ tintColor }) => (
     <Ionicons name={Platform.OS === 'ios' ? 'ios-beer' : 'md-beer'} size={20} color={tintColor} />

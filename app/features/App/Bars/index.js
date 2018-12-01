@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from 'react-navigation';
 
-import { NearbyTabStack } from './NearbyBars';
+import { NearbyBarsStack } from './NearbyBars';
 import { FavouritesTabStack } from './Favourites';
 import { MoreStack } from './More';
 
@@ -10,7 +10,7 @@ import * as COLORS from '../../../config/colors';
 export default createBottomTabNavigator(
   {
     'Nearby Bars': {
-      screen: NearbyTabStack,
+      screen: NearbyBarsStack,
     },
     Favourites: {
       screen: FavouritesTabStack,

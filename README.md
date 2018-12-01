@@ -2,13 +2,14 @@
 
 React Native, AWS Amplify, AWS AppSync, AWS Cognito, Google Places, Mapbox. Please note: this is a work still in progress, and many features are not fully developed yet.
 
+## Update 1st Dec 2018, MapBox has been removed from this app as Google Places API terms require data to be place on Google Maps only
+
 ## ToDo
 
 - enable offline support
 - add pagination
-- add Geolocation.watchPosition to Nearyby Bars (ListScreen and MapScreen)
+- add Geolocation.watchPosition to Nearyby Bars (ListScreen)
 - add alternative to SegmentControlIOS for android
-- fix MapScreen and MapBox on android
 - fix Geolocation 'Location request timed out' error on android
 
 ## Folder structure:

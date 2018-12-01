@@ -3,13 +3,9 @@ import React, { PureComponent } from 'react';
 import {
   ScrollView,
   Dimensions,
-  TouchableOpacity,
   View,
-  Text,
   StyleSheet,
   ActivityIndicator,
-  Animated,
-  Easing,
 } from 'react-native';
 import type { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Auth } from 'aws-amplify';
@@ -41,13 +37,6 @@ type State = {
 };
 
 export default class ListItemDetailsScreen extends PureComponent<Props, State> {
-  animatedValue = new Animated.Value(0);
-
-  animatedButtonStyle = {
-    opacity: this.animatedValue,
-    transform: [{ scale: this.animatedValue }],
-  };
-
   state = {
     details: { name: '', website: '', formatted_phone_number: '' },
     userId: '',
@@ -58,15 +47,6 @@ export default class ListItemDetailsScreen extends PureComponent<Props, State> {
   componentDidMount() {
     this.getAllDetails();
   }
-
-  animateButton = () => {
-    Animated.timing(this.animatedValue, {
-      toValue: 1,
-      duration: 300,
-      easing: Easing.ease,
-      useNativeDriver: true,
-    }).start();
-  };
 
   getAllDetails = async () => {
     try {
@@ -151,11 +131,6 @@ export default class ListItemDetailsScreen extends PureComponent<Props, State> {
             barId={barId}
           />
         </ScrollView>
-        <Animated.View style={[styles.buttonContainer, this.animatedButtonStyle]}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.buttonText}>Go Back</Text>
-          </TouchableOpacity>
-        </Animated.View>
       </View>
     );
   }

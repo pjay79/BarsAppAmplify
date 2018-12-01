@@ -13,7 +13,6 @@
     "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/BarsApp/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
   },
   "dependencies": {
-    "@mapbox/react-native-mapbox-gl": "^6.1.3",
     "aws-amplify": "^1.0.8",
     "aws-amplify-react-native": "^2.0.0",
     "aws-appsync": "^1.3.4",
@@ -34,7 +33,6 @@
     "react-native-geolocation-service": "^1.1.0",
     "react-native-keyboard-aware-scroll-view": "^0.7.3",
     "react-native-map-link": "^2.1.0",
-    "react-native-modal": "^6.5.0",
     "react-native-splash-screen": "^3.1.1",
     "react-native-swipeout": "^2.3.6",
     "react-native-vector-icons": "^5.0.0",

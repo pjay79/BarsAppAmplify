@@ -338,6 +338,13 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
+		AC61012A21B1ED170010103B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59FA2BB526554C5383A89D6F /* ReactNativeConfig.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3DF7F6AC203AA09B00D0EAB7;
+			remoteInfo = "ReactNativeConfig-tvOS";
+		};
 		AC75EB3D213FFC7A007C7271 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AC75EB39213FFC7A007C7271 /* RCTMGL.xcodeproj */;
@@ -792,6 +799,7 @@
 			isa = PBXGroup;
 			children = (
 				ACB9921C2111490D00A5E014 /* libReactNativeConfig.a */,
+				AC61012B21B1ED170010103B /* libReactNativeConfig-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1275,6 +1283,13 @@
 			fileType = archive.ar;
 			path = libRNVectorIcons.a;
 			remoteRef = AC09C4E1210AE2CA00BDE1D7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC61012B21B1ED170010103B /* libReactNativeConfig-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libReactNativeConfig-tvOS.a";
+			remoteRef = AC61012A21B1ED170010103B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		AC75EB3E213FFC7A007C7271 /* libRCTMGL.a */ = {
