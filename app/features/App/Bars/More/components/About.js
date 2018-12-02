@@ -11,15 +11,11 @@ import * as COLORS from '../../../../../config/colors';
 const SECTION = [
   {
     title: 'Contact',
-    content: 'info@barsearch.com',
-  },
-  {
-    title: 'Terms of Service',
-    content: 'Terms of Service',
+    content: 'praveen.jayarajan@gmail.com',
   },
   {
     title: 'Privacy Policy',
-    content: 'Privacy Policy',
+    content: 'https://bit.ly/2FRWN3D',
   },
   {
     title: 'Licenses',
