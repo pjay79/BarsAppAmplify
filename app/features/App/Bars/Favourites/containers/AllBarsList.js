@@ -1,7 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 import {
-  View, Alert, FlatList, SegmentedControlIOS, StyleSheet,
+  View, Alert, FlatList, SegmentedControlIOS, StyleSheet, Platform,
 } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -230,14 +230,17 @@ class AllBarsList extends PureComponent<Props, State> {
             ItemSeparatorComponent={this.renderSeparator}
           />
         </View>
-        <View style={styles.segmentedControlWrapper}>
-          <SegmentedControlIOS
-            values={options}
-            tintColor={COLORS.DEFAULT_PRIMARY_COLOR}
-            selectedIndex={selectedIndex}
-            onChange={event => this.toggleBarSortOrder(event)}
-          />
-        </View>
+        {Platform.os === 'ios' && (
+          <View style={styles.segmentedControlWrapper}>
+            <SegmentedControlIOS
+              values={options}
+              tintColor={COLORS.DEFAULT_PRIMARY_COLOR}
+              selectedIndex={selectedIndex}
+              onChange={event => this.toggleBarSortOrder(event)}
+            />
+          </View>
+        )
+        }
       </View>
     );
   }
