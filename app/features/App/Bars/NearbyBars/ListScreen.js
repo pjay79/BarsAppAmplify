@@ -99,7 +99,12 @@ export default class ListScreen extends PureComponent<Props, State> {
           );
         },
         error => console.log(error),
-        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 10000,
+          distanceFilter: 0,
+        },
       );
     }
   };
