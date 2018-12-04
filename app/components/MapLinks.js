@@ -49,6 +49,7 @@ const MapLinks = ({
       title: name,
       latitude: lat,
       longitude: lng,
+      googleForceLatLon: true,
       googlePlaceId: barId,
       dialogTitle: 'Directions',
       dialogMessage: 'Open bar location in one of the following apps:',
