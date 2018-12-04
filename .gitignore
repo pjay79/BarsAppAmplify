@@ -28,7 +28,7 @@ build/
 .idea
 .gradle
 local.properties
-gradle.properties
+android/gradle.properties
 app/my-release-key.keystore
 *.iml
 
