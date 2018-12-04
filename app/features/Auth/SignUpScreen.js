@@ -128,7 +128,11 @@ export default class SignUpScreen extends PureComponent<void, State> {
     } = this.state;
 
     return (
-      <KeyboardAwareScrollView contentContainerStyle={styles.container} extraScrollHeight={20}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.container}
+        extraScrollHeight={20}
+        enableOnAndroid
+      >
         <Animated.View style={{ opacity: this.animatedValue1 }}>
           <Text style={styles.label}>Username:</Text>
           <Input
@@ -198,7 +202,7 @@ export default class SignUpScreen extends PureComponent<void, State> {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     paddingTop: 20,
     justifyContent: 'flex-start',
     alignItems: 'center',

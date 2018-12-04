@@ -10,6 +10,7 @@ import {
   AsyncStorage,
   Animated,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 import type { NavigationScreenProp, NavigationRoute } from 'react-navigation';
@@ -77,7 +78,7 @@ export default class HomeScreen extends PureComponent<Props> {
 
   state = {
     loading: false,
-  }
+  };
 
   componentDidMount() {
     SplashScreen.hide();
@@ -107,7 +108,7 @@ export default class HomeScreen extends PureComponent<Props> {
       console.log(error.message);
       this.setState({ loading: false });
     }
-  }
+  };
 
   render() {
     const { navigation } = this.props;
@@ -124,13 +125,13 @@ export default class HomeScreen extends PureComponent<Props> {
             source={require('../../assets/images/barsappamplify.png')}
             style={[styles.image, this.animatedImageStyle]}
           />
-          <Animated.Text style={[styles.imageSlogan, this.animatedImageSloganStyle]}>
+          {/* <Animated.Text style={[styles.imageSlogan, this.animatedImageSloganStyle]}>
             Because no great story ever
             {' '}
             {'\n'}
             {' '}
 started with a salad.
-          </Animated.Text>
+          </Animated.Text> */}
         </View>
         <Animated.View style={this.animatedButtonGroupStyle}>
           <Button
@@ -174,7 +175,11 @@ const styles = StyleSheet.create({
   title: {
     color: COLORS.TEXT_PRIMARY_COLOR,
     textAlign: 'center',
-    fontFamily: 'Quantify',
+    ...Platform.select({
+      ios: { fontFamily: 'Quantify' },
+      android: { fontFamily: 'Quantify Bold' },
+    }),
+    // fontFamily: Platform.ios ? 'Quantify' : 'Quantify Bold',
     fontSize: 64,
     marginBottom: 10,
   },
