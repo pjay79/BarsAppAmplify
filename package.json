@@ -12,7 +12,7 @@
     "flow coverage": "flow coverage",
     "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/BarsApp/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'",
     "ios:beta": "(cd ios/ && fastlane beta)",
-    "android:beta": "(cd android/ && fastlane beta)"
+    "android:alpha": "(cd android/ && fastlane alpha)"
   },
   "dependencies": {
     "aws-amplify": "^1.0.8",
