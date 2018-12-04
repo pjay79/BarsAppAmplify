@@ -30,6 +30,7 @@ build/
 local.properties
 gradle.properties
 app/my-release-key.keystore
+fastlane-release-manager.json
 *.iml
 
 
