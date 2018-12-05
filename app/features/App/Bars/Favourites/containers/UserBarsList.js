@@ -15,6 +15,7 @@ import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { Auth } from 'aws-amplify';
 import { SearchBar } from 'react-native-elements';
+import SegmentedControlTab from 'react-native-segmented-control-tab';
 import _ from 'lodash';
 
 // GraphQL
@@ -117,10 +118,22 @@ class UserBarsList extends PureComponent<Props, State> {
     this.setState(prevState => ({ isVisible: !prevState.isVisible }));
   };
 
-  toggleBarSortOrder = (event) => {
+  toggleBarSortOrderIOS = (event) => {
     const { options } = this.state;
-    this.setState({ property: _.camelCase(options[event.nativeEvent.selectedSegmentIndex]) });
-    console.log(event.nativeEvent);
+    console.log(event);
+    this.setState(({
+      selectedIndex: event.nativeEvent.selectedSegmentIndex,
+      property: _.camelCase(options[event.nativeEvent.selectedSegmentIndex]),
+    }));
+  };
+
+  toggleBarSortOrderAndroid = (index) => {
+    const { options } = this.state;
+    console.log(index);
+    this.setState(({
+      selectedIndex: index,
+      property: _.camelCase(options[index]),
+    }));
   };
 
   signOut = async () => {
@@ -246,17 +259,26 @@ class UserBarsList extends PureComponent<Props, State> {
             ItemSeparatorComponent={this.renderSeparator}
           />
         </View>
-        {Platform.os === 'ios' && (
-          <View style={styles.segmentedControlWrapper}>
+        <View style={styles.segmentedControlWrapper}>
+          {Platform.OS === 'ios' ? (
             <SegmentedControlIOS
               values={options}
-              tintColor={COLORS.DEFAULT_PRIMARY_COLOR}
               selectedIndex={selectedIndex}
-              onChange={event => this.toggleBarSortOrder(event)}
+              onChange={event => this.toggleBarSortOrderIOS(event)}
+              tintColor={COLORS.DEFAULT_PRIMARY_COLOR}
             />
-          </View>
-        )
-        }
+          ) : (
+            <SegmentedControlTab
+              values={options}
+              selectedIndex={selectedIndex}
+              onTabPress={index => this.toggleBarSortOrderAndroid(index)}
+              activeTabStyle={{ backgroundColor: COLORS.DEFAULT_PRIMARY_COLOR }}
+              tabTextStyle={{ color: COLORS.DEFAULT_PRIMARY_COLOR }}
+              tabStyle={{ borderColor: COLORS.DEFAULT_PRIMARY_COLOR }}
+            />
+          )
+          }
+        </View>
       </View>
     );
   }
