@@ -101,9 +101,8 @@ export default class ListScreen extends PureComponent<Props, State> {
         error => console.log(error),
         {
           enableHighAccuracy: true,
-          timeout: 15000,
+          timeout: 30000,
           maximumAge: 10000,
-          distanceFilter: 0,
         },
       );
     }
@@ -157,13 +156,17 @@ export default class ListScreen extends PureComponent<Props, State> {
 
   renderSeparator = () => <View style={styles.separator} />;
 
-  renderItem = ({ item } : { item: {
-    id: string,
-    name: string,
-    price_level: number,
-    opening_hours: { open_now: boolean },
-    geometry: { location: { lat: string, lng: string } },
-  }}) => {
+  renderItem = ({
+    item,
+  }: {
+    item: {
+      id: string,
+      name: string,
+      price_level: number,
+      opening_hours: { open_now: boolean },
+      geometry: { location: { lat: string, lng: string } },
+    },
+  }) => {
     const { navigation } = this.props;
     const { latitude, longitude } = this.state;
 
@@ -179,7 +182,8 @@ export default class ListScreen extends PureComponent<Props, State> {
       price_level: number,
       opening_hours: { open_now: boolean },
       geometry: { location: { lat: string, lng: string } },
-    }>, index: number,
+    }>,
+    index: number,
   ) => ({ length: 60, offset: 60 * index, index });
 
   keyExtractor = (item: { id: string }) => item.id;
