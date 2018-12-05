@@ -125,13 +125,6 @@ export default class HomeScreen extends PureComponent<Props> {
             source={require('../../assets/images/barsappamplify.png')}
             style={[styles.image, this.animatedImageStyle]}
           />
-          {/* <Animated.Text style={[styles.imageSlogan, this.animatedImageSloganStyle]}>
-            Because no great story ever
-            {' '}
-            {'\n'}
-            {' '}
-started with a salad.
-          </Animated.Text> */}
         </View>
         <Animated.View style={this.animatedButtonGroupStyle}>
           <Button
@@ -189,7 +182,6 @@ const styles = StyleSheet.create({
   image: {
     height: 225,
     width: 225,
-    marginBottom: 20,
   },
   imageSlogan: {
     color: COLORS.TEXT_PRIMARY_COLOR,
