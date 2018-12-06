@@ -3,6 +3,7 @@ import Amplify, { Auth } from 'aws-amplify';
 import AWSAppSyncClient from 'aws-appsync';
 import { Rehydrated } from 'aws-appsync-react';
 import { ApolloProvider } from 'react-apollo';
+import codePush from 'react-native-code-push';
 import awsConfig from './aws-exports';
 
 // Features
@@ -30,4 +31,4 @@ const App = () => (
   </ApolloProvider>
 );
 
-export default App;
+export default codePush(App);
