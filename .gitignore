@@ -33,7 +33,6 @@ app/my-release-key.keystore
 fastlane-release-manager.json
 *.iml
 
-
 # node.js
 #
 node_modules/
