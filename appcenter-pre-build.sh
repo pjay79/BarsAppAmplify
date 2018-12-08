@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 
-git clone https://github.com/pjay79/BarsAppAmplify-aws.git tmp && mv tmp/.git . && rm -rf tmp && git reset --mixed
+git init
+git remote add origin https://github.com/pjay79/BarsAppAmplify-aws.git
+git fetch
+git checkout -t origin/master
