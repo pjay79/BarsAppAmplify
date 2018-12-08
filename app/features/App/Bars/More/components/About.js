@@ -11,7 +11,7 @@ import * as COLORS from '../../../../../config/colors';
 const SECTION = [
   {
     title: 'Contact',
-    content: 'praveen.jayarajan@gmail.com',
+    content: 'Email: praveen.jayarajan@gmail.com',
   },
   {
     title: 'Privacy Policy',
