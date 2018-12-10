@@ -31,7 +31,7 @@
     "react-native-app-intro-slider": "^1.0.1",
     "react-native-code-push": "^5.4.2",
     "react-native-collapsible": "^1.2.0",
-    "react-native-config": "^0.11.5",
+    "react-native-config": "^0.11.7",
     "react-native-elements": "^0.19.1",
     "react-native-geolocation-service": "^1.1.0",
     "react-native-keyboard-aware-scroll-view": "^0.7.3",
