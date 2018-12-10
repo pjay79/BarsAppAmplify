@@ -25,9 +25,9 @@
     "graphql-tag": "^2.9.2",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
-    "react": "16.4.1",
+    "react": "16.6.1",
     "react-apollo": "^2.1.9",
-    "react-native": "0.56.0",
+    "react-native": "0.57.7",
     "react-native-app-intro-slider": "^1.0.1",
     "react-native-code-push": "^5.4.2",
     "react-native-collapsible": "^1.2.0",
@@ -44,6 +44,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^8.2.6",
     "babel-jest": "23.4.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
@@ -58,8 +59,9 @@
     "eslint-plugin-react": "^7.10.0",
     "flow-bin": "0.75.0",
     "jest": "23.4.1",
+    "metro-react-native-babel-preset": "^0.50.0",
     "react-dom": "^16.5.2",
-    "react-test-renderer": "16.4.1"
+    "react-test-renderer": "16.6.1"
   },
   "jest": {
     "preset": "react-native",
