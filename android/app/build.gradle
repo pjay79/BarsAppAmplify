@@ -105,7 +105,6 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         // versionCode project.hasProperty('versionCode') ? project.property('versionCode') as int : 1
-        versionCode 1
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
