@@ -3,7 +3,6 @@
 buildscript {
     repositories {
         google()
-        maven { url 'https://dl.bintray.com/android/android-tools/' }
         jcenter()
     }
     dependencies {
@@ -27,20 +26,26 @@ subprojects {
 
 allprojects {
     repositories {
+        mavenLocal()
         google()
         jcenter()
-        mavenLocal()
-        maven { url "$rootDir/../node_modules/react-native/android" }
-        maven { url "https://jitpack.io" }
-        maven { url "https://maven.google.com" }
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url "$rootDir/../node_modules/react-native/android"
+        }
     }
 }
 
 ext {
     buildToolsVersion = "27.0.3"
     minSdkVersion = 16
-    compileSdkVersion = 26
+    compileSdkVersion = 27
     targetSdkVersion = 26
-    supportLibVersion = "26.1.0"
+    supportLibVersion = "27.1.1"
     googlePlayServicesVersion = "11.0.0"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4'
+    distributionUrl = distributionUrl.replace("bin", "all")
 }
