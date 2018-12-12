@@ -20,6 +20,8 @@
 	<string>1.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>37</string>
 	<key>CodePushDeploymentKey</key>
 	<string>Nd_kPWVq_1GVOwzjGhyLoF-MB_rCryUmQHHkE</string>
 	<key>LSApplicationQueriesSchemes</key>
