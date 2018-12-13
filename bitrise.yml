@@ -1,0 +1,223 @@
+---
+format_version: '6'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: react-native
+workflows:
+  deploy-android:
+    steps:
+    - activate-ssh-key@4.0.3:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@4.0.13: {}
+    - script@1.1.5:
+        title: Get aws-exports .js file
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            git clone git@github.com:pjay79/BarsAppAmplify-aws.git
+            cd BarsAppAmplify-aws
+            mv aws-exports.js ../
+            cd ..
+            rm -rf BarsAppAmplify-aws
+    - nvm@1.2.2:
+        inputs:
+        - node_version: 10.14.1
+    - npm@1.0.1:
+        inputs:
+        - npm_version: 6.4.1
+        - command: install
+    - install-react-native@0.9.1:
+        inputs:
+        - version: 2.0.1
+    - generic-file-storage@0.9.0: {}
+    - script@1.1.5:
+        title: Copy gradle.properties and keystore file
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            cp $GENERIC_FILE_STORAGE/gradle.properties ./android/gradle.properties
+            cp $GENERIC_FILE_STORAGE/my-release-key.keystore ./android/app/my-release-key.keystore
+    - install-missing-android-tools@2.3.3: {}
+    - set-android-manifest-versions@1.0.5: {}
+    - sign-apk@1.2.4: {}
+    - react-native-bundle@1.0.3: {}
+    - android-build@0.9.5:
+        inputs:
+        - project_location: "$PROJECT_LOCATION"
+    - google-play-deploy@1.5.1: {}
+    - deploy-to-bitrise-io@1.3.18: {}
+    - slack@3.1.0:
+        inputs:
+        - api_token: "$SLACK_WEBHOOK"
+        - webhook_url: "$SLACK_WEBHOOK"
+        - text: BarSearch App Android build success.
+        - channel_on_error: "#general"
+        - text_on_error: BarSearch App Android failed.
+        - channel: "#general"
+  deploy-ios:
+    steps:
+    - activate-ssh-key@4.0.3:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@4.0.13: {}
+    - script@1.1.5:
+        title: Get aws-exports .js file
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            git clone git@github.com:pjay79/BarsAppAmplify-aws.git
+            cd BarsAppAmplify-aws
+            mv aws-exports.js ../
+            cd ..
+            rm -rf BarsAppAmplify-aws
+    - nvm@1.2.2:
+        inputs:
+        - node_version: 10.14.1
+    - npm@1.0.1:
+        inputs:
+        - npm_version: 6.4.1
+        - command: install
+    - install-react-native@0.9.1:
+        inputs:
+        - version: 2.0.1
+    - certificate-and-profile-installer@1.10.1: {}
+    - set-xcode-build-number@1.0.7:
+        inputs:
+        - build_short_version_string: ''
+        - plist_path: ios/BarsApp/Info.plist
+    - react-native-bundle@1.0.3:
+        inputs:
+        - dev: 'false'
+        - out: BarsApp/main.jsbundle
+        - assetRoots: ios
+        - entry_file: index.js
+    - xcode-archive@2.4.17:
+        inputs:
+        - project_path: "$BITRISE_PROJECT_PATH"
+        - scheme: "$BITRISE_SCHEME"
+        - export_method: "$BITRISE_EXPORT_METHOD"
+        - xcodebuild_options: "-UseModernBuildSystem=NO"
+        - configuration: Release
+    - deploy-to-itunesconnect-deliver@2.14.1:
+        inputs:
+        - password: "$APPLE_PASSWORD"
+        - app_password: "$APPLICATION_SPECIFIC_PASSWORD"
+        - itunescon_user: "$APPLE_ID"
+    - deploy-to-bitrise-io@1.3.18: {}
+    - slack@3.1.0:
+        inputs:
+        - api_token: "$SLACK_WEBHOOK"
+        - webhook_url: "$SLACK_WEBHOOK"
+        - text: BarSearch App iOS build success.
+        - channel_on_error: "#general"
+        - text_on_error: BarSearch iOS App build failed.
+        - channel: "#general"
+  deploy-ios-android:
+    before_run: []
+    after_run:
+    - deploy-ios
+    - deploy-android
+    steps:
+    - slack@3.1.0:
+        inputs:
+        - text: 'Starting BarSearch iOS and Android builds '
+  primary:
+    steps:
+    - activate-ssh-key@4.0.3:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@4.0.13: {}
+    - script@1.1.5:
+        title: Get aws-exports .js file
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            git clone git@github.com:pjay79/BarsAppAmplify-aws.git
+            cd BarsAppAmplify-aws
+            mv aws-exports.js ../
+            cd ..
+            rm -rf BarsAppAmplify-aws
+    - npm@1.0.1:
+        inputs:
+        - npm_version: 6.4.1
+        - command: install
+    - install-react-native@0.9.1:
+        inputs:
+        - version: 2.0.1
+    - generic-file-storage@0.9.0: {}
+    - script@1.1.5:
+        title: Copy gradle.properties and keystore file
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            cp $GENERIC_FILE_STORAGE/gradle.properties ./android/gradle.properties
+            cp $GENERIC_FILE_STORAGE/my-release-key.keystore ./android/app/my-release-key.keystore
+    - install-missing-android-tools@2.3.3: {}
+    - android-build@0.9.5:
+        inputs:
+        - project_location: "$PROJECT_LOCATION"
+    - certificate-and-profile-installer@1.10.1: {}
+    - xcode-archive@2.4.17:
+        inputs:
+        - project_path: "$BITRISE_PROJECT_PATH"
+        - scheme: "$BITRISE_SCHEME"
+        - export_method: "$BITRISE_EXPORT_METHOD"
+        - xcodebuild_options: "-UseModernBuildSystem=NO"
+        - configuration: Release
+    - deploy-to-bitrise-io@1.3.18: {}
+    - slack@3.1.0:
+        inputs:
+        - api_token: "$SLACK_WEBHOOK"
+        - webhook_url: "$SLACK_WEBHOOK"
+        - text: BarSearch App build has been deployed.
+        - channel_on_error: "#general"
+        - text_on_error: BarSearch App build not deployed.
+        - channel: "#general"
+app:
+  envs:
+  - opts:
+      is_expand: false
+    PROJECT_LOCATION: android
+  - opts:
+      is_expand: false
+    MODULE: app
+  - opts:
+      is_expand: false
+    VARIANT: _
+  - opts:
+      is_expand: false
+    BITRISE_PROJECT_PATH: ios/BarsApp.xcodeproj
+  - opts:
+      is_expand: false
+    BITRISE_SCHEME: BarsApp
+  - opts:
+      is_expand: false
+    BITRISE_EXPORT_METHOD: app-store
+  - opts:
+      is_expand: false
+    GRADLEW_PATH: android/gradlew
+  - opts:
+      is_expand: false
+    BITRISE_BUILD_NUMBER: '36'
