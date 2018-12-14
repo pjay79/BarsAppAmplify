@@ -101,7 +101,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.barsapp"
+        applicationId "com.barsappamplify"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         // versionCode project.hasProperty('versionCode') ? project.property('versionCode') as int : 1

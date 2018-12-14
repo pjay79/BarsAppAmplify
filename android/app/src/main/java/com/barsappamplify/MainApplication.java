@@ -1,4 +1,4 @@
-package com.barsapp;
+package com.barsappamplify;
 
 import android.app.Application;
 

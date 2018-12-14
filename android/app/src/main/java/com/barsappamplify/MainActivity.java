@@ -1,4 +1,4 @@
-package com.barsapp;
+package com.barsappamplify;
 
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen; 
