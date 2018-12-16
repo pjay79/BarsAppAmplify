@@ -14,7 +14,6 @@ workflows:
         - text_on_error: BarSearch App Android build failed :(
         - pretext: ''
         - channel: "#general"
-    - generic-file-storage@0.9.0: {}
     - script@1.1.5:
         title: Copy gradle.properties and keystore file
         inputs:
@@ -64,7 +63,7 @@ workflows:
     - certificate-and-profile-installer@1.10.1: {}
     - set-xcode-build-number@1.0.7:
         inputs:
-        - build_short_version_string: 1.6.3
+        - build_short_version_string: 1.6.6
         - build_version_offset: ''
         - plist_path: "$INFO_PLIST"
     - react-native-bundle@1.0.3:
@@ -111,8 +110,9 @@ workflows:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@4.0.13: {}
     - cache-pull@2.0.1: {}
+    - generic-file-storage@0.9.0: {}
     - script@1.1.5:
-        title: Get aws-exports .js file
+        title: Get aws-exports.js file
         inputs:
         - content: |-
             #!/usr/bin/env bash
@@ -126,6 +126,17 @@ workflows:
             mv aws-exports.js ../
             cd ..
             rm -rf BarsAppAmplify-aws
+    - script@1.1.5:
+        title: Get .env file
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            cp $GENERIC_FILE_STORAGE/.env .
     - yarn@0.0.8: {}
     - install-react-native@0.9.1:
         inputs:
@@ -139,6 +150,90 @@ workflows:
         - pretext: ''
         - text: Bar Search App build completed.
         - api_token: "$SLACK_TOKEN"
+        - channel: "#general"
+  deploy-ios-ota:
+    steps:
+    - slack@3.1.1:
+        inputs:
+        - api_token: "$SLACK_TOKEN"
+        - webhook_url: ''
+        - text: BarSearch App iOS build triggered.
+        - channel_on_error: "#general"
+        - text_on_error: BarSearch App iOS build failed.
+        - pretext: ''
+        - pretext_on_error: ''
+        - channel: "#general"
+    - certificate-and-profile-installer@1.10.1: {}
+    - set-xcode-build-number@1.0.7:
+        inputs:
+        - build_short_version_string: 1.6.3
+        - build_version_offset: ''
+        - plist_path: "$INFO_PLIST"
+    - react-native-bundle@1.0.3:
+        inputs:
+        - dev: 'false'
+        - out: "$IOS_MAIN_JSBUNDLE"
+        - assetRoots: ios
+        - entry_file: index.js
+    - xcode-archive@2.4.17:
+        inputs:
+        - project_path: "$BITRISE_PROJECT_PATH"
+        - scheme: "$BITRISE_SCHEME"
+        - export_method: "$BITRISE_EXPORT_METHOD"
+        - xcodebuild_options: "-UseModernBuildSystem=NO"
+        - configuration: Release
+    - appcenter-codepush-release-react-native@0.0.2:
+        inputs:
+        - react_native_project_root: ''
+    - slack@3.1.1:
+        inputs:
+        - api_token: "$SLACK_TOKEN"
+        - webhook_url: ''
+        - text: BarSearch App iOS build success!
+        - channel_on_error: "#general"
+        - text_on_error: BarSearch iOS App build failed :(
+        - channel: "#general"
+  deploy-android-ota:
+    steps:
+    - slack@3.1.1:
+        inputs:
+        - api_token: "$SLACK_TOKEN"
+        - webhook_url: ''
+        - text: BarSearch App Android build triggered.
+        - channel_on_error: "#general"
+        - text_on_error: BarSearch App Android build failed :(
+        - pretext: ''
+        - channel: "#general"
+    - generic-file-storage@0.9.0: {}
+    - script@1.1.5:
+        title: Copy gradle.properties and keystore file
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            cp $GENERIC_FILE_STORAGE/gradle.properties ./android/gradle.properties
+            cp $GENERIC_FILE_STORAGE/my-release-key.keystore ./android/app/my-release-key.keystore
+    - install-missing-android-tools@2.3.3: {}
+    - set-android-manifest-versions@1.0.5:
+        inputs:
+        - version_name: '1.0'
+        - manifest_file: "$ANDROID_MANIFEST"
+    - android-build@0.9.5:
+        inputs:
+        - project_location: "$PROJECT_LOCATION"
+    - sign-apk@1.2.4: {}
+    - appcenter-codepush-release-react-native@0.0.2: {}
+    - slack@3.1.1:
+        inputs:
+        - api_token: "$SLACK_TOKEN"
+        - webhook_url: ''
+        - text: BarSearch App Android build success!
+        - channel_on_error: "#general"
+        - text_on_error: BarSearch App Android failed :(
         - channel: "#general"
 app:
   envs:

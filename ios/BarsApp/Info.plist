@@ -23,7 +23,9 @@
 	<key>CFBundleVersion</key>
 	<string>37</string>
 	<key>CodePushDeploymentKey</key>
-	<string>Nd_kPWVq_1GVOwzjGhyLoF-MB_rCryUmQHHkE</string>
+	<string>$(CODEPUSH_KEY)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>comgooglemaps</string>

@@ -35,7 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new CodePush("95-enpYXOnVAq2uNfWQT_WzegfjBBkce7HHyN", getApplicationContext(), BuildConfig.DEBUG),
+            new CodePush(BuildConfig.CODEPUSH_KEY, MainApplication.this, BuildConfig.DEBUG), 
             new VectorIconsPackage(),
             new SplashScreenReactPackage(),
             new RNAWSCognitoPackage(),
