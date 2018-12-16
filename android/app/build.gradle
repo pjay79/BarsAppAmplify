@@ -134,7 +134,11 @@ android {
         }
 
         releaseStaging {
+            matchingFallbacks = ['release', 'debug']
             buildConfigField "String", "CODEPUSH_KEY", "95-enpYXOnVAq2uNfWQT_WzegfjBBkce7HHyN"
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
 
         release {
