@@ -8,7 +8,7 @@ import * as COLORS from '../../../../../config/colors';
 
 const SECTION = [
   {
-    title: 'Reducing the risk of alcohol-related harm over a lifetime',
+    title: 'Reducing the risk of alcohol-related harm',
     content:
       'You should drink no more than 2 standard drinks on any given day. The more alcohol you drink, the greater your risk of injury or disease over the course of your life. If you drink less than 2 standard drinks per day, your risk of dying from an alcohol-related injury is less than 1 in 100. The more you drink, the greater your risk.',
   },
