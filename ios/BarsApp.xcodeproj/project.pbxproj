@@ -1622,7 +1622,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.reactnative.barsearch;
 				PRODUCT_NAME = BarsApp;
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.reactnative.barsearch";
+				PROVISIONING_PROFILE_SPECIFIER = "com.reactnative.barsearch Development";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1658,7 +1658,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.reactnative.barsearch;
 				PRODUCT_NAME = BarsApp;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.reactnative.barsearch";
+				PROVISIONING_PROFILE_SPECIFIER = "com.reactnative.barsearch AppStore";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1998,7 +1998,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.reactnative.barsearch;
 				PRODUCT_NAME = BarsApp;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.reactnative.barsearch";
+				PROVISIONING_PROFILE_SPECIFIER = "com.reactnative.barsearch AppStore";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Staging;
